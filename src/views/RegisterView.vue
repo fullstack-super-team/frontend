@@ -31,7 +31,7 @@ async function register() {
     <form @submit.prevent="register">
       <Input label="Name" placeholder="Name" v-model="formValues.name" />
       <Input label="Username" placeholder="Username" v-model="formValues.username" />
-      <Input label="Password" placeholder="Password" v-model="formValues.password" />
+      <Input label="Password" placeholder="Password" type="password" v-model="formValues.password" />
       <button type="submit">Register</button>
     </form>
   </main>
