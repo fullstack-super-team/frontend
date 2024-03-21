@@ -14,8 +14,7 @@ app.use(store);
 const token = localStorage.getItem('token');
 if (token) {
   await store.dispatch('user/getUserInfo', token);
-  await router.push('/');
+  router.push('/');
 }
-
 
 app.mount('#app')
