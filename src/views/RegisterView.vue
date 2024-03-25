@@ -14,7 +14,37 @@ const formValues = reactive({
   password: "",
 });
 
+const errorMessages = reactive({
+  firstName: null,
+  lastName: null,
+  username: null,
+  email: null,
+  password: null,
+});
+
+const validateForm = () => {
+  errorMessages.firstName = !formValues.firstName ? "First name is required" : null;
+
+  errorMessages.lastName = !formValues.lastName ? "Last name is required" : null;
+
+  errorMessages.username = !formValues.username ? "Username is required" : null;
+
+  errorMessages.email = !formValues.email ? "Email is required" :
+    !validateEmail(formValues.email) ? "Please enter a valid email address: example@domain.com" : null;
+
+  errorMessages.password = !formValues.password ? "Password is required" :
+      formValues.password.length < 8 ? "Password must be at least 8 characters" : null;
+
+  return !errorMessages.firstName && !errorMessages.lastName && !errorMessages.username && !errorMessages.email && !errorMessages.password;
+}
+function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 async function register() {
+  if (!validateForm()) {
+    return;
+  }
   try {
     const response = await axios.post("http://localhost:8080/auth/register", formValues);
     const { token } = response.data        
@@ -31,11 +61,11 @@ async function register() {
     <h1>Register</h1>
     <p>Register to use the quiz application</p>
     <form @submit.prevent="register">
-      <Input label="First name" placeholder="First name" v-model="formValues.firstName" required/>
-      <Input label="Last name" placeholder="Last name" v-model="formValues.lastName" required/>
-      <Input label="Username" placeholder="Username" v-model="formValues.username" required/>
-      <Input label="Email" placeholder="Email" v-model="formValues.email" required/>
-      <Input label="Password" placeholder="Password" type="password" v-model="formValues.password" required/>
+      <Input label="First name" placeholder="First name" v-model="formValues.firstName" :error-message="errorMessages.firstName"/>
+      <Input label="Last name" placeholder="Last name" v-model="formValues.lastName" :error-message="errorMessages.lastName"/>
+      <Input label="Username" placeholder="Username" v-model="formValues.username" :error-message="errorMessages.username"/>
+      <Input label="Email" placeholder="Email" v-model="formValues.email" :error-message="errorMessages.email"/>
+      <Input label="Password" placeholder="Password" type="password" v-model="formValues.password" :error-message="errorMessages.password"/>
       <button type="submit">Register</button>
     </form>
     <p>Already have a an account?<router-link to="/login"> Login here</router-link></p>
