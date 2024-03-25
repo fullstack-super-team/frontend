@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "@/views/HomeView.vue";
+import DashboardView from "@/views/DashboardView.vue";
 import LoginView from "@/views/LoginView.vue";
 import store from "@/stores/mainStore";
 import RegisterView from "@/views/RegisterView.vue";
@@ -9,8 +9,8 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "Home",
-      component: HomeView,
+      name: "DashboardView",
+      component: DashboardView,
       meta: {
         requiresAuth: true
       }

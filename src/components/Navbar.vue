@@ -14,9 +14,9 @@ async function logout() {
 
 <template>
   <nav class="nav">
-    <p>Kalkulator</p>
+    <p>LOGO</p>
     <div class="links">
-      <RouterLink v-if="store.state.user.isLoggedIn" to="/">Home</RouterLink>
+      <RouterLink v-if="store.state.user.isLoggedIn" to="/">Dashboard</RouterLink>
       <RouterLink v-if="!store.state.user.isLoggedIn" to="/login">Login</RouterLink>
       <RouterLink v-if="!store.state.user.isLoggedIn" to="/register">Register</RouterLink>      
       <span v-if="store.state.user.isLoggedIn">Logget inn som: {{ store.state.user.name }}</span>      
