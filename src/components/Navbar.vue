@@ -14,13 +14,13 @@ async function logout() {
 
 <template>
   <nav class="nav">
-    <p>LOGO</p>
+    <img src="@/assets/quizzebazzen.webp" alt="Quiz Bear Logo" class="logo" />
     <div class="links">
       <RouterLink v-if="store.state.user.isLoggedIn" to="/">Dashboard</RouterLink>
       <RouterLink v-if="!store.state.user.isLoggedIn" to="/login">Login</RouterLink>
-      <RouterLink v-if="!store.state.user.isLoggedIn" to="/register">Register</RouterLink>      
-      <span v-if="store.state.user.isLoggedIn">Logget inn som: {{ store.state.user.name }}</span>      
-      <button v-if="store.state.user.isLoggedIn" @click="logout()">Logg ut</button>
+      <RouterLink v-if="!store.state.user.isLoggedIn" to="/register">Register</RouterLink>
+      <span v-if="store.state.user.isLoggedIn">Logged in as: {{ store.state.user.name }}</span>
+      <button v-if="store.state.user.isLoggedIn" @click="logout()">Log Out</button>
     </div>
   </nav>
 </template>
@@ -32,6 +32,12 @@ async function logout() {
   padding: 20px;
   padding-left: 20px;
   justify-content: space-between;
+}
+
+.logo {
+  height: 50px; /* Adjust based on your navbar size */
+  width: auto;
+  /* Add more styling for the logo if needed */
 }
 
 .links {
