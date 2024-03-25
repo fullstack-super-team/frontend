@@ -15,7 +15,7 @@ defineProps({
 <template>
   <div class="input-wrapper">
     <label>{{ label }}</label>
-    <input :id="label" class="input" :placeholder="placeholder" :type="type" :value="modelValue" @input="emit('update:modelValue', $event.target.value)" :required="required" />
+    <input :id="label" class="input" :placeholder="placeholder" :type="type" v-model="model" :required="required" />
   </div>
 </template>
 
