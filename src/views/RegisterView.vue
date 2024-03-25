@@ -7,8 +7,10 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const formValues = reactive({
-  name: "",
+  firstName: "",
+  lastName: "",
   username: "",
+  email: "",
   password: "",
 });
 
@@ -27,13 +29,16 @@ async function register() {
 <template>
   <main>
     <h1>Register</h1>
-    <p>Register to use the calculator</p>
+    <p>Register to use the quiz application</p>
     <form @submit.prevent="register">
-      <Input label="Name" placeholder="Name" v-model="formValues.name" />
-      <Input label="Username" placeholder="Username" v-model="formValues.username" />
-      <Input label="Password" placeholder="Password" type="password" v-model="formValues.password" />
+      <Input label="First name" placeholder="First name" v-model="formValues.firstName" required/>
+      <Input label="Last name" placeholder="Last name" v-model="formValues.lastName" required/>
+      <Input label="Username" placeholder="Username" v-model="formValues.username" required/>
+      <Input label="Email" placeholder="Email" v-model="formValues.email" required/>
+      <Input label="Password" placeholder="Password" type="password" v-model="formValues.password" required/>
       <button type="submit">Register</button>
     </form>
+    <p>Already have a an account?<router-link to="/login"> Login here</router-link></p>
   </main>
 </template>
 
@@ -42,6 +47,7 @@ async function register() {
 main {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 form {

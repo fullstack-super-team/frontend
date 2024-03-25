@@ -5,13 +5,17 @@ defineProps({
   placeholder: String,
   modelValue: String,
   type: String,
+  required: {
+    type: Boolean,
+    default: false,
+  }
 })
 </script>
 
 <template>
   <div class="input-wrapper">
     <label>{{ label }}</label>
-    <input :id="label" class="input" :placeholder="placeholder" :type="type" v-model="model" />
+    <input :id="label" class="input" :placeholder="placeholder" :type="type" :value="modelValue" @input="emit('update:modelValue', $event.target.value)" :required="required" />
   </div>
 </template>
 
