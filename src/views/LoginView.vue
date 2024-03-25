@@ -11,7 +11,29 @@ const formValues = reactive({
   password: "",
 });
 
+const errorMessages = reactive({
+  email: null,
+  password: null,
+});
+
+const validateForm = () => {
+  errorMessages.email = !formValues.email ? "Email is required" :
+      !validateEmail(formValues.email) ? "Please enter a valid email address: example@domain.com" : null;
+
+  errorMessages.password = !formValues.password ? "Password is required" :
+      formValues.password.length < 8 ? "Password must be at least 8 characters" : null;
+
+  return !errorMessages.email && !errorMessages.password;
+}
+
+function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 async function login() {
+  if (!validateForm()) {
+    return;
+  }
   try {
     const response = await axios.post("http://localhost:8080/auth/login", formValues);
     const { token } = response.data        
@@ -28,8 +50,8 @@ async function login() {
     <h1>Login</h1>
     <p>Login to the quiz application</p>
     <form @submit.prevent="login">
-      <Input label="Email" placeholder="Email" v-model="formValues.email" required/>
-      <Input label="Password" placeholder="Password" v-model="formValues.password" type="password" required/>
+      <Input label="Email" placeholder="Email" v-model="formValues.email" :error-message="errorMessages.email"/>
+      <Input label="Password" placeholder="Password" v-model="formValues.password" type="password" :error-message="errorMessages.password"/>
       <button type="submit">Login</button>
     </form>
     <p>Not already a user? <router-link to="/register"> Register here</router-link></p>

@@ -5,17 +5,17 @@ defineProps({
   placeholder: String,
   modelValue: String,
   type: String,
-  required: {
-    type: Boolean,
-    default: false,
-  }
+  errorMessage: String
 })
+
+const emit = defineEmits(["update:modelValue"]);
 </script>
 
 <template>
   <div class="input-wrapper">
     <label>{{ label }}</label>
-    <input :id="label" class="input" :placeholder="placeholder" :type="type" v-model="model" :required="required" />
+    <input :id="label" class="input" :placeholder="placeholder" :type="type" :v-model="model" @input="emit('update:modelValue', $event.target.value)" />
+    <span v-if="errorMessage" class="error-message">{{ errorMessage }}</span>
   </div>
 </template>
 
@@ -33,5 +33,10 @@ defineProps({
   font-size: 16px;
   width: 100%;
   box-sizing: border-box;
+}
+
+.error-message {
+  color: red;
+  margin-top: 5px;
 }
 </style>
