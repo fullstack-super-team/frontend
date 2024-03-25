@@ -1,10 +1,13 @@
 <script setup>
+import MainLayout from '@/layouts/MainLayout.vue';
+import Input from '@/components/Input.vue';
 
 </script>
 
 <template>
-  <main>
+  <MainLayout>
     <h1>Hello</h1>
-  </main>
+    <Input label="Test" placeholder="test p" />
+  </MainLayout>
 </template>
 
