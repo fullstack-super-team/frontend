@@ -17,6 +17,7 @@ async function logout() {
     <img src="@/assets/quizzebazzen.webp" alt="Quiz Bear Logo" class="logo" />
     <div class="links">
       <RouterLink v-if="store.state.user.isLoggedIn" to="/">Dashboard</RouterLink>
+      <RouterLink v-if="store.state.user.isLoggedIn" to="/create-quiz">Create quiz</RouterLink>
       <RouterLink v-if="!store.state.user.isLoggedIn" to="/login">Login</RouterLink>
       <RouterLink v-if="!store.state.user.isLoggedIn" to="/register">Register</RouterLink>
       <span v-if="store.state.user.isLoggedIn">Logged in as: {{ store.state.user.name }}</span>
