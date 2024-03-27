@@ -1,29 +1,25 @@
 <script setup>
-import { ref, computed, defineProps, emit } from 'vue';
+import { ref, computed, defineProps, defineEmits } from 'vue';
 
-// Note: You don't need to initialize modelValue with ref('') here
-// since it's being passed as a prop and managed externally.
 const props = defineProps({
   label: String,
   placeholder: String,
   modelValue: String,
   charLimit: Number,
-  required: {
-    type: Boolean,
-    default: false,
-  }
+  required: Boolean
 });
+
+const emit = defineEmits(['update:modelValue']);
 
 const remainingChars = computed(() => props.charLimit - props.modelValue.length);
 
-// Consolidated updateValue method
 const updateValue = (value) => {
   if (!props.charLimit || value.length <= props.charLimit) {
     emit('update:modelValue', value);
   }
 };
-
 </script>
+
 
 
 <template>
