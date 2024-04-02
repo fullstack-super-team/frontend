@@ -31,23 +31,23 @@ async function logout() {
   <nav :class="{ 'nav': isMobileMenu }">
     <div v-if="isMobileMenu" class="mobileView">
       <RouterLink to="/">
-        <img src="@/assets/quizze.png" alt="Quiz Bear Logo" class="logo" />
+        <img src="@/assets/QBLoginLogo.png" alt="Quiz Bear Logo" class="logo" />
       </RouterLink>
       <button @click="toggleNav()" class="hamburger-btn"></button>
     </div>
       <div v-show="!isMobileMenu || navOpen" class="links">
         <RouterLink v-if="store.state.user.isLoggedIn & !navOpen" to="/">
-          <img src="@/assets/quizze.png" alt="Quiz Bear Logo" class="logo" />
+          <img src="@/assets/QBLoginLogo.png" alt="Quiz Bear Logo" class="logo" />
         </RouterLink>
         <input type="text" v-model="searchInput" placeholder="Search quizzes" class="search"/>
         <RouterLink v-if="store.state.user.isLoggedIn" to="/create-quiz" class="nav-item">
-          <img src="@/assets/addIcon.png" alt="Add Icon" class="nav-icon"/>
+          <img src="@/assets/addQuizz.png" alt="Add Icon" class="nav-icon"/>
           <div class="nav-text">
             CREATE<br>QUIZ
           </div>
         </RouterLink>
         <RouterLink v-if="store.state.user.isLoggedIn" to="/profile" class ="nav-item">
-          <img src="@/assets/profileIcon.png" alt="Profile Icon" class="nav-icon"/>
+          <img src="@/assets/QBRoundLogo.png" alt="Profile Icon" class="nav-icon"/>
           <div class="nav-text">
             PROFILE
           </div>
