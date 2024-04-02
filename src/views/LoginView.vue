@@ -3,6 +3,7 @@ import { reactive } from 'vue'
 import axios from "axios";
 import Input from "@/components/Input.vue";
 import store from '@/stores/mainStore';
+import Button from "@/components/Button.vue";
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
@@ -47,12 +48,12 @@ async function login() {
 
 <template>
   <main>
-    <img src="@/assets/QBlogo.png" alt="Quizzebassen logo" class="logo">
+    <img src="@/assets/QBLoginLogo.png" alt="Quizzebassen logo" class="logo">
     <p>Login to the quiz application</p>
     <form @submit.prevent="login">
       <Input label="Email" placeholder="Email" v-model="formValues.email" :error-message="errorMessages.email"/>
       <Input label="Password" placeholder="Password" v-model="formValues.password" type="password" :error-message="errorMessages.password"/>
-      <button type="submit">Login</button>
+      <Button type="submit">Login</Button>
     </form>
     <p>Not already a user? <router-link to="/register"> Register here</router-link></p>
   </main>
@@ -64,7 +65,6 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #3EA8F2;
 }
 
 form {
