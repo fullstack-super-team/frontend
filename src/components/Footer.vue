@@ -5,7 +5,7 @@
   <footer>
     <RouterLink to="/">Feedback</RouterLink>
     <RouterLink to="/">Contact</RouterLink>
-    <RouterLink to="/">Kahooz</RouterLink>
+    <RouterLink to="/">Quizzebassen</RouterLink>
   </footer>
 </template>
 
