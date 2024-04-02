@@ -4,7 +4,11 @@ import LoginView from "@/views/LoginView.vue";
 import store from "@/stores/mainStore";
 import RegisterView from "@/views/RegisterView.vue";
 import CreateQuizView from "@/views/CreateQuizView.vue";
+<<<<<<< Updated upstream
 import FeedbackView from "@/views/FeedbackView.vue";
+=======
+import GameModeView from "@/views/GameModeView.vue";
+>>>>>>> Stashed changes
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +44,11 @@ const router = createRouter({
       name: "Feedback",
       component: FeedbackView
     },
+    {
+      path: "/gamemode",
+      name: "GameMode",
+      component: GameModeView
+    }
   ]
 })
 
