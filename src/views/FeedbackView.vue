@@ -2,7 +2,9 @@
 import MainLayout from "@/layouts/MainLayout.vue";
 import TextArea from "@/components/TextArea.vue";
 import Button from "@/components/Button.vue";
+import { ref } from "vue";
 
+const feedbackDescription = ref('');
 async function submitFeedback() {
   try {
     console.log(feedbackDescription);
