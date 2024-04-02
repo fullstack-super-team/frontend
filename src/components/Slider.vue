@@ -4,7 +4,7 @@ import { ref, watch, defineComponent } from 'vue';
 export default defineComponent({
   name: 'Slider',
   setup() {
-    const minValue = ref(0); 
+    const minValue = ref(0);
     const maxValue = ref(100);
     const correctAnswer = ref(50);
     const stepSize = ref(1);
@@ -55,14 +55,24 @@ export default defineComponent({
 </template>
 
 <style scoped>
+.inputs {
+  display: flex; /* Activates Flexbox layout */
+  flex-wrap: wrap; /* Allows items to wrap to the next line if the container is too small */
+  gap: 20px; /* Creates space between each input field */
+  justify-content: center; /* Centers the input fields horizontally */
+  align-items: center; /* Aligns items vertically in the center */
+}
+
+.inputs label {
+  display: flex;
+  align-items: center; /* Aligns the label text and input box */
+  gap: 5px; /* Optional: Adds a small space between the label and the input box */
+}
+
+/* Adjust the .slider-container and other styles as necessary to fit your design */
 .slider-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-.inputs label {
-  display: block;
-  margin-bottom: 10px;
 }
 </style>
