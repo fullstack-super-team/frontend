@@ -5,7 +5,8 @@ defineProps({
   placeholder: String,
   modelValue: String,
   type: String,
-  errorMessage: String
+  errorMessage: String,
+  disabled: Boolean
 })
 
 const emit = defineEmits(["update:modelValue"]);
@@ -14,7 +15,7 @@ const emit = defineEmits(["update:modelValue"]);
 <template>
   <div class="input-wrapper">
     <label>{{ label }}</label>
-    <input :id="label" class="input" :placeholder="placeholder" :type="type" :v-model="model" @input="emit('update:modelValue', $event.target.value)" />
+    <input :id="label" class="input" :placeholder="placeholder" :type="type" :v-model="model" @input="emit('update:modelValue', $event.target.value)" :disabled="disabled" />
     <span v-if="errorMessage" class="error-message">{{ errorMessage }}</span>
   </div>
 </template>
