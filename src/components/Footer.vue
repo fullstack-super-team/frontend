@@ -35,7 +35,7 @@ footer {
 }
 
 .logo {
-  width: 10vw;
+  width: 10px;
   height: auto;
   min-width: 50px;
   max-width: 50px;
