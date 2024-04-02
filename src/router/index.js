@@ -40,17 +40,15 @@ const router = createRouter({
       }
     },
     {
-<<<<<<< Updated upstream
       path: "/feedback",
       name: "Feedback",
       component: FeedbackView
     },
-=======
+    {
       path: "/gamemode",
       name: "GameMode",
       component: GameModeView
     }
->>>>>>> Stashed changes
   ]
 })
 
