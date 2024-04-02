@@ -6,6 +6,7 @@ import RegisterView from "@/views/RegisterView.vue";
 import CreateQuizView from "@/views/CreateQuizView.vue";
 import FeedbackView from "@/views/FeedbackView.vue";
 import GameModeView from "@/views/GameModeView.vue";
+import ProfileView from "@/views/ProfileView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,7 +46,15 @@ const router = createRouter({
       path: "/gamemode",
       name: "GameMode",
       component: GameModeView
-    }
+    },
+    {
+      path: "/profile",
+      name: "Profile",
+      component: ProfileView,
+      meta: {
+        requiresAuth: true
+      }
+    },
   ]
 })
 
