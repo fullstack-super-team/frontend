@@ -3,7 +3,7 @@
 
 <template>
   <footer>
-    <RouterLink to="/">Feedback</RouterLink>
+    <RouterLink to="/feedback">Feedback</RouterLink>
     <RouterLink to="/">Contact</RouterLink>
     <RouterLink to="/">Quizzebassen</RouterLink>
   </footer>

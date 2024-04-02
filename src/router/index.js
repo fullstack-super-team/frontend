@@ -4,6 +4,7 @@ import LoginView from "@/views/LoginView.vue";
 import store from "@/stores/mainStore";
 import RegisterView from "@/views/RegisterView.vue";
 import CreateQuizView from "@/views/CreateQuizView.vue";
+import FeedbackView from "@/views/FeedbackView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: "/feedback",
+      name: "Feedback",
+      component: FeedbackView
     },
   ]
 })
