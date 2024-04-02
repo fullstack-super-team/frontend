@@ -4,7 +4,9 @@ const userModule = {
   namespaced: true,
   state() {
     return {
-      name: "",
+      firstName: "",
+      lastName: "",
+      username: "",
       email: "",
       token: "",
       isLoggedIn: false
@@ -12,7 +14,9 @@ const userModule = {
   },
   mutations: {
     setUserInfo(state, payload) {
-      state.name = payload.name;
+      state.firstName = payload.firstName;
+      state.lastName = payload.lastName;
+      state.username = payload.username;
       state.email = payload.email;
       state.token = payload.token;
       state.isLoggedIn = payload.isLoggedIn;
