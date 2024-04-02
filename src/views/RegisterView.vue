@@ -3,6 +3,7 @@ import { reactive } from 'vue'
 import axios from "axios";
 import Input from "@/components/Input.vue";
 import store from '@/stores/mainStore';
+import Button from "@/components/Button.vue";
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
@@ -66,7 +67,7 @@ async function register() {
       <Input label="Username" placeholder="Username" v-model="formValues.username" :error-message="errorMessages.username"/>
       <Input label="Email" placeholder="Email" v-model="formValues.email" :error-message="errorMessages.email"/>
       <Input label="Password" placeholder="Password" type="password" v-model="formValues.password" :error-message="errorMessages.password"/>
-      <button type="submit">Register</button>
+      <Button type="submit">Register</Button>
     </form>
     <p>Already have a an account?<router-link to="/login"> Login here</router-link></p>
   </main>

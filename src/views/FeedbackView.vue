@@ -1,7 +1,7 @@
 <script setup>
 import MainLayout from "@/layouts/MainLayout.vue";
 import TextArea from "@/components/TextArea.vue";
-import button from "@/components/Button.vue";
+import Button from "@/components/Button.vue";
 
 async function submitFeedback() {
   try {
@@ -19,7 +19,7 @@ async function submitFeedback() {
       <p>Help us improve by providing your feedback below.</p>
       <TextArea v-model:modelValue="feedbackDescription" placeholder="Enter your feedback here..." :charLimit="200" required/>
       <form @submit.prevent="submitFeedback">
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
     </div>
   </MainLayout>
