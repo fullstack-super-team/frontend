@@ -3,7 +3,6 @@
 import MainLayout from "@/layouts/MainLayout.vue";
 import {ref} from "vue";
 import AnswerCard from "@/components/AnswerButton.vue";
-import Slider from "@/components/Slider.vue";
 
 const question = ref({
   text: 'What is the capital of France?',
@@ -31,7 +30,7 @@ const question2 = ref({
     <h2 class="question-text">{{ question.text }}</h2>
     <div class="answer-container">
       <AnswerCard v-if="question.text='TEXT'" v-for="(answer, index) in question.answers" :key="index" :answer="answer" />
-      <Slider v-if="question2.text='SLIDE'"/>
+
     </div>
   </MainLayout>
 
