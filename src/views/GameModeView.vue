@@ -2,7 +2,8 @@
 
 import MainLayout from "@/layouts/MainLayout.vue";
 import {ref} from "vue";
-import AnswerCard from "@/components/AnswerCard.vue";
+import AnswerCard from "@/components/AnswerButton.vue";
+import Slider from "@/components/Slider.vue";
 
 const question = ref({
   text: 'What is the capital of France?',
@@ -12,8 +13,15 @@ const question = ref({
     { text: 'Paris', isCorrect: true },
     { text: 'London', isCorrect: false },
     { text: 'Berlin', isCorrect: false },
-
   ]
+});
+
+const question2 = ref({
+  text: 'What is the capital of Germany?',
+  points: 10,
+  type: 'SLIDE',
+  answer:
+    { min: 0, max: 100, correct: 50, step: 1}
 });
 
 </script>
@@ -22,7 +30,8 @@ const question = ref({
   <MainLayout>
     <h2 class="question-text">{{ question.text }}</h2>
     <div class="answer-container">
-      <AnswerCard v-for="(answer, index) in question.answers" :key="index" :answer="answer" />
+      <AnswerCard v-if="question.text='TEXT'" v-for="(answer, index) in question.answers" :key="index" :answer="answer" />
+      <Slider v-if="question2.text='SLIDE'"/>
     </div>
   </MainLayout>
 
