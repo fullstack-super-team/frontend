@@ -1,36 +1,17 @@
 <script setup>
-
+import mainStore from "@/stores/mainStore";
 import MainLayout from "@/layouts/MainLayout.vue";
-import {ref} from "vue";
 import AnswerCard from "@/components/AnswerButton.vue";
 
-const question = ref({
-  text: 'What is the capital of France?',
-  points: 10,
-  type: 'TEXT',
-  answers: [
-    { text: 'Paris', isCorrect: true },
-    { text: 'London', isCorrect: false },
-    { text: 'Berlin', isCorrect: false },
-  ]
-});
-
-const question2 = ref({
-  text: 'What is the capital of Germany?',
-  points: 10,
-  type: 'SLIDE',
-  answer:
-    { min: 0, max: 100, correct: 50, step: 1}
-});
+mainStore.dispatch('game/loadQuizById', 1);
 
 </script>
 
 <template>
   <MainLayout>
-    <h2 class="question-text">{{ question.text }}</h2>
+    <h2 class="question-text">{{ mainStore.state.game.currentQuestion.text }}</h2>
     <div class="answer-container">
-      <AnswerCard v-if="question.text='TEXT'" v-for="(answer, index) in question.answers" :key="index" :answer="answer" />
-
+      <AnswerCard v-if="mainStore.state.game.currentQuestion.type==='TEXT'" v-for="(answer, index) in mainStore.state.game.currentQuestion.answers" :key="index" :answer="answer" />
     </div>
   </MainLayout>
 
