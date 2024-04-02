@@ -47,7 +47,7 @@ async function login() {
 
 <template>
   <main>
-    <h1>Login</h1>
+    <img src="@/assets/QBlogo.png" alt="Quizzebassen logo" class="logo">
     <p>Login to the quiz application</p>
     <form @submit.prevent="login">
       <Input label="Email" placeholder="Email" v-model="formValues.email" :error-message="errorMessages.email"/>
@@ -64,6 +64,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #3EA8F2;
 }
 
 form {
@@ -95,4 +96,10 @@ button:hover {
   background-color: #555;
 }
 
-</style>@/stores/userModule
+.logo {
+  width: 20%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+</style>
