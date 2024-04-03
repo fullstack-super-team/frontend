@@ -4,6 +4,7 @@ const userModule = {
   namespaced: true,
   state() {
     return {
+      id: "",
       firstName: "",
       lastName: "",
       username: "",
@@ -14,6 +15,7 @@ const userModule = {
   },
   mutations: {
     setUserInfo(state, payload) {
+      state.id = payload.id;
       state.firstName = payload.firstName;
       state.lastName = payload.lastName;
       state.username = payload.username;
