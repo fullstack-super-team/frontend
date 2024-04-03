@@ -5,13 +5,13 @@ const gameModule = {
   state() {
     return {
       quiz: {
-        question: [],
+        questions: [],
+        currentQuestionNumber: 0,
       },
       currentQuestion: {
         text: "",
         type: "",
         answers: [],
-        questionNumber: 0,
       },
     }
   },
@@ -24,7 +24,11 @@ const gameModule = {
       state.currentQuestion = payload[0];
     },   
     setCurrentQuestion(state, payload) {
+      console.log(payload)
       state.currentQuestion = payload;
+    },
+    setCurrentQuestionNumber(state, payload) {
+      state.quiz.currentQuestionNumber = payload;
     }
   },
   actions: {
@@ -49,8 +53,9 @@ const gameModule = {
     async startQuiz({ commit }) {
       commit("setCurrentQuestion", 1);
     },
-    async nextQuestion({ commit }) {
-      commit("setCurrentQuestion", state.currentQuestion + 1);
+    async nextQuestion({ commit, state }) {
+      commit("setCurrentQuestionNumber", state.quiz.currentQuestionNumber + 1);
+      commit("setCurrentQuestion", state.quiz.questions[state.quiz.currentQuestionNumber]);
     },
     async submitAnswer({ commit }, payload) {
       // TODO: Logic here to submit answer
