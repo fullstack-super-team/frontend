@@ -46,7 +46,7 @@ const router = createRouter({
       component: FeedbackView
     },
     {
-      path: "/gamemode",
+      path: "/quiz/:id/play",
       name: "GameMode",
       component: GameModeView
     },

@@ -4,8 +4,12 @@ import AnswerButton from "@/components/AnswerButton.vue";
 import Slider from "@/components/Slider.vue";
 import Button from "@/components/Button.vue";
 import router from "@/router/index.js";
+import { useRoute } from "vue-router";
 
-mainStore.dispatch('game/loadQuizById', 1);
+const url = useRoute();
+const quizId = url.params.id;
+
+mainStore.dispatch('game/loadQuizById', quizId);
 
 function backToQuizPage() {
   router.push('/');

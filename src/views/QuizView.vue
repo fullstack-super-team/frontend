@@ -7,13 +7,14 @@ import router from "@/router/index.js";
 
 MainStore.dispatch('quiz/fetchQuizById', 1);
 
+console.log(MainStore.state.quiz.quiz.author.id, MainStore.state.user.id);
 
 const isAuthor = computed(() => {
   return MainStore.state.quiz.quiz.author.id === MainStore.state.user.id;
 });
 
 const startQuiz = () => {
-  router.push('/gamemode');
+  router.push(`/quiz/${MainStore.state.quiz.quiz.id}/play`);
   console.log('Starting quiz');
 }
 
