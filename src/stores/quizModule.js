@@ -8,7 +8,7 @@ const quizModule = {
       quiz: {
         questions: [],
         title: "Test Quiz",
-        author: {firstName: "Test", lastName: "Test"},
+        author: {id: 2, firstName: "Test", lastName: "Test"},
         updatedAt: "01.02.2021",
         description: "Testing testing.",
         category: "Test",
@@ -47,7 +47,7 @@ const quizModule = {
         console.error('Failed to get quizzes:', error);        
       }
     },
-    async fetchQuizById({ commit }, payload) {
+    async fetchQuizById({ commit, state }, payload) {
       try {        
         const quizId = payload;
         if (!quizId) {
@@ -58,7 +58,7 @@ const quizModule = {
           return;
         }
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:8080/quizzes/${quizId}/questions`, {
+        const response = await axios.get(`http://localhost:8080/quizzes/${quizId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
