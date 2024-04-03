@@ -24,7 +24,6 @@ const gameModule = {
       state.currentQuestion = payload[0];
     },   
     setCurrentQuestion(state, payload) {
-      console.log(payload)
       state.currentQuestion = payload;
     },
     setCurrentQuestionNumber(state, payload) {
@@ -45,7 +44,8 @@ const gameModule = {
           }
         });
         console.log(response.data)
-        commit("setQuestions", response.data);        
+        commit("setQuestions", response.data);
+        commit("setCurrentQuestionNumber", 0)
       } catch (error) {
         console.error('Failed to get user info:', error);        
       }
