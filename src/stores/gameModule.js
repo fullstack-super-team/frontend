@@ -5,11 +5,13 @@ const gameModule = {
   state() {
     return {
       quiz: {
+        id: 1,
         questions: [],
         currentQuestionNumber: 0,
       },
       answers: [],
       currentQuestion: {
+        id: 1,
         text: "",
         type: "",
         answers: [],
@@ -61,14 +63,16 @@ const gameModule = {
       commit("setCurrentQuestionNumber", state.quiz.currentQuestionNumber + 1);
       commit("setCurrentQuestion", state.quiz.questions[state.quiz.currentQuestionNumber]);
     },
-    async submitAnswer({ commit }, payload) {      
+    async submitAnswer({ commit, state }, payload) {
       try {
         const answer = payload;
+        console.log(answer)
         if (!answer) {
           throw new Error("No answer provided");
         }
         const token = localStorage.getItem("token");
-        const response = await axios.post(`http://localhost:8080/quizzes/${state.quiz.id}/answer`, {
+        console.log(state.quiz)
+        const response = await axios.post(`http://localhost:8080/quizzes/${state.quiz.id}/questions/${state.currentQuestion.id}/submit-answer`, {
           answer,
         }, {
           headers: {
