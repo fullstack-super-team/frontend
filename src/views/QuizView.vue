@@ -1,18 +1,23 @@
 <script setup>
+import { computed} from "vue";
 import Button from "@/components/Button.vue";
 import MainStore from "@/stores/mainStore.js";
 import MainLayout from "@/layouts/MainLayout.vue";
+import router from "@/router/index.js";
 
 MainStore.dispatch('quiz/fetchQuizById', 1);
 
-//TODO: Gjøre ferdig startQuiz-funksjonen: sende til gameMode
+
+const isAuthor = computed(() => {
+  return MainStore.state.quiz.quiz.author.id === MainStore.state.user.id;
+});
+
 const startQuiz = () => {
+  router.push('/gamemode');
   console.log('Starting quiz');
 }
 
 //TODO: listen sortert på dato
-
-//TODO: legge på redigeringsfunksjonalitet for brukere som har rettighet
 </script>
 
 <template>
@@ -20,7 +25,7 @@ const startQuiz = () => {
     <div class="quizView-container">
       <header class="quizView-header">
         <h1 class="quizView-title">{{MainStore.state.quiz.quiz.title}}</h1>
-        <Button class="edit-button">Edit</Button>
+        <Button v-if="isAuthor" class="edit-button">Edit</Button>
       </header>
       <div class="quizView-content">
         <div class="quizView-meta">
@@ -38,7 +43,7 @@ const startQuiz = () => {
           </ul>
         </div>
       </div>
-      <Button class="start-quiz-button" @clikck="startQuiz">Start</Button>
+      <Button class="start-quiz-button" @click="startQuiz">Start</Button>
     </div>
   </MainLayout>
 </template>
