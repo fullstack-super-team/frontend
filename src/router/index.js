@@ -7,6 +7,8 @@ import CreateQuizView from "@/views/CreateQuizView.vue";
 import FeedbackView from "@/views/FeedbackView.vue";
 import GameModeView from "@/views/GameModeView.vue";
 import ProfileView from "@/views/ProfileView.vue";
+import SearchView from "@/views/SearchView.vue";
+import QuizView from "@/views/QuizView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +53,22 @@ const router = createRouter({
       path: "/profile",
       name: "Profile",
       component: ProfileView,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/search",
+      name: "Search",
+      component: SearchView,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/quiz/:id",
+      name: "Quiz",
+      component: QuizView,
       meta: {
         requiresAuth: true
       }

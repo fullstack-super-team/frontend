@@ -2,8 +2,12 @@
 import { ref } from 'vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import QuizCard from "@/components/QuizCard.vue";
+import mainStore from '@/stores/mainStore';
 
-const quizzes = ref([
+mainStore.dispatch('quiz/fetchQuizzes');
+
+
+/* const quizzes = ref([
   {
     title: 'Quiz 1',
     category: 'General Knowledge',
@@ -19,7 +23,7 @@ const quizzes = ref([
     category: 'History',
     numberOfQuestions: 20
   }
-]);
+]); */
 </script>
 
 <template>
@@ -29,13 +33,15 @@ const quizzes = ref([
     <h2>Recent</h2>
     <div class="quiz-preview-container">
       <!-- Use QuizCard component for each quiz -->
-      <QuizCard v-for="(quiz, index) in quizzes" :key="index" :quiz="quiz" />
+      <QuizCard v-for="(quiz, index) in mainStore.state.quiz.quizzes" :key="index" :quiz="quiz" />
+      <span v-if="mainStore.state.quiz.quizzes.length === 0">No recent quizzes yet</span>
     </div>
     <hr>
     <h2>My Quizzes</h2>
     <div class="quiz-preview-container">
       <!-- Repeat usage of QuizCard component for each quiz -->
-      <QuizCard v-for="(quiz, index) in quizzes" :key="index" :quiz="quiz" />
+      <QuizCard v-for="(quiz, index) in mainStore.state.quiz.quizzes" :key="index" :quiz="quiz" />
+      <span v-if="mainStore.state.quiz.quizzes.length === 0">No quizzes yet. Create one!</span>
     </div>
   </MainLayout>
 </template>
