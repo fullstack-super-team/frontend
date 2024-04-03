@@ -10,7 +10,8 @@ mainStore.dispatch('game/loadQuizById', 1);
 function backToQuizPage() {
   router.push('/');
 }
-function selectAnswer() {
+function selectAnswer(answer) {
+  mainStore.dispatch('game/submitAnswer', answer);
 
 }
 function newQuestion() {
@@ -26,7 +27,7 @@ function newQuestion() {
   <p class = "current-question-number"> {{ mainStore.state.game.quiz.currentQuestionNumber +1}} / {{ mainStore.state.game.quiz.questions.length}}</p>
   <img src="https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg?s=1024x1024&w=is&k=20&c=qNeCdQEGR07rW2FnwvIuuMaVmy0HkHPxdpYeJxLi3UE%3D" alt="Question Image" class="question-image"/>
   <div class="answer-btn" v-if="mainStore.state.game.currentQuestion.type==='TEXT'">
-    <AnswerButton v-for="(answer, index) in mainStore.state.game.currentQuestion.answers" :key="index" :answer="answer" @click="selectAnswer"/>
+    <AnswerButton v-for="(answer, index) in mainStore.state.game.currentQuestion.answers" :key="index" :answer="answer" @click="selectAnswer(answer.text)"/>
   </div>
   <div v-if="mainStore.state.game.currentQuestion.type==='SLIDE'">
     <Slider class="answer-slider"  :answer="mainStore.state.game.currentQuestion.answer"/>
