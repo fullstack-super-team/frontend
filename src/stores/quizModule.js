@@ -5,7 +5,20 @@ const quizModule = {
   state() {
     return {
       quizzes: [],
-      quiz: {}
+      quiz: {
+        questions: [],
+        title: "Test Quiz",
+        author: {firstName: "Test", lastName: "Test"},
+        updatedAt: "01.02.2021",
+        description: "Testing testing.",
+        category: "Test",
+        scores: [
+          {date: '01.02.2021', score: 10, total: 10},
+          {date: '01.02.2021', score: 5, total: 10},
+          {date: '01.02.2021', score: 8, total: 10},
+        ]
+      },
+      searchedQuizzes: []
     }
   },
   mutations: {
@@ -14,6 +27,9 @@ const quizModule = {
     },
     setQuiz(state, payload) {
       state.quiz = payload;
+    },
+    setSearchedQuizzes(state, payload) {
+      state.searchedQuizzes = payload;
     }
   },
   actions: {
@@ -31,7 +47,7 @@ const quizModule = {
         console.error('Failed to get quizzes:', error);        
       }
     },
-    async loadQuizById({ commit }, payload) {
+    async fetchQuizById({ commit }, payload) {
       try {        
         const quizId = payload;
         if (!quizId) {
@@ -54,7 +70,18 @@ const quizModule = {
       }
     },
     async searchForQuiz({ commit }, payload) {
-      // TODO: Implement search functionality
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:8080/quizzes/search?query=${payload}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log(response.data)
+        commit("setSearchedQuizzes", response.data);
+      } catch (error) {
+        console.error('Failed to get user info:', error);   
+      }
     }
   },
 }
