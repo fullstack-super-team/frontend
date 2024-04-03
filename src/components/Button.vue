@@ -20,8 +20,16 @@ function clickHandler() {
 .btnClass {
   padding: 10px 15px;
   border: none;
-  background-color: #007bff;
+  border-radius: 4px;
+  //background-color: #1792EA;
+  //background-color: #086EC1;
+  background-color: #08589C;
   color: white;
   cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-default:hover {
+  background-color: #0B68C1;
 }
 </style>
