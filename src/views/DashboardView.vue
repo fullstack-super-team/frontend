@@ -30,9 +30,6 @@ mainStore.dispatch('quiz/fetchQuizzes');
   <MainLayout>
     <h1>Dashboard</h1>
     <hr>
-    <router-link to="/quiz/:id">
-      <Button>play</Button>
-    </router-link>
     <h2>Recent</h2>
     <div class="quiz-preview-container">
       <!-- Use QuizCard component for each quiz -->
