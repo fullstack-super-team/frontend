@@ -19,7 +19,8 @@ function backToQuizPage() {
     <Button class="next-btn">Next</Button>
   </div>
   <h2 class="question-text">{{ mainStore.state.game.currentQuestion.text }}</h2>
-  <p class = "current-question"> {{ mainStore.state.game.currentQuestion.questionNumber}} / X</p>
+  <p class = "current-question-number"> {{ mainStore.state.game.currentQuestion.questionNumber}} / X</p>
+  <img src="https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg?s=1024x1024&w=is&k=20&c=qNeCdQEGR07rW2FnwvIuuMaVmy0HkHPxdpYeJxLi3UE%3D" alt="Question Image" class="question-image"/>
   <div class="answer-btn" v-if="mainStore.state.game.currentQuestion.type==='TEXT'">
     <AnswerButton v-for="(answer, index) in mainStore.state.game.currentQuestion.answers" :key="index" :answer="answer"/>
   </div>
@@ -30,6 +31,11 @@ function backToQuizPage() {
 </template>
 <style scoped>
 
+.question-image {
+  max-width: 500px;
+  margin: 20px auto;
+  display: block;
+}
 
 .top-buttons {
   display: flex;
@@ -67,7 +73,7 @@ function backToQuizPage() {
   justify-content: center;
 }
 
-.current-question {
+.current-question-number {
   font-size: 18px;
   color: #666;
   text-align: right;
