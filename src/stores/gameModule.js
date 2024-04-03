@@ -20,10 +20,6 @@ const gameModule = {
     setQuiz(state, payload) {
       state.quiz = payload;
     },
-    setQuestions(state, payload) {
-      state.quiz.questions = payload;
-      state.currentQuestion = payload[0];
-    },   
     setCurrentQuestion(state, payload) {
       state.currentQuestion = payload;
     },
@@ -42,13 +38,14 @@ const gameModule = {
         if (!quizId) {
           throw new Error("No quiz ID provided");
         }
-        const response = await axios.get(`http://localhost:8080/quizzes/${quizId}/questions`, {
+        const response = await axios.get(`http://localhost:8080/quizzes/${quizId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
         console.log(response.data)
-        commit("setQuestions", response.data);
+        commit("setQuiz", response.data);
+        commit("setCurrentQuestion", response.data.questions[0]);
         commit("setCurrentQuestionNumber", 0)
       } catch (error) {
         console.error('Failed to get user info:', error);        
