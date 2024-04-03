@@ -9,6 +9,7 @@ import GameModeView from "@/views/GameModeView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import SearchView from "@/views/SearchView.vue";
 import QuizView from "@/views/QuizView.vue";
+import HighscoreView from "@/views/HighscoreView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -73,6 +74,11 @@ const router = createRouter({
         requiresAuth: true
       }
     },
+    {
+      path: "/quiz/:id/highscore",
+      name: "Highscore",
+      component: HighscoreView
+    }
   ]
 })
 
