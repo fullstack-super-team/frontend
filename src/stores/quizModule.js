@@ -5,7 +5,8 @@ const quizModule = {
   state() {
     return {
       quizzes: [],
-      quiz: {}
+      quiz: {},
+      searchedQuizzes: []
     }
   },
   mutations: {
@@ -14,6 +15,9 @@ const quizModule = {
     },
     setQuiz(state, payload) {
       state.quiz = payload;
+    },
+    setSearchedQuizzes(state, payload) {
+      state.searchedQuizzes = payload;
     }
   },
   actions: {
@@ -54,7 +58,18 @@ const quizModule = {
       }
     },
     async searchForQuiz({ commit }, payload) {
-      // TODO: Implement search functionality
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:8080/quizzes/search?query=${payload}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log(response.data)
+        commit("setSearchedQuizzes", response.data);
+      } catch (error) {
+        console.error('Failed to get user info:', error);   
+      }
     }
   },
 }

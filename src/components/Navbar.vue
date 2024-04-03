@@ -4,6 +4,7 @@ import store from "@/stores/mainStore";
 import {ref} from "vue";
 
 const router = useRouter();
+const search = ref("");
 
 const navOpen = ref(false);
 const isMobileMenu = ref(window.innerWidth < 768);
@@ -20,10 +21,9 @@ const toggleNav = () => {
   console.log(navOpen.value);
 };
 
-async function logout() {
-  await store.dispatch("user/logout");
-  // Redirect to login page
-  router.push("/login");
+async function searchForQuiz(event) {
+  event.preventDefault();
+  router.push({ path: "/search", query: { title: search.value } });
 }
 </script>
 
@@ -39,11 +39,13 @@ async function logout() {
         <RouterLink v-if="store.state.user.isLoggedIn & !navOpen" to="/">
           <img src="@/assets/QBLoginLogo.png" alt="Quiz Bear Logo" class="logo" />
         </RouterLink>
-        <input type="text" v-model="searchInput" placeholder="Search quizzes" class="search"/>
+        <form @submit="searchForQuiz" style="flex-grow: 1;">
+          <input type="text" v-model="search" placeholder="Search quizzes" class="search"/>
+        </form>
         <RouterLink v-if="store.state.user.isLoggedIn" to="/create-quiz" class="nav-item">
           <img src="@/assets/addQuizz.png" alt="Add Icon" class="nav-icon"/>
           <div class="nav-text">
-            CREATE<br>QUIZ
+            CREATE QUIZ
           </div>
         </RouterLink>
         <RouterLink v-if="store.state.user.isLoggedIn" to="/profile" class ="nav-item">
@@ -54,10 +56,6 @@ async function logout() {
         </RouterLink>
         <RouterLink v-if="!store.state.user.isLoggedIn" to="/login">Login</RouterLink>
         <RouterLink v-if="!store.state.user.isLoggedIn" to="/register">Register</RouterLink>
-        <!--
-        <span v-if="store.state.user.isLoggedIn">Logged in as: {{ store.state.user.name }}</span>
-        <button v-if="store.state.user.isLoggedIn" @click="logout()">Log Out</button>
-        -->
       </div>
   </nav>
 </template>
@@ -126,12 +124,12 @@ a {
   transition: background-color 0.3s ease; /* Smooth transition for the color */
 }
 .search {
-  flex-grow: 1;
+  width: 100%;
   display: flex;
   height: 60px;
   justify-content: center;
   padding: 10px 45px;
-  background: url(src/assets/searchIcon.png) no-repeat 15px center;
+  background: url(@/assets/searchIcon.png) no-repeat 15px center;
   background-size: 15px 15px;
   border-radius: 15px;
   border: solid black;
