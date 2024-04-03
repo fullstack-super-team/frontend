@@ -8,8 +8,8 @@ const Category = {
 };
 
 function getCategories() {
-  return Object.keys(DifficultyLevel).map(key => ({
-    value: DifficultyLevel[key],
+  return Object.keys(Category).map(key => ({
+    value: Category[key],
     label: key.charAt(0) + key.slice(1).toLowerCase(),
   }));
 }
