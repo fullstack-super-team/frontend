@@ -1,13 +1,12 @@
 <script setup>
-import { defineProps } from 'vue';
-
-const props = defineProps({
+defineProps({
   quiz: {
     type: Object,
     required: true,
     default: () => ({
       title: '',
       category: '',
+      questions: '',
       numberOfQuestions: 0
     })
   }
@@ -19,7 +18,7 @@ const props = defineProps({
   <div class="quiz-card">
     <h3>{{ quiz.title }}</h3>
     <p class="category">{{ quiz.category }}</p>
-    <p class="questions-count">{{ quiz.numberOfQuestions }} Questions</p>
+    <p class="questions-count">{{ quiz.questions.length }} Questions</p>
   </div>
 </template>
 
