@@ -3,8 +3,7 @@ import { defineProps } from 'vue';
 
 defineProps({
   answer: {
-    text: String,
-    type: String,
+    type: Object,
     required: true
   }
 })
