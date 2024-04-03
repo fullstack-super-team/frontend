@@ -8,6 +8,7 @@ const gameModule = {
         questions: [],
         currentQuestionNumber: 0,
       },
+      answers: [],
       currentQuestion: {
         text: "",
         type: "",
@@ -28,6 +29,9 @@ const gameModule = {
     },
     setCurrentQuestionNumber(state, payload) {
       state.quiz.currentQuestionNumber = payload;
+    },
+    addAnswer(state, payload) {
+      state.answers.push(payload);
     }
   },
   actions: {
@@ -57,8 +61,25 @@ const gameModule = {
       commit("setCurrentQuestionNumber", state.quiz.currentQuestionNumber + 1);
       commit("setCurrentQuestion", state.quiz.questions[state.quiz.currentQuestionNumber]);
     },
-    async submitAnswer({ commit }, payload) {
-      // TODO: Logic here to submit answer
+    async submitAnswer({ commit }, payload) {      
+      try {
+        const answer = payload;
+        if (!answer) {
+          throw new Error("No answer provided");
+        }
+        const token = localStorage.getItem("token");
+        const response = await axios.post(`http://localhost:8080/quizzes/${state.quiz.id}/answer`, {
+          answer,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log(response.data);
+        commit("addAnswer", response.data);
+      } catch (error) {
+        console.error('Failed to submit answer:', error);        
+      }
     }
   },
 }
