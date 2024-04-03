@@ -59,8 +59,8 @@ async function register() {
 
 <template>
   <main>
+    <img src="@/assets/QBLoginLogo.png" alt="Quizzebassen logo" class="logo">
     <h1>Register</h1>
-    <p>Register to use the quiz application</p>
     <form @submit.prevent="register">
       <Input label="First name" placeholder="First name" v-model="formValues.firstName" :error-message="errorMessages.firstName"/>
       <Input label="Last name" placeholder="Last name" v-model="formValues.lastName" :error-message="errorMessages.lastName"/>
@@ -94,6 +94,13 @@ input {
   border-radius: 0.25rem;
   border: 1px solid #ccc;
   width: 100%;
+}
+
+.logo {
+  width: 20%;
+  height: auto;
+  min-width: 150px;
+  margin-bottom: 1rem;
 }
 
 button {
