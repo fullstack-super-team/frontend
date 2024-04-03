@@ -1,13 +1,11 @@
 <script setup>
 import { defineProps } from 'vue';
 
-const props = defineProps({
+defineProps({
   answer: {
-    type: Object,
-    required: true,
-    default: () => ({
-      text: '',
-    })
+    text: String,
+    type: String,
+    required: true
   }
 })
 
