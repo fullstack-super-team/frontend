@@ -1,12 +1,9 @@
 <script setup>
 
-const props = defineProps({
+defineProps({
   answer: {
-    type: String,
-    min: String,
-    max: String,
-    step: String,
-    required: true,
+    type: Object,
+    required: true
   }
 })
 
