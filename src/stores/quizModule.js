@@ -5,7 +5,19 @@ const quizModule = {
   state() {
     return {
       quizzes: [],
-      quiz: {},
+      quiz: {
+        questions: [],
+        title: "Test Quiz",
+        author: {firstName: "Test", lastName: "Test"},
+        updatedAt: "01.02.2021",
+        description: "Testing testing.",
+        category: "Test",
+        scores: [
+          {date: '01.02.2021', score: 10, total: 10},
+          {date: '01.02.2021', score: 5, total: 10},
+          {date: '01.02.2021', score: 8, total: 10},
+        ]
+      },
       searchedQuizzes: []
     }
   },
@@ -35,7 +47,7 @@ const quizModule = {
         console.error('Failed to get quizzes:', error);        
       }
     },
-    async loadQuizById({ commit }, payload) {
+    async fetchQuizById({ commit }, payload) {
       try {        
         const quizId = payload;
         if (!quizId) {
