@@ -49,7 +49,7 @@ async function login() {
 <template>
   <main>
     <img src="@/assets/QBLoginLogo.png" alt="Quizzebassen logo" class="logo">
-    <p>Login to the quiz application</p>
+    <h1>Login</h1>
     <form @submit.prevent="login">
       <Input label="Email" placeholder="Email" v-model="formValues.email" :error-message="errorMessages.email"/>
       <Input label="Password" placeholder="Password" v-model="formValues.password" type="password" :error-message="errorMessages.password"/>
@@ -60,11 +60,13 @@ async function login() {
 </template>
 
 <style scoped>
-
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  //background-color: #E1EFFD;
+  background-color: #BCDEFB;
 }
 
 form {
@@ -73,22 +75,17 @@ form {
   gap: 1rem;
   width: 100%;
   max-width: 450px;
+  padding: 2rem;
 }
 
 input {
-  padding: 0.5rem;
-  border-radius: 0.25rem;
+  padding: 1rem;
+  border-radius: 4px;
   border: 1px solid #ccc;
   width: 100%;
 }
 
 button {
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  border: none;
-  background-color: #333;
-  color: white;
-  cursor: pointer;
   font-size: medium;
 }
 
@@ -99,7 +96,14 @@ button:hover {
 .logo {
   width: 20%;
   height: auto;
+  min-width: 150px;
   margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 1rem;
+  }
 }
 
 </style>
