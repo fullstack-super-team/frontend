@@ -1,9 +1,12 @@
 <script setup>
+import { RouterLink } from 'vue-router';
+
 defineProps({
   quiz: {
     type: Object,
     required: true,
     default: () => ({
+      id: 2,
       title: '',
       category: '',
       questions: '',
@@ -15,11 +18,11 @@ defineProps({
 
 
 <template>
-  <div class="quiz-card">
+  <RouterLink :to="`/quiz/${quiz.id}`" class="quiz-card">
     <h3>{{ quiz.title }}</h3>
     <p class="category">{{ quiz.category }}</p>
     <p class="questions-count">{{ quiz.questions.length }} Questions</p>
-  </div>
+  </RouterLink>
 </template>
 
 
