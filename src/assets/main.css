@@ -1,15 +1,44 @@
-* {
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body {
+  background-color: #BCDEFB;
+  //background-color: #E1EFFD;
 }
 
 #app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
 }
 
 button {
   cursor: pointer;
+}
+
+h1,h2, h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #08589CFF;
+  //font-family:'Luminari', fantasy;
+  //font-family: 'Arial Black', Gadget, sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+TextArea {
+  font-family: 'Arial', Gadget, sans-serif;
+  color: black;
+  font-size: 1rem;
+}
+
+p {
+  color: #ffff;
+  font-family: 'Arial Black', Gadget, sans-serif;
 }
