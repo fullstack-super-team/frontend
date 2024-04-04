@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+
 <script setup>
-import Input from "@/components/Input.vue";
 </script>
 
 <template>
@@ -73,7 +75,8 @@ p {
   color: white;
   text-decoration: none;
   margin-left: 5px;
-  font-family: 'Arial Black', Gadget, sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
   font-size: 0.9rem;
 }
 
