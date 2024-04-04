@@ -36,9 +36,12 @@ TextArea {
   font-family: 'Arial', Gadget, sans-serif;
   color: black;
   font-size: 1rem;
+  background-color: #f0f7ff;
+  border: thin solid #0f3f6b;
 }
 
 p {
   color: #ffff;
-  font-family: 'Arial Black', Gadget, sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
 }
