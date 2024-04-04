@@ -21,8 +21,6 @@ function clickHandler() {
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
-  //background-color: #1792EA;
-  //background-color: #086EC1;
   background-color: #08589C;
   color: white;
   cursor: pointer;

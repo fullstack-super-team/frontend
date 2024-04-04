@@ -1,99 +1,111 @@
-<script>
-import { ref, defineComponent } from "vue";
+<script setup>
+import { ref, reactive } from 'vue';
 import MainLayout from '@/layouts/MainLayout.vue';
+import mainStore from '@/stores/mainStore.js';
 import Input from "@/components/Input.vue";
 import TextArea from "@/components/TextArea.vue";
 import Button from "@/components/Button.vue";
 import CreateQuestion from '@/components/CreateQuestion.vue';
 import { Category, getCategories } from "@/utils/category.js";
+import { QuestionType } from "@/utils/questionType.js";
 import { DifficultyLevel, getDifficultyLevels } from "@/utils/difficultyLevel.js";
+import { useRouter } from 'vue-router';
 
-export default defineComponent({
-  components: { CreateQuestion, TextArea, Input, MainLayout, Button },
-  setup() {
-    const quizTitle = ref('');
-    const quizDescription = ref('');
-    const selectedCategory = ref(Category.GENERAL);
-    const selectedDifficulty = ref(DifficultyLevel.EASY);
-    const questions = ref([{}]);
-    const formSubmitted = ref(false);
+const router = useRouter();
 
-    const addQuestion = () => {
-      questions.value.push({});
-    };
-
-    const deleteQuestion = (index) => {
-      questions.value.splice(index, 1);
-    };
-
-    const saveQuiz = () => {
-      formSubmitted.value = true; // Indicate that a submit attempt has been made
-      if (quizTitle.value) {
-        // Proceed with the saving process
-        console.log("Saving quiz:", quizTitle.value);
-        // Add here the API call or method to save the quiz data
+// Reactive state
+const quiz = reactive({
+  title: '',
+  description: '',
+  category: Category.GENERAL,
+  difficultyLevel: DifficultyLevel.EASY,
+  questions: [{    
+    identifier: Date.now(),
+    text: '',
+    points: 100,
+    type: QuestionType.TEXT,
+    answers: [
+      {
+        text: '',
+        isCorrect: false,
       }
-    };
-
-    return {
-      quizTitle,
-      quizDescription,
-      selectedCategory,
-      selectedDifficulty,
-      questions,
-      formSubmitted,
-      addQuestion,
-      deleteQuestion,
-      saveQuiz,
-      getCategories,
-      getDifficultyLevels,
-    };
-  },
+    ],
+  }],
 });
+
+const formSubmitted = ref(false);
+
+// Methods
+const addQuestion = () => {
+  quiz.questions.push({
+    identifier: Date.now(),
+    text: "",
+    points: 100,
+    type: QuestionType.TEXT,
+    answers: [
+      {
+        text: '',
+        isCorrect: false,
+      }
+    ],
+  });
+};
+
+function updateQuestion(updatedQuestion, index) {    
+  quiz.questions[index] = updatedQuestion;
+}
+
+const deleteQuestion = (questionIdentifier) => {
+  const index = quiz.questions.findIndex((question) => question.identifier === questionIdentifier);
+  if (index === -1) return;
+  quiz.questions.splice(index, 1);
+};
+
+const saveQuiz = async () => {
+  formSubmitted.value = true; // Indicate that a submit attempt has been made
+  if (!quiz.title) {
+    return;
+  }
+  await mainStore.dispatch('quiz/createQuiz', quiz);  
+  router.push(`/quiz/${mainStore.state.quiz.quiz.id}`);
+};
 </script>
 
 <template>
-  <main-layout>
+  <MainLayout>
     <div class="upperBar">
       <h1>Create Quiz</h1>
       <Button @click="saveQuiz">Save</Button>
     </div>
-    <Input label="Quiz title: *"
-           placeholder="Enter your quiz title here"
-           v-model="quizTitle"
-           :class="{ 'is-invalid': formSubmitted && !quizTitle }" />
-    <p v-if="formSubmitted && !quizTitle" class="validation-error">Quiz title is required.</p>
+    <Input label="Quiz title: *" placeholder="Enter your quiz title here" v-model="quiz.title"
+      :class="{ 'is-invalid': formSubmitted && !quiz.title }" />
+    <p v-if="formSubmitted && !quiz.title" class="validation-error">Quiz title is required.</p>
 
     <div class="dropdownMenus">
       <h2>Select a Category</h2>
-      <select v-model="selectedCategory">
-        <option disabled value="">Please select a category</option>
+      <select v-model="quiz.category">
         <option v-for="category in getCategories()" :key="category.value" :value="category.value">
           {{ category.label }}
         </option>
       </select>
 
       <h2>Select a difficulty</h2>
-      <select v-model="selectedDifficulty">
-        <option disabled value="">Please select your difficulty</option>
-        <option v-for="difficultyLevel in getDifficultyLevels()" :key="difficultyLevel.value" :value="difficultyLevel.value">
+      <select v-model="quiz.difficultyLevel">
+        <option v-for="difficultyLevel in getDifficultyLevels()" :key="difficultyLevel.value"
+          :value="difficultyLevel.value">
           {{ difficultyLevel.label }}
         </option>
       </select>
     </div>
 
-    <TextArea v-model:modelValue="quizDescription"
-              label="Description"
-              placeholder="Enter quiz description here..."
-              :charLimit="200"
-              required />
+    <TextArea v-model="quiz.description" label="Description" placeholder="Enter quiz description here..."
+      :charLimit="200" required />
 
     <h2>Questions:</h2>
     <Button @click="addQuestion">Add Question</Button>
-    <div v-for="(question, index) in questions" :key="index">
-      <CreateQuestion @deleteQuestion="() => deleteQuestion(index)" />
-    </div>
-  </main-layout>
+    <CreateQuestion v-for="(question, index) in quiz.questions" :key="question.identifier" :question="question"
+      @update-question="updateQuestion($event, index)" @delete-question="deleteQuestion(question.identifier)" />
+  </MainLayout>
 </template>
 
 <style scoped>
@@ -104,17 +116,20 @@ export default defineComponent({
 }
 
 .is-invalid {
-  border-color: red; /* Add your error styling here */
+  border-color: red;
+  /* Add your error styling here */
 }
 
 .validation-error {
-  color: red; /* Style for the validation message */
+  color: red;
+  /* Style for the validation message */
   font-size: 0.9em;
 }
 
 .dropdownMenus {
-  margin-bottom: 20px; /* Additional style for spacing */
+  margin-bottom: 20px;
+  /* Additional style for spacing */
 }
 
-/* You might want to add additional styles for .dropdownMenus and other classes */
+/* Additional styles for .dropdownMenus and other classes can be added here */
 </style>

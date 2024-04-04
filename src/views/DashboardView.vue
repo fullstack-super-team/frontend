@@ -1,29 +1,9 @@
 <script setup>
-import { ref } from 'vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import QuizCard from "@/components/QuizCard.vue";
 import mainStore from '@/stores/mainStore';
 
 mainStore.dispatch('quiz/fetchQuizzes');
-
-
-/* const quizzes = ref([
-  {
-    title: 'Quiz 1',
-    category: 'General Knowledge',
-    numberOfQuestions: 10
-  },
-  {
-    title: 'Quiz 2',
-    category: 'Science',
-    numberOfQuestions: 15
-  },
-  {
-    title: 'Quiz 3',
-    category: 'History',
-    numberOfQuestions: 20
-  }
-]); */
 </script>
 
 <template>
