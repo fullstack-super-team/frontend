@@ -103,7 +103,7 @@ const deleteQuestion = () => {
     </button>'
 
 
-    <label for="question-type">Question Type:</label>
+    <label for="question-type">Question Type</label>
     <select id="question-type" v-model="localQuestion.type" @change="changeQuestionType">
       <option v-for="(questionType) in getQuestionTypes()" :value="questionType.value">{{ questionType.label }}</option>
     </select>    
