@@ -39,14 +39,13 @@ async function submitFeedback() {
 }
 </script>
 
-
 <template>
   <MainLayout>
     <div class="feedback">
       <h1>Feedback</h1>
       <p>Help us improve by providing your feedback below.</p>
       <form @submit.prevent="submitFeedback" class="feedback-form">
-        <TextArea v-model:modelValue="feedbackDescription" placeholder="Enter your feedback here..." :charLimit="200" required/>
+        <TextArea v-model:modelValue="feedbackDescription" placeholder="Enter your feedback here..." :charLimit="500" :start-height ="150"/>
         <Button type="submit">Submit</Button>
         <p v-if="submissionStatus" class="submission-status">{{ submissionStatus }}</p>
       </form>
@@ -59,12 +58,18 @@ async function submitFeedback() {
   display: flex;
   flex-direction: column;
   align-items: normal;
+  gap: 16px;
   padding: 20px;
 }
 
 p {
   color: #08589CFF;
 }
+
+Button {
+  margin-top: 20px;
+}
+
 
 @media (max-width: 768px) {
   .feedback {
