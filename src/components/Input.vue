@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
 <script setup>
 const model = defineModel();
 defineProps({
@@ -28,8 +30,8 @@ const emit = defineEmits(["update:modelValue"]);
 }
 
 .input {
-  border: 1px solid #ccc;
-  background-color: white;
+  background-color: #f0f7ff;
+  border: thin solid #0f3f6b;
   padding: 10px;
   border-radius: 5px;
   font-size: 16px;
@@ -40,5 +42,7 @@ const emit = defineEmits(["update:modelValue"]);
 .error-message {
   color: red;
   margin-top: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
 }
 </style>
