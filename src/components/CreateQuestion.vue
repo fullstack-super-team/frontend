@@ -4,6 +4,7 @@ import TextArea from "@/components/TextArea.vue";
 import Slider from "@/components/SliderAnswer.vue";
 import AnswerCard from "@/components/AnswerCard.vue";
 import Button from "@/components/Button.vue";
+import deleteIcon from "@/assets/delete.png"
 
 // Reactive states
 const selectedType = ref('text');
@@ -45,7 +46,10 @@ const deleteQuestion = () => {
 <template>
   <div class="create-question">
     <!-- Delete Button at the top right corner -->
-    <Button @click="deleteQuestion" class="delete-question-btn">Delete Question</Button>
+    <button @click="deleteQuestion" class="delete-question-btn">
+      <img :src="deleteIcon" alt="Delete Question" class="delete-icon" />
+    </button>'
+
 
     <label for="question-type">Question Type:</label>
     <select id="question-type" v-model="selectedType" @change="typeChanged">
@@ -115,11 +119,25 @@ const deleteQuestion = () => {
   position: absolute;
   right: 10px; /* Adjust these values as needed */
   top: 10px;
-  background-color: #f44336; /* Example: red background for visibility */
+  background-color: transparent; /* Example: red background for visibility */
   color: white; /* Text color */
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  padding: 0; /* Adjust as needed */
+  width: auto; /* Adjust as needed */
+  height: auto; /* Adjust as needed */
+}
+
+.delete-question-btn:hover {
+  background-color: #81c5f8;
+  border: solid;
+  border-color: #0B68C1;
+}
+
+.delete-icon {
+  width: 40px; /* Adjust the size as needed for the image */
+  height: auto;
 }
 
 .create-question select, .create-question button {
