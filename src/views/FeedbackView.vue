@@ -55,19 +55,19 @@ async function submitFeedback() {
 </template>
 
 <style scoped>
-.wrapper {
+.feedback {
   display: flex;
   flex-direction: column;
   align-items: normal;
   padding: 20px;
 }
 
-input[type="submit"]:hover {
-  background-color: #318aad;
+p {
+  color: #08589CFF;
 }
 
 @media (max-width: 768px) {
-  .wrapper {
+  .feedback {
     align-items: stretch;
     padding: 10px;
   }
