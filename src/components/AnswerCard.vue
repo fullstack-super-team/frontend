@@ -51,7 +51,6 @@ const deleteThisCard = () => {
   display: flex;
   align-items: center;
   gap: 10px;
-  position: relative;
 }
 
 .answer-card input[type="text"] {
@@ -62,23 +61,17 @@ const deleteThisCard = () => {
 
 .answer-card input[type="checkbox"] {
   transform: scale(1.5); /* Adjust scale value as needed */
-  margin: 0 10px; /* You might need to adjust margins to align the checkbox */
+  margin: 10px; /* You might need to adjust margins to align the checkbox */
   cursor: pointer; /* To indicate it's clickable */
-  background-color: #ef0443;
 }
 
 .answer-card-btn{
-  position: relative;
-  right: 10px; /* Adjust these values as needed */
-  top: 50%;
   background-color: transparent; /* Example: red background for visibility */
-  color: white; /* Text color */
-  border: none;
+  border: solid;
+  border-color: transparent;
   border-radius: 5px;
   cursor: pointer;
-  padding: 0; /* Adjust as needed */
-  width: auto; /* Adjust as needed */
-  height: auto; /* Adjust as needed */
+  padding: 0;
 }
 
 .answer-card-btn:hover {
