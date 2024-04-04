@@ -64,9 +64,6 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  //background-color: #E1EFFD;
-  background-color: #BCDEFB;
 }
 
 form {
@@ -78,26 +75,17 @@ form {
   padding: 2rem;
 }
 
-input {
-  padding: 1rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  width: 100%;
-}
-
 button {
+  margin-top: 1rem;
   font-size: medium;
 }
 
-button:hover {
-  background-color: #555;
-}
-
 .logo {
-  width: 20%;
+  width: 22%;
   height: auto;
   min-width: 150px;
   margin-bottom: 1rem;
+  margin-top: 3rem;
 }
 
 @media (max-width: 768px) {
