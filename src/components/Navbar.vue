@@ -67,6 +67,8 @@ nav {
   padding: 20px;
   box-sizing: border-box;
   justify-content: space-between;
+  //background-color: #0f3f6b;
+  background-color: #BCDEFB;
 }
 
 .mobileView {
@@ -99,9 +101,12 @@ nav {
   justify-content: center;
   text-align: center;
   font-weight: bold;
-}
-a {
+  font-family: "Monserrat", sans-serif;
   text-decoration:none;
+}
+
+.nav-text:hover {
+  text-decoration: underline;
 }
 
 .nav-item {
@@ -132,15 +137,16 @@ a {
   background: url(@/assets/searchIcon.png) no-repeat 15px center;
   background-size: 15px 15px;
   border-radius: 15px;
-  border: solid black;
+  border: #08589CFF;
+  background-color: #ffffff;
 }
 
 .hamburger-btn {
   display: none;
   background: url(@/assets/hamburgerIcon.png) no-repeat center;
   background-size: cover;
-  height: 30px;
-  width: 30px;
+  height: 60px;
+  width: 60px;
   border: none;
 }
 
