@@ -82,7 +82,7 @@ const saveQuiz = async () => {
     <p v-if="formSubmitted && !quiz.title" class="validation-error">Quiz title is required.</p>
 
     <div class="dropdownMenus">
-      <h2>Select a Category</h2>
+      <h2>Select a category</h2>
       <select v-model="quiz.category">
         <option v-for="category in getCategories()" :key="category.value" :value="category.value">
           {{ category.label }}
