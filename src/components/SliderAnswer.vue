@@ -1,23 +1,17 @@
 <script setup>
-import { ref, watch } from 'vue';
-
-const minValue = ref(0);
-const maxValue = ref(100);
-const correctAnswer = ref(50);
-const stepSize = ref(1);
-
-watch([minValue, maxValue, stepSize], () => {
-  // Adjust correctAnswer if it falls outside of the new range
-  if (correctAnswer.value < minValue.value) {
-    correctAnswer.value = minValue.value;
-  } else if (correctAnswer.value > maxValue.value) {
-    correctAnswer.value = maxValue.value;
-  }
-  // Adjust step size to ensure it's valid
-  if (stepSize.value <= 0) {
-    stepSize.value = 1;
-  }
+const props = defineProps({
+  answer: {
+    type: Object,
+    required: true,
+    default: () => ({
+      min: 0,
+      max: 5,
+      stepSize: 1,
+      correctValue: 3
+    }),
+  },
 });
+
 </script>
 
 <template>
@@ -25,24 +19,24 @@ watch([minValue, maxValue, stepSize], () => {
     <div class="inputs">
       <label>
         Min Value:
-        <input type="number" v-model.number="minValue" />
+        <input type="number" v-model.number="props.answer.min" />
       </label>
       <label>
         Max Value:
-        <input type="number" v-model.number="maxValue" />
+        <input type="number" v-model.number="props.answer.max" />
       </label>
       <label>
         Step Size:
-        <input type="number" v-model.number="stepSize" min="1" />
+        <input type="number" v-model.number="props.answer.stepSize" min="1" />
       </label>
       <label>
         Correct Answer:
-        <input type="number" v-model.number="correctAnswer" :min="minValue" :max="maxValue" />
+        <input type="number" v-model.number="props.answer.correctValue" :min="props.answer.min" :max="props.answer.max" />
       </label>
     </div>
     <div class="slider">
-      <input type="range" v-model.number="correctAnswer" :min="minValue" :max="maxValue" :step="stepSize" />
-      <p>Correct answer: {{ correctAnswer }}</p>
+      <input type="range" v-model.number="props.answer.correctValue" :min="props.answer.min" :max="props.answer.max" :step="props.answer.stepSize" />
+      <p>Correct answer: {{ props.answer.correctValue }}</p>
     </div>
   </div>
 </template>

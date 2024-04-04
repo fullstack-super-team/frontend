@@ -53,6 +53,7 @@ const quizModule = {
         if (!quizId) {
           throw new Error("No quiz ID provided");
         }
+        console.log(payload)
         if (state.quizzes.some(quiz => quiz.id === payload)) {
           commit("setQuiz", state.quizzes.find(quiz => quiz.id === payload));
           return;
@@ -64,9 +65,24 @@ const quizModule = {
           }
         });
         console.log(response.data)
-        commit("setQuiz", response.data);        
+        commit("setQuiz", response.data);   
+        return response.data;     
       } catch (error) {
         console.error('Failed to get user info:', error);        
+      }
+    },
+    async createQuiz({ commit }, payload) {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.post(`http://localhost:8080/quizzes`, payload, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log(response.data)
+        commit("setQuiz", response.data);
+      } catch (error) {
+        console.error('Failed to get user info:', error);   
       }
     },
     async searchForQuiz({ commit }, payload) {

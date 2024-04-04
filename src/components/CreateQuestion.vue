@@ -1,43 +1,95 @@
 <script setup>
-import { ref } from 'vue';
 import TextArea from "@/components/TextArea.vue";
 import Slider from "@/components/SliderAnswer.vue";
 import AnswerCard from "@/components/AnswerCard.vue";
 import Button from "@/components/Button.vue";
+import { QuestionType, getQuestionTypes } from "@/utils/questionType";
+import { ref } from "vue";
 
-// Reactive states
-const selectedType = ref('text');
-const quizQuestion = ref('');
-const textAnswers = ref([{ text: '', isCorrect: false }]);
-const tfAnswers = ref([{ text: 'True', isCorrect: true }, { text: 'False', isCorrect: false }]);
-const points = ref(100)
-const emitDelete = defineEmits(['deleteQuestion', 'typeChanged']);
+const emit = defineEmits([
+  'delete-question', 
+  'update-question'
+]);
+
+const props = defineProps({
+  question: {
+    type: Object,
+    required: true,
+    default: () => ({
+      text: '',
+      type: QuestionType.TEXT,
+      answers: [{
+        identifier: Date.now(),
+        text: '',
+        isCorrect: false,
+      }],
+    })
+  }
+});
+
+const localQuestion = ref({ ...props.question })
+
+const emitUpdate = () => {
+  emit('update-question', localQuestion.value);
+};
+
+const changeQuestionType = (event) => {  
+  console.log('Question type changed:', event.target.value);
+  switch (event.target.value) {
+    case QuestionType.SLIDE:
+      delete localQuestion.value.answers;
+      localQuestion.value.answer = {
+        min: 0,
+        max: 5,
+        stepSize: 1,
+        correctValue: 3
+      };
+      break;
+    case QuestionType.TEXT:
+      delete localQuestion.value.answer;
+      localQuestion.value.answers = [{
+        identifier: Date.now(),
+        text: '',
+        isCorrect: false,
+      }];
+      break;
+    case QuestionType.TRUE_OR_FALSE:
+      delete localQuestion.value.answer;
+      localQuestion.value.answers = [
+        { identifier: 0, text: 'True', isCorrect: false },
+        { identifier: 1, text: 'False', isCorrect: false }
+      ];
+      break;
+  }
+  emitUpdate();
+};
 
 // Functions to manage text answers
 const addTextAnswer = () => {
-  if (textAnswers.value.length < 4) {
-    textAnswers.value.push({ text: '', isCorrect: false });
+  if (localQuestion.value.answers.length < 4) {
+    localQuestion.value.answers.push({ 
+      identifier: Date.now(),
+      text: '', 
+      isCorrect: false 
+    });
   }
+  emitUpdate();
 };
 
-const updateTextAnswer = (index, event) => {
-  textAnswers.value[index] = event;
+const updateAnswer = (updatedAnswer, index) => {
+  localQuestion.value.answers[index] = updatedAnswer;
+  emitUpdate();
 };
 
-const deleteTextAnswer = (index) => {
-  textAnswers.value.splice(index, 1);
-};
-
-// Function to manage 'True or False' answers
-// Since 'True or False' answers are fixed, there is no need for add or delete functions
-
-// Emit an event when the question type changes
-const typeChanged = () => {
-  emit('typeChanged', selectedType.value);
+const deleteAnswer = (answerIdentifier) => {
+  const index = localQuestion.value.answers.findIndex((answer) => answer.identifier === answerIdentifier);
+  if (index === -1) return;
+  localQuestion.value.answers.splice(index, 1);
+  emitUpdate();
 };
 
 const deleteQuestion = () => {
-  emitDelete('deleteQuestion');
+  emit('delete-question');
 };
 </script>
 
@@ -48,54 +100,47 @@ const deleteQuestion = () => {
     <Button @click="deleteQuestion" class="delete-question-btn">Delete Question</Button>
 
     <label for="question-type">Question Type:</label>
-    <select id="question-type" v-model="selectedType" @change="typeChanged">
-      <option value="text">Text</option>
-      <option value="true_false">True or False</option>
-      <option value="slide">Slide</option>
-    </select>
+    <select id="question-type" v-model="localQuestion.type" @change="changeQuestionType">
+      <option v-for="(questionType) in getQuestionTypes()" :value="questionType.value">{{ questionType.label }}</option>
+    </select>    
 
     <p>Points: </p>
-    <input type="radio" v-model="points" :value="100">
+    <input type="radio" v-model="localQuestion.points" @change="emitUpdate" :value="100">
     <label for="100">100</label>
-    <input type="radio" v-model="points" :value="200">
+    <input type="radio" v-model="localQuestion.points" @change="emitUpdate" :value="200">
     <label for="100">200</label>
-    <input type="radio" v-model="points" :value="300">
+    <input type="radio" v-model="localQuestion.points" @change="emitUpdate" :value="300">
     <label for="100">300</label>
 
 
-    <TextArea v-model:model-value="quizQuestion" label="Question:" placeholder="Write your question here.." :charLimit="200" required/>
+    <TextArea v-model="localQuestion.text" label="Question:" placeholder="Write your question here.." :charLimit="200" @update="emitUpdate" required/>
 
     <!-- Slider Question Type -->
-    <Slider v-if="selectedType === 'slide'" />
-
+    <Slider v-if="localQuestion.type === QuestionType.SLIDE" :answer="localQuestion.answer" />
 
     <!-- Text Question Type -->
-    <div v-if="selectedType === 'text'" class="answers-container">
-      <AnswerCard
-          v-for="(answer, index) in textAnswers"
-          :key="index"
-          :index="index"
-          :initialAnswer="answer.text"
-          :deletable="true"
-          :readonly="false"
-      @update="updateTextAnswer(index, $event)"
-      @delete="deleteTextAnswer(index)"
-      />
-      <Button @click="addTextAnswer" :disabled="textAnswers.length >= 4">Add answer</Button>
-    </div>
+    <AnswerCard
+      v-if="localQuestion.type === QuestionType.TEXT"
+      v-for="(answer, index) in localQuestion.answers"
+      :key="answer.identifier"
+      :answer="answer"
+      :deletable="true"
+      :readonly="false"
+      @update-answer="updateAnswer($event, index)"
+      @delete-answer="deleteAnswer(answer.identifier)"
+    />
+    <Button v-if="localQuestion.type === QuestionType.TEXT" @click="addTextAnswer" :disabled="localQuestion.answers.length >= 4">Add answer</Button>
 
     <!-- True or False Question Type -->
-    <div v-if="selectedType === 'true_false'" class="answers-container">
-      <AnswerCard
-          v-for="(answer, index) in tfAnswers"
-          :key="index"
-          :index="index"
-          :initialAnswer="answer.text"
-          :deletable="false"
-          :readonly="true"
-      @update="updateTextAnswer(index, $event)"
-      />
-    </div>
+    <AnswerCard
+      v-if="localQuestion.type === QuestionType.TRUE_OR_FALSE"
+      v-for="(answer, index) in localQuestion.answers"
+      :key="answer.identifier"
+      :answer="answer"
+      :deletable="false"
+      :readonly="true"
+      @update-answer="updateAnswer($event, index)"
+    />
   </div>
 </template>
 

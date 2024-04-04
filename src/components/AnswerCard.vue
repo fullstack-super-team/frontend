@@ -1,21 +1,28 @@
 <script setup>
-import { ref, defineEmits, defineProps } from 'vue';
+import { ref, defineEmits, defineProps, watch } from 'vue';
+import Button from './Button.vue';
+
+const emit = defineEmits(['delete-answer', 'update-answer']);
 
 const props = defineProps({
-  initialAnswer: String,
-  index: Number,
+  answer: {
+    text: String,
+    isCorrect: Boolean
+  }, 
   deletable: Boolean,
   readonly: Boolean // Add this prop to handle readonly state
 });
 
-const answer = ref(props.initialAnswer);
-const isCorrect = ref(false);
-const emit = defineEmits(['delete', 'update']);
+const localAnswer = ref({ ...props.answer });
+
+const emitUpdate = () => {
+  emit('update-answer', localAnswer.value);
+};
 
 // Only allow deletion if the card is deletable
 const deleteThisCard = () => {
   if (props.deletable) {
-    emit('delete', props.index);
+    emit('delete-answer');
   }
 };
 </script>
@@ -24,12 +31,12 @@ const deleteThisCard = () => {
   <div class="answer-card">
     <input
         type="text"
-        v-model="answer"
+        v-model="localAnswer.text"
+        @change="emitUpdate"
         :disabled="props.readonly"
         placeholder="Enter answer here..."
-    />
-    <!-- Remove the :disabled binding here so the checkbox is always interactive -->
-    <input type="checkbox" v-model="isCorrect" />
+    />    
+    <input type="checkbox" v-model="localAnswer.isCorrect" @change="emitUpdate" />
     <button v-if="props.deletable" @click="deleteThisCard">Delete</button>
   </div>
 </template>

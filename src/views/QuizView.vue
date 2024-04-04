@@ -4,8 +4,13 @@ import Button from "@/components/Button.vue";
 import MainStore from "@/stores/mainStore.js";
 import MainLayout from "@/layouts/MainLayout.vue";
 import router from "@/router/index.js";
+import { useRoute } from "vue-router";
 
-MainStore.dispatch('quiz/fetchQuizById', 1);
+const currentUrl = useRoute();
+
+const quizId = currentUrl.params.id;
+
+MainStore.dispatch('quiz/fetchQuizById', quizId);
 
 console.log(MainStore.state.quiz.quiz.author.id, MainStore.state.user.id);
 
