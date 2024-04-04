@@ -149,7 +149,7 @@ const deleteQuestion = () => {
         :readonly="true"
         @update-answer="updateAnswer($event, index)"
        />
-      </div>  
+      </div>
   </div>
 </template>
 
@@ -171,7 +171,8 @@ const deleteQuestion = () => {
   top: 10px;
   background-color: transparent; /* Example: red background for visibility */
   color: white; /* Text color */
-  border: none;
+  border: solid;
+  border-color: transparent;
   border-radius: 5px;
   cursor: pointer;
   padding: 0; /* Adjust as needed */
