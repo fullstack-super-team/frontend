@@ -1,19 +1,21 @@
 <script setup>
 import { ref, computed } from "vue";
-import axios from "axios"; // Import axios for HTTP requests
+import axios from "axios";
 import { useStore } from "vuex";
 import MainLayout from "@/layouts/MainLayout.vue";
 import TextArea from "@/components/TextArea.vue";
 import Button from "@/components/Button.vue";
-import mainStore  from "@/stores/mainStore.js";
 
 const store = useStore();
 const feedbackDescription = ref('');
+const submissionStatus = ref(''); // Define the submissionStatus reactive variable
 
-const user = computed(() => store.state.user)
+const user = computed(() => store.state.user);
 
 async function submitFeedback() {
   const endpoint = 'http://localhost:8080/feedback';
+
+  submissionStatus.value = ''; // Clear previous status
 
   try {
     const payload = {
@@ -24,18 +26,19 @@ async function submitFeedback() {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    }
+    };
 
     const response = await axios.post(endpoint, payload, headers);
-    console.log(response.data)
+    console.log(response.data);
     feedbackDescription.value = '';
+    submissionStatus.value = 'Thank you for your feedback!'; // Set a success message
   } catch (error) {
-    // Log the error to the console
     console.error(error);
-    // Handle the error (e.g., show an error message to the user)
+    submissionStatus.value = 'An error occurred while submitting your feedback. Please try again.'; // Set an error message
   }
 }
 </script>
+
 
 <template>
   <MainLayout>
@@ -45,6 +48,7 @@ async function submitFeedback() {
       <form @submit.prevent="submitFeedback" class="feedback-form">
         <TextArea v-model:modelValue="feedbackDescription" placeholder="Enter your feedback here..." :charLimit="200" required/>
         <Button type="submit">Submit</Button>
+        <p v-if="submissionStatus" class="submission-status">{{ submissionStatus }}</p>
       </form>
     </div>
   </MainLayout>
