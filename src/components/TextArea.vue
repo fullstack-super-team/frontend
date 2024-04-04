@@ -6,6 +6,10 @@ const props = defineProps({
   placeholder: String,
   modelValue: String,
   charLimit: Number,
+  startHeight: {
+    type: Number,
+    default: 100
+  },
   required: Boolean
 });
 
@@ -44,6 +48,7 @@ const updateValue = (event) => {
           @input="updateValue"
           :value="modelValue"
           :required="required"
+          :style="{ height: `${startHeight}px` }"
       ></textarea>
       <div v-if="charLimit" class="char-countdown">
         {{ remainingChars }} characters left
