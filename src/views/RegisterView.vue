@@ -97,24 +97,15 @@ input {
 }
 
 .logo {
-  width: 20%;
+  width: 25%;
   height: auto;
   min-width: 150px;
   margin-bottom: 1rem;
+  margin-top: 3rem;
 }
 
 button {
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  border: none;
-  background-color: #333;
-  color: white;
-  cursor: pointer;
+  margin-top: 1rem;
   font-size: medium;
 }
-
-button:hover {
-  background-color: #555;
-}
-
 </style>@/stores/userModule
