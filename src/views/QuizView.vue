@@ -111,7 +111,12 @@ const startQuiz = () => {
   right: 10px;
   width: calc(100% - 20px);
   transform: none;
+ background-color: #57c42b;
+}
 
+.start-quiz-button:hover {
+
+  background-color: #78D64F;
 }
 
 @media (max-width: 768px) {

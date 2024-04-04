@@ -67,6 +67,7 @@ footer {
 
 p {
   font-size: 0.75rem;
+  color: white;
 }
 
 .footer-link {

@@ -88,12 +88,9 @@ function newQuestion() {
   text-align: right;
 }
 
-
-
-/* Mobile styles */
 @media (max-width: 768px) {
   .answer-btn {
-    grid-template-columns: 1fr; /* Single column layout */
+    grid-template-columns: 1fr;
   }
 }
 
