@@ -122,29 +122,34 @@ const deleteQuestion = () => {
     <!-- Slider Question Type -->
     <Slider v-if="localQuestion.type === QuestionType.SLIDE" :answer="localQuestion.answer" />
 
+
     <!-- Text Question Type -->
-    <AnswerCard
-      v-if="localQuestion.type === QuestionType.TEXT"
-      v-for="(answer, index) in localQuestion.answers"
-      :key="answer.identifier"
-      :answer="answer"
-      :deletable="true"
-      :readonly="false"
-      @update-answer="updateAnswer($event, index)"
-      @delete-answer="deleteAnswer(answer.identifier)"
-    />
+    <div v-if="localQuestion.type === QuestionType.TEXT" class="answers-container">
+      <AnswerCard
+        v-if="localQuestion.type === QuestionType.TEXT"
+        v-for="(answer, index) in localQuestion.answers"
+        :key="answer.identifier"
+        :answer="answer"
+        :deletable="true"
+        :readonly="false"
+        @update-answer="updateAnswer($event, index)"
+        @delete-answer="deleteAnswer(answer.identifier)"
+      />
+    </div>
     <Button v-if="localQuestion.type === QuestionType.TEXT" @click="addTextAnswer" :disabled="localQuestion.answers.length >= 4">Add answer</Button>
 
     <!-- True or False Question Type -->
-    <AnswerCard
-      v-if="localQuestion.type === QuestionType.TRUE_OR_FALSE"
-      v-for="(answer, index) in localQuestion.answers"
-      :key="answer.identifier"
-      :answer="answer"
-      :deletable="false"
-      :readonly="true"
-      @update-answer="updateAnswer($event, index)"
-    />
+      <div v-if="localQuestion.type === QuestionType.TRUE_OR_FALSE" class="answers-container">
+        <AnswerCard
+        v-if="localQuestion.type === QuestionType.TRUE_OR_FALSE"
+        v-for="(answer, index) in localQuestion.answers"
+        :key="answer.identifier"
+        :answer="answer"
+        :deletable="false"
+        :readonly="true"
+        @update-answer="updateAnswer($event, index)"
+       />
+      </div>  
   </div>
 </template>
 
