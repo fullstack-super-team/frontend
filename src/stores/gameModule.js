@@ -18,6 +18,7 @@ const gameModule = {
       },
       highScoreList: [],
       currentPoints: 0,
+      totalPoints: 0,
     }
   },
   mutations: {
@@ -44,6 +45,9 @@ const gameModule = {
     },
     addPoints(state, payload) {
       state.currentPoints += payload;
+    },
+    setTotalPoints(state, payload) {
+      state.totalPoints = payload;
     }
   },
   actions: {
@@ -66,6 +70,7 @@ const gameModule = {
         commit("setHighScoreList", []);
         commit("setAnswers", []);
         commit("setCurrentPoints", 0);
+        commit("setTotalPoints", 0);
       } catch (error) {
         console.error('Failed to get user info:', error);        
       }
@@ -123,6 +128,7 @@ const gameModule = {
           }
         });
         commit("setHighScoreList", scoresResponse.data);
+        commit("setTotalPoints", state.quiz.questions.reduce((acc, question) => acc + question.points, 0));
       } catch (error) {
         console.error('Failed to finish quiz:', error);        
       }
