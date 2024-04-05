@@ -4,6 +4,13 @@ import { defineEmits } from 'vue';
 // Define the events this component can emit
 const emit = defineEmits(['click']);
 
+defineProps({
+  type: {
+    type: String,
+    default: 'button'
+  }
+})
+
 // Handler function for the click event
 function clickHandler() {
   emit('click'); // Emits the click event to the parent
@@ -11,7 +18,7 @@ function clickHandler() {
 </script>
 
 <template>
-  <button class="btnClass" @click="clickHandler">
+  <button class="btnClass" @click="clickHandler" :type="type">
     <slot></slot> <!-- This allows for custom button text -->
   </button>
 </template>

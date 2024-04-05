@@ -7,8 +7,21 @@ const DifficultyLevel = {
 function getDifficultyLevels() {
   return Object.keys(DifficultyLevel).map(key => ({
     value: DifficultyLevel[key],
-    label: key.charAt(0) + key.slice(1).toLowerCase(),
+    label: getDifficultyLevelLabel(DifficultyLevel[key]),
   }));
+}
+
+function getDifficultyLevelLabel(level) {
+  switch (level) {
+    case DifficultyLevel.EASY:
+      return "Easy";
+    case DifficultyLevel.MEDIUM:
+      return "Medium";
+    case DifficultyLevel.HARD:
+      return "Hard";
+    default:
+      return "Unknown";
+  }
 }
 
 export { DifficultyLevel, getDifficultyLevels };

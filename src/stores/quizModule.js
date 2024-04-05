@@ -1,3 +1,5 @@
+import { Category } from "@/utils/category";
+import { DifficultyLevel } from "@/utils/difficultyLevel";
 import axios from "axios";
 
 const quizModule = {
@@ -26,7 +28,10 @@ const quizModule = {
       state.quizzes = payload;
     },
     setQuiz(state, payload) {
-      state.quiz = payload;
+      const quiz = payload;
+      quiz.difficultyLevel = DifficultyLevel[quiz.difficultyLevel];
+      quiz.category = Category[quiz.category];
+      state.quiz = quiz;
     },
     setSearchedQuizzes(state, payload) {
       state.searchedQuizzes = payload;
@@ -83,6 +88,25 @@ const quizModule = {
         commit("setQuiz", response.data);
       } catch (error) {
         console.error('Failed to get user info:', error);   
+      }
+    },
+    async updateQuiz({ commit }, payload) {
+      try {
+        const quizId = payload.id;
+        if (!quizId) {
+          throw new Error("No quiz ID provided");
+        }
+        const quiz = payload.quiz;
+        const token = localStorage.getItem("token");
+        const response = await axios.put(`http://localhost:8080/quizzes/${quizId}`, quiz, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log(response.data)
+        commit("setQuiz", response.data);
+      } catch (error) {
+        console.error('Failed to update quiz:', error);   
       }
     },
     async searchForQuiz({ commit }, payload) {

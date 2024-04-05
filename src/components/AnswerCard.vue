@@ -10,7 +10,7 @@ const props = defineProps({
     isCorrect: Boolean
   }, 
   deletable: Boolean,
-  readonly: Boolean // Add this prop to handle readonly state
+  readonly: Boolean
 });
 
 const localAnswer = ref({ ...props.answer });
@@ -19,7 +19,6 @@ const emitUpdate = () => {
   emit('update-answer', localAnswer.value);
 };
 
-// Only allow deletion if the card is deletable
 const deleteThisCard = () => {
   if (props.deletable) {
     emit('delete-answer');

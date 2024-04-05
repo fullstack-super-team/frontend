@@ -12,8 +12,6 @@ const quizId = currentUrl.params.id;
 
 MainStore.dispatch('quiz/fetchQuizById', quizId);
 
-console.log(MainStore.state.quiz.quiz.author.id, MainStore.state.user.id);
-
 const isAuthor = computed(() => {
   return MainStore.state.quiz.quiz.author.id === MainStore.state.user.id;
 });
@@ -31,7 +29,9 @@ const startQuiz = () => {
     <div class="quizView-container">
       <header class="quizView-header">
         <h1 class="quizView-title">{{MainStore.state.quiz.quiz.title}}</h1>
-        <Button v-if="isAuthor" class="edit-button">Edit</Button>
+        <RouterLink :to="`/quiz/${quizId}/edit`">
+          Edit
+        </RouterLink>
       </header>
       <div class="quizView-content">
         <div class="quizView-meta">
