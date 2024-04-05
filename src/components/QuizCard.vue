@@ -32,8 +32,9 @@ defineProps({
 
 <style scoped>
 .quiz-card {
-  border: 10px solid #ff914d;
+  border: 2px solid #08589CFF;
   border-radius: 8px;
+  text-decoration: none;
   padding: 20px;
   margin: 10px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -47,19 +48,19 @@ defineProps({
 
 h3 {
   margin: 0;
-  color: #333;
+  color: white;
   font-size: 24px;
 }
 
 .category {
   font-size: 18px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.76);
   margin: 10px 0 5px;
 }
 
 .questions-count {
   font-size: 16px;
-  color: #444;
+  color: rgba(255, 255, 255, 0.76);
 }
 
 @media (max-width: 768px) {
