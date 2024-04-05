@@ -39,6 +39,12 @@ const emit = defineEmits(["update:modelValue"]);
   box-sizing: border-box;
 }
 
+label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  color: #08589CFF;
+}
+
 .error-message {
   color: red;
   margin-top: 5px;
