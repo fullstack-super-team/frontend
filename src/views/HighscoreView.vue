@@ -1,33 +1,39 @@
 <script setup>
 import mainStore from "@/stores/mainStore.js";
 import Button from "@/components/Button.vue";
-mainStore.dispatch('game/loadQuizById', 1);
+import router from "@/router/index.js";
+import {useRoute} from "vue-router";
+
+const url = useRoute();
+const highScores = mainStore.state.game.highScoreList;
+const quizId = url.params.id;
+const quizTitle = mainStore.state.quiz.quiz.title;
+const numberOfQuestions = mainStore.state.game.quiz.questions.length;
+
+const correctAnswers = mainStore.state.game.answers.filter(answer => answer.pointsGiven > 0)
+const numberOfCorrectAnswers = correctAnswers.length;
+
+
+function backToQuizPage() {
+  router.push(`/quiz/${quizId}`);
+}
+
 </script>
 
 <template>
-  <Button class="finish-btn">Finish</Button>
-  <h1 class="title">Quiz Title</h1>
+  <Button class="finish-btn" @click="backToQuizPage">Finish</Button>
+  <h1 class="title">{{ quizTitle }}</h1>
   <div class="score-container">
     <div class="result">
       <h2>YOU GOT</h2>
-      <h1>6/10</h1>
+      <h1>{{numberOfCorrectAnswers}} / {{numberOfQuestions}}</h1>
       <h2>CORRECT ANSWERS</h2>
     </div>
-    <div class="highscore">
-      <h2>Highscore</h2>
-      <p>Here are the top 10 players:</p>
-      <ol>
-        <li>Player 1 - 100 points</li>
-        <li>Player 2 - 90 points</li>
-        <li>Player 3 - 80 points</li>
-        <li>Player 4 - 70 points</li>
-        <li>Player 5 - 60 points</li>
-        <li>Player 6 - 50 points</li>
-        <li>Player 7 - 40 points</li>
-        <li>Player 8 - 30 points</li>
-        <li>Player 9 - 20 points</li>
-        <li>Player 10 - 10 points</li>
-      </ol>
+    <div class="high-score">
+      <h2>HIGH SCORE</h2>
+      <ul>
+        <li v-for="score in highScores.slice(0,10)" :key="score.id">{{ score.user.username }}: {{ score.points }} points</li>
+      </ul>
     </div>
   </div>
 </template>
