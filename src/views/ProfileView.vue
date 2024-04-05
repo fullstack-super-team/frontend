@@ -23,10 +23,12 @@ const logout = () => {
         <h1>My profile</h1>
         <Button class="logout" @click="logout">Logout</Button>
       </div>
-      <Input label="First name:" :placeholder="user.firstName" :model-value="user.firstName" :disabled="true"/>
-      <Input label="Last name:" :placeholder="user.lastName" :model-value="user.lastName" :disabled="true"/>
-      <Input label="Username:" :placeholder="user.username" :model-value="user.username" :disabled="true"/>
-      <Input label="Email: " :placeholder="user.email" :model-value="user.email" :disabled="true"/>
+      <div class="profile-input">
+        <Input label="First name" :placeholder="user.firstName" :model-value="user.firstName" :disabled="true"/>
+        <Input label="Last name" :placeholder="user.lastName" :model-value="user.lastName" :disabled="true"/>
+        <Input label="Username" :placeholder="user.username" :model-value="user.username" :disabled="true"/>
+        <Input label="Email" :placeholder="user.email" :model-value="user.email" :disabled="true"/>
+      </div>
     </div>
   </MainLayout>
 
@@ -38,5 +40,26 @@ const logout = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 16px;
+}
+
+.profile-input {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.logout {
+  background-color: red;
+}
+
+.logout:hover {
+  background-color: #ff3838;
 }
 </style>
