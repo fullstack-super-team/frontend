@@ -63,6 +63,7 @@ select {
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-shadow: 2px 4px 6px 0px rgba(0, 0, 0, 0.2);
 }
 
 option {
