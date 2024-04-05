@@ -82,7 +82,9 @@ const addTextAnswer = () => {
 };
 
 const updateAnswer = (updatedAnswer, index) => {
-  localQuestion.value.answers[index] = updatedAnswer;
+  console.log('Answer updated:', updatedAnswer)
+  localQuestion.value.answers.splice(index, 1, updatedAnswer);
+  console.log('Local question:', localQuestion.value)
   emitUpdate();
 };
 
@@ -97,7 +99,6 @@ const deleteQuestion = () => {
   emit('delete-question');
 };
 </script>
-
 
 <template>
   <div class="create-question">
@@ -122,7 +123,7 @@ const deleteQuestion = () => {
       <label for="points300">300</label>
     </div>
 
-    <TextArea v-model="localQuestion.text" label="Question:" placeholder="Write your question here.." :charLimit="200" @update="emitUpdate" required/>
+    <TextArea v-model="localQuestion.text" label="Question:" placeholder="Write your question here.." :charLimit="200" @update="emitUpdate" :startHeight="100" required/>
 
     <Slider v-if="localQuestion.type === QuestionType.SLIDE" :answer="localQuestion.answer" />
 
