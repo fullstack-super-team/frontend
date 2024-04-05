@@ -16,7 +16,8 @@ const gameModule = {
         type: "",
         answers: [],
       },
-      scores: []
+      scores: [],
+      currentPoints: 0,
     }
   },
   mutations: {
@@ -37,6 +38,12 @@ const gameModule = {
     },
     setScores(state, payload) {
       state.scores = payload;
+    },
+    setCurrentPoints(state, payload) {
+      state.currentPoints = payload;
+    },
+    addPoints(state, payload) {
+      state.currentPoints += payload;
     }
   },
   actions: {
@@ -58,6 +65,7 @@ const gameModule = {
         commit("setCurrentQuestionNumber", 0);
         commit("setScores", []);
         commit("setAnswers", []);
+        commit("setCurrentPoints", 0);
       } catch (error) {
         console.error('Failed to get user info:', error);        
       }
@@ -87,6 +95,7 @@ const gameModule = {
         });
         console.log(response.data);
         commit("addAnswer", response.data);
+        commit("addPoints", response.data.pointsGiven);
       } catch (error) {
         console.error('Failed to submit answer:', error);        
       }
