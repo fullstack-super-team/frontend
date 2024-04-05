@@ -118,19 +118,14 @@ const saveQuiz = async () => {
 
 .is-invalid {
   border-color: red;
-  /* Add your error styling here */
 }
 
 .validation-error {
   color: red;
-  /* Style for the validation message */
   font-size: 0.9em;
 }
 
 .dropdownMenus {
   margin-bottom: 20px;
-  /* Additional style for spacing */
 }
-
-/* Additional styles for .dropdownMenus and other classes can be added here */
 </style>
