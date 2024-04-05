@@ -16,7 +16,7 @@ const gameModule = {
         type: "",
         answers: [],
       },
-      scores: [],
+      highScoreList: [],
       currentPoints: 0,
     }
   },
@@ -36,8 +36,8 @@ const gameModule = {
     setAnswers(state, payload) {
       state.answers = payload;
     },
-    setScores(state, payload) {
-      state.scores = payload;
+    setHighScoreList(state, payload) {
+      state.highScoreList = payload;
     },
     setCurrentPoints(state, payload) {
       state.currentPoints = payload;
@@ -63,7 +63,7 @@ const gameModule = {
         commit("setQuiz", response.data);
         commit("setCurrentQuestion", response.data.questions[0]);
         commit("setCurrentQuestionNumber", 0);
-        commit("setScores", []);
+        commit("setHighScoreList", []);
         commit("setAnswers", []);
         commit("setCurrentPoints", 0);
       } catch (error) {
@@ -100,9 +100,9 @@ const gameModule = {
         console.error('Failed to submit answer:', error);        
       }
     },
-    async finishQuiz({ commit, state }, payload) {
+    async finishQuiz({ commit, state }) {
       try {
-        const points = payload;
+        const points = state.currentPoints;
         if (!points) {
           throw new Error("No score provided");
         }
@@ -122,7 +122,7 @@ const gameModule = {
             Authorization: `Bearer ${token}`
           }
         });
-        commit("setScores", scoresResponse.data);
+        commit("setHighScoreList", scoresResponse.data);
       } catch (error) {
         console.error('Failed to finish quiz:', error);        
       }
