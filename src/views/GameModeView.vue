@@ -14,12 +14,13 @@ const quizId = url.params.id;
 let isAnswerSelected = ref(false);
 let correctAnswer = ref("");
 let selectedAnswerText = ref("");
-let currentQuestionNumber = (0);
 let selectedSliderValue = ref(0);
 
 const currentQuestionText = computed(() => mainStore.state.game.currentQuestion.text);
 const questionCountInfo = computed(() => `${mainStore.state.game.quiz.currentQuestionNumber + 1} / ${mainStore.state.game.quiz.questions.length}`);
 const questionType = computed(() => mainStore.state.game.currentQuestion.type);
+const currentQuestionNumber = computed(() => mainStore.state.game.quiz.currentQuestionNumber)
+const score = computed(() => mainStore.state.game.currentPoints);
 
 mainStore.dispatch('game/loadQuizById', quizId);
 
@@ -30,7 +31,7 @@ function backToQuizPage() {
 async function selectAnswer(answer) {
   console.log(answer);
   await mainStore.dispatch('game/submitAnswer', answer);
-  correctAnswer.value = mainStore.state.game.answers[currentQuestionNumber].correctAnswer;
+  correctAnswer.value = mainStore.state.game.answers[currentQuestionNumber.value].correctAnswer;
   selectedAnswerText.value = answer;
   isAnswerSelected.value = true;
 }
@@ -38,8 +39,11 @@ async function selectAnswer(answer) {
 function nextQuestion() {
   isAnswerSelected.value = false;
   correctAnswer.value = "";
-  currentQuestionNumber++;
   mainStore.dispatch('game/nextQuestion');
+  if (currentQuestionNumber.value === mainStore.state.game.quiz.questions.length) {
+    mainStore.dispatch('game/finishQuiz');
+    router.push(`/quiz/${quizId}/high-score`);
+  }
 }
 
 const answerColors = computed(() => {
@@ -83,7 +87,8 @@ const updateValue = (value) => {
     <Button class="next-btn" @click="nextQuestion" v-if="isAnswerSelected">Next</Button>
   </div>
   <h2 class="question-text">{{ currentQuestionText }}</h2>
-  <p class = "current-question-number"> {{ questionCountInfo }}</p>
+  <p class="current-question-number"> {{ questionCountInfo }}</p>
+  <p class="current-question-number">Score: {{ score }}</p>
   <img src="https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg?s=1024x1024&w=is&k=20&c=qNeCdQEGR07rW2FnwvIuuMaVmy0HkHPxdpYeJxLi3UE%3D" alt="Question Image" class="question-image"/>
   <p v-if="isAnswerSelected && correctAnswer.toString() === selectedAnswerText.toString()" >Correct Answer!</p>
   <p v-if="isAnswerSelected && correctAnswer.toString() !== selectedAnswerText.toString()">Incorrect Answer</p>
