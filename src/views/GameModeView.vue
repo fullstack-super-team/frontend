@@ -6,10 +6,11 @@ import Button from "@/components/Button.vue";
 import router from "@/router/index.js";
 import { useRoute } from "vue-router";
 import {computed, ref} from "vue";
+import { QuestionType } from "@/utils/questionType";
 
 const url = useRoute();
 const quizId = url.params.id;
-
+mainStore.dispatch('game/loadQuizById', quizId);
 
 let isAnswerSelected = ref(false);
 let correctAnswer = ref("");
@@ -21,9 +22,6 @@ const questionCountInfo = computed(() => `${mainStore.state.game.quiz.currentQue
 const questionType = computed(() => mainStore.state.game.currentQuestion.type);
 const currentQuestionNumber = computed(() => mainStore.state.game.quiz.currentQuestionNumber)
 const score = computed(() => mainStore.state.game.currentPoints);
-
-
-mainStore.dispatch('game/loadQuizById', quizId);
 
 function backToQuizPage() {
   router.push(`/quiz/${quizId}`);
@@ -78,10 +76,6 @@ const isCorrectAnswer = computed(() => {
   });
 });
 
-const updateValue = (value) => {
-  selectedSliderValue.value = value;
-}
-
 </script>
 <template>
   <div class="finish-btn">
@@ -105,12 +99,18 @@ const updateValue = (value) => {
                   :disabled="isAnswerSelected"
                   @click="selectAnswer(answer.text)"/>
   </div>
-  <div v-if="questionType==='SLIDE'">
-    <Slider class="answer-slider"
-            :answer="mainStore.state.game.currentQuestion.answer"
-            @update-value="updateValue"
-            v-if="!isAnswerSelected"/>
-    <Button class="submit-btn" @click="selectAnswer(selectedSliderValue)" v-if="!isAnswerSelected">Submit</Button>
+  <div v-if="questionType===QuestionType.SLIDE">
+    <div class="answer-slider">
+      <span>{{ selectedSliderValue }}</span>
+      <Slider
+        v-if="!isAnswerSelected"
+        :min="mainStore.state.game.currentQuestion.answer.min"
+        :max="mainStore.state.game.currentQuestion.answer.max"
+        :step-size="mainStore.state.game.currentQuestion.answer.stepSize"
+        v-model="selectedSliderValue"
+      />
+      <Button class="submit-btn" @click="selectAnswer(selectedSliderValue)" v-if="!isAnswerSelected">Submit</Button>      
+    </div>
     <div class="answer-buttons-container">
       <AnswerButton
           v-if="isAnswerSelected && correctAnswer.toString() !== selectedSliderValue.toString()"
