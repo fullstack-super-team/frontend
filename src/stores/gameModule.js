@@ -16,6 +16,7 @@ const gameModule = {
         type: "",
         answers: [],
       },
+      scores: []
     }
   },
   mutations: {
@@ -30,6 +31,12 @@ const gameModule = {
     },
     addAnswer(state, payload) {
       state.answers.push(payload);
+    },
+    setAnswers(state, payload) {
+      state.answers = payload;
+    },
+    setScores(state, payload) {
+      state.scores = payload;
     }
   },
   actions: {
@@ -48,7 +55,9 @@ const gameModule = {
         console.log(response.data)
         commit("setQuiz", response.data);
         commit("setCurrentQuestion", response.data.questions[0]);
-        commit("setCurrentQuestionNumber", 0)
+        commit("setCurrentQuestionNumber", 0);
+        commit("setScores", []);
+        commit("setAnswers", []);
       } catch (error) {
         console.error('Failed to get user info:', error);        
       }
@@ -80,6 +89,33 @@ const gameModule = {
         commit("addAnswer", response.data);
       } catch (error) {
         console.error('Failed to submit answer:', error);        
+      }
+    },
+    async finishQuiz({ commit, state }, payload) {
+      try {
+        const points = payload;
+        if (!points) {
+          throw new Error("No score provided");
+        }
+        const token = localStorage.getItem("token");
+        const submitScoreResponse = await axios.post(`http://localhost:8080/quizzes/${state.quiz.id}/scores`, {
+          points
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        if (submitScoreResponse.status !== 201) {
+          throw new Error("Failed to submit score");
+        }
+        const scoresResponse = await axios.get(`http://localhost:8080/quizzes/${state.quiz.id}/scores`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        commit("setScores", scoresResponse.data);
+      } catch (error) {
+        console.error('Failed to finish quiz:', error);        
       }
     }
   },
