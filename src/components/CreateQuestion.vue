@@ -6,6 +6,7 @@ import Button from "@/components/Button.vue";
 import deleteIcon from "@/assets/delete.png"
 import { QuestionType, getQuestionTypes } from "@/utils/questionType";
 import { ref } from "vue";
+import Input from "@/components/Input.vue";
 
 const emit = defineEmits([
   'delete-question', 
@@ -28,7 +29,10 @@ const props = defineProps({
   }
 });
 
-const localQuestion = ref({ ...props.question })
+const localQuestion = ref({
+  ...props.question,
+  points: props.question.points || 100
+});
 
 const emitUpdate = () => {
   emit('update-question', localQuestion.value);
@@ -106,16 +110,17 @@ const deleteQuestion = () => {
     <label for="question-type">Question Type</label>
     <select id="question-type" v-model="localQuestion.type" @change="changeQuestionType">
       <option v-for="(questionType) in getQuestionTypes()" :value="questionType.value">{{ questionType.label }}</option>
-    </select>    
+    </select>
 
     <p>Points: </p>
-    <input type="radio" v-model="localQuestion.points" @change="emitUpdate" :value="100">
-    <label for="100">100</label>
-    <input type="radio" v-model="localQuestion.points" @change="emitUpdate" :value="200">
-    <label for="100">200</label>
-    <input type="radio" v-model="localQuestion.points" @change="emitUpdate" :value="300">
-    <label for="100">300</label>
-
+    <div class="point-buttons-box">
+      <input type="radio" id="points100" v-model="localQuestion.points" @change="emitUpdate" :value="100">
+      <label for="points100">100</label>
+      <input type="radio" id="points200" v-model="localQuestion.points" @change="emitUpdate" :value="200">
+      <label for="points200">200</label>
+      <input type="radio" id="points300" v-model="localQuestion.points" @change="emitUpdate" :value="300">
+      <label for="points300">300</label>
+    </div>
 
     <TextArea v-model="localQuestion.text" label="Question:" placeholder="Write your question here.." :charLimit="200" @update="emitUpdate" required/>
 
@@ -202,6 +207,48 @@ const deleteQuestion = () => {
   justify-content: flex-start;
   gap: 20px;
 }
+
+.point-buttons-box {
+  display: flex;
+  width: fit-content;
+  border-radius: 80px;
+  overflow: hidden;
+}
+
+.point-buttons-box input{
+  display: flex;
+}
+
+/* Hides the default radio button appearance */
+.point-buttons-box input[type="radio"] {
+  display: none;
+}
+
+/* Styles for the labels which will look like buttons */
+.point-buttons-box label {
+  padding: 10px 15px;
+  border: 2px solid #08589C; /* Adds a border with the same color as the background */
+  background-color: #08589C;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+/* Change background color when hovering over the label */
+.point-buttons-box label:hover {
+  background-color: #0B68C1;
+}
+
+/* Changes the label appearance when the associated radio button is checked */
+.point-buttons-box input[type="radio"]:checked + label {
+  background-color: #4CAF50; /* Different background to indicate selection */
+  color: white; /* You can change the text color if you like */
+  border-color: #4CAF50; /* Optional: Change the border color if checked */
+}
+
 
 .answer-card {
   flex-basis: calc(50% - 20px);
