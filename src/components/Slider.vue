@@ -10,7 +10,8 @@ let props = defineProps({
 })
 const emit = defineEmits(['updateValue']);
 let currentValue = ref(props.answer.min);
-
+console.log(props.answer.min);
+emit('updateValue', props.answer.min);
 
 
 
