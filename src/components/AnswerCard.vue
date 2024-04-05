@@ -38,7 +38,7 @@ const deleteThisCard = () => {
     />    
     <input type="checkbox" v-model="localAnswer.isCorrect" @change="emitUpdate" />
 
-    <button v-if="props.deletable" @click="deleteThisCard" class="answer-card-btn">
+    <button v-if="props.deletable" @click="deleteThisCard" type="button" class="answer-card-btn">
       <img :src="deleteIcon" alt="Delete Answer" class="delete-icon" />
     </button>
   </div>
