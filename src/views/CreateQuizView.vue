@@ -34,6 +34,7 @@ const addQuestion = () => {
     type: QuestionType.TEXT,
     answers: [
       {
+        identifier: Date.now(),
         text: '',
         isCorrect: false,
       }
@@ -63,44 +64,40 @@ const saveQuiz = async () => {
 
 <template>
   <MainLayout>
-    <div class="upperBar">
-      <h1>Create Quiz</h1>
-      <Button @click="saveQuiz">Create</Button>
-    </div>
-    <Input label="Quiz title" placeholder="Enter your quiz title here" v-model="quiz.title"
-      :class="{ 'is-invalid': formSubmitted && !quiz.title }" />
-    <p v-if="formSubmitted && !quiz.title" class="validation-error">Quiz title is required.</p>
-
-    <div class="dropdownMenus">
-      <h2>Select a category</h2>
-      <select v-model="quiz.category">
-        <option v-for="category in getCategories()" :key="category.value" :value="category.value">
-          {{ category.label }}
-        </option>
-      </select>
-
-      <h2>Select a difficulty</h2>
-      <select v-model="quiz.difficultyLevel">
-        <option v-for="difficultyLevel in getDifficultyLevels()" :key="difficultyLevel.value"
-          :value="difficultyLevel.value">
-          {{ difficultyLevel.label }}
-        </option>
-      </select>
-    </div>
-
-    <TextArea v-model="quiz.description" label="Description" placeholder="Enter quiz description here..."
-      :charLimit="200" required />
-
-    <h2>Questions:</h2>
-    <!--<Button @click="addQuestion">Add Question</Button>-->
-    <CreateQuestion v-for="(question, index) in quiz.questions" :key="question.identifier" :question="question"
-      @update-question="updateQuestion($event, index)" @delete-question="deleteQuestion(question.identifier)" />
-    <div class="lowerBar">
+    <form novalidate @submit.prevent="saveQuiz">
+      <div class="upperBar">
+        <h1>Create Quiz</h1>
+        <Button type="submit">Save</Button>
+      </div>
+      <Input label="Quiz title: *" placeholder="Enter your quiz title here" v-model="quiz.title"
+        :class="{ 'is-invalid': formSubmitted && !quiz.title }" />
+      <p v-if="formSubmitted && !quiz.title" class="validation-error">Quiz title is required.</p>
+  
+      <div class="dropdownMenus">
+        <h2>Select a Category</h2>
+        <select v-model="quiz.category">
+          <option v-for="category in getCategories()" :key="category.value" :value="category.value">
+            {{ category.label }}
+          </option>
+        </select>
+  
+        <h2>Select a difficulty</h2>
+        <select v-model="quiz.difficultyLevel">
+          <option v-for="difficultyLevel in getDifficultyLevels()" :key="difficultyLevel.value"
+            :value="difficultyLevel.value">
+            {{ difficultyLevel.label }}
+          </option>
+        </select>
+      </div>
+  
+      <TextArea v-model="quiz.description" label="Description" placeholder="Enter quiz description here..."
+        :charLimit="200" />
+  
+      <h2>Questions:</h2>
       <Button @click="addQuestion">Add Question</Button>
-      <Button @click="saveQuiz" v-if="quiz.questions.length > 0">Create</Button>
-    </div>
-
-
+      <CreateQuestion v-for="(question, index) in quiz.questions" :key="question.identifier" :question="question"
+        @update-question="updateQuestion($event, index)" @delete-question="deleteQuestion(question.identifier)" />
+    </form>
   </MainLayout>
 </template>
 
