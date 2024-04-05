@@ -101,10 +101,10 @@ const deleteQuestion = () => {
 
 <template>
   <div class="create-question">
-    <!-- Delete Button at the top right corner -->
+
     <button @click="deleteQuestion" class="delete-question-btn">
       <img :src="deleteIcon" alt="Delete Question" class="delete-icon" />
-    </button>'
+    </button>
 
 
     <label for="question-type">Question Type</label>
@@ -124,11 +124,8 @@ const deleteQuestion = () => {
 
     <TextArea v-model="localQuestion.text" label="Question:" placeholder="Write your question here.." :charLimit="200" @update="emitUpdate" required/>
 
-    <!-- Slider Question Type -->
     <Slider v-if="localQuestion.type === QuestionType.SLIDE" :answer="localQuestion.answer" />
 
-
-    <!-- Text Question Type -->
     <div v-if="localQuestion.type === QuestionType.TEXT" class="answers-container">
       <AnswerCard
         v-if="localQuestion.type === QuestionType.TEXT"
@@ -143,7 +140,6 @@ const deleteQuestion = () => {
     </div>
     <Button v-if="localQuestion.type === QuestionType.TEXT" @click="addTextAnswer" :disabled="localQuestion.answers.length >= 4">Add answer</Button>
 
-    <!-- True or False Question Type -->
       <div v-if="localQuestion.type === QuestionType.TRUE_OR_FALSE" class="answers-container">
         <AnswerCard
         v-if="localQuestion.type === QuestionType.TRUE_OR_FALSE"
@@ -160,29 +156,29 @@ const deleteQuestion = () => {
 
 
 <style scoped>
-/* Your styles remain unchanged */
+
 .create-question {
   margin: 20px 0;
   border-style: solid;
   border-width: medium;
   border-radius: 10px;
   padding: 10px;
-  position: relative; /* Ensure the parent is positioned to anchor the absolute child */
+  position: relative;
 }
 
 .delete-question-btn {
   position: absolute;
-  right: 10px; /* Adjust these values as needed */
+  right: 10px;
   top: 10px;
-  background-color: transparent; /* Example: red background for visibility */
-  color: white; /* Text color */
+  background-color: transparent;
+  color: white;
   border: solid;
   border-color: transparent;
   border-radius: 5px;
   cursor: pointer;
-  padding: 0; /* Adjust as needed */
-  width: auto; /* Adjust as needed */
-  height: auto; /* Adjust as needed */
+  padding: 0;
+  width: auto;
+  height: auto;
 }
 
 .delete-question-btn:hover {
@@ -192,7 +188,7 @@ const deleteQuestion = () => {
 }
 
 .delete-icon {
-  width: 40px; /* Adjust the size as needed for the image */
+  width: 40px;
   height: auto;
 }
 
@@ -249,6 +245,9 @@ const deleteQuestion = () => {
   border-color: #4CAF50; /* Optional: Change the border color if checked */
 }
 
+button:disabled {
+  opacity: 50%;
+}
 
 .answer-card {
   flex-basis: calc(50% - 20px);
