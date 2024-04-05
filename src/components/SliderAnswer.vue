@@ -1,4 +1,6 @@
 <script setup>
+import Input from "@/components/Input.vue";
+
 const props = defineProps({
   answer: {
     type: Object,
@@ -48,6 +50,7 @@ const props = defineProps({
   gap: 20px;
   justify-content: center;
   align-items: center;
+
 }
 
 .inputs label {
@@ -56,9 +59,26 @@ const props = defineProps({
   gap: 5px;
 }
 
+.inputs input {
+  font-size: 1rem;
+  color: #333;
+  background-color: #f0f7ff;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 2px 4px 6px 0px rgba(0, 0, 0, 0.2);
+}
+
 .slider-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .inputs {
+    justify-content: flex-start;
+  }
 }
 </style>

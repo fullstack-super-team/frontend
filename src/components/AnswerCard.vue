@@ -1,6 +1,7 @@
 <script setup>
 import { ref, defineEmits, defineProps, watch } from 'vue';
 import Button from './Button.vue';
+import deleteIcon from '@/assets/delete.png'
 
 const emit = defineEmits(['delete-answer', 'update-answer']);
 
@@ -36,7 +37,10 @@ const deleteThisCard = () => {
         placeholder="Enter answer here..."
     />    
     <input type="checkbox" v-model="localAnswer.isCorrect" @change="emitUpdate" />
-    <button v-if="props.deletable" @click="deleteThisCard">Delete</button>
+
+    <button v-if="props.deletable" @click="deleteThisCard" class="answer-card-btn">
+      <img :src="deleteIcon" alt="Delete Answer" class="delete-icon" />
+    </button>
   </div>
 </template>
 
@@ -50,6 +54,34 @@ const deleteThisCard = () => {
 
 .answer-card input[type="text"] {
   flex-grow: 1;
+  font-size: medium;
+  line-height: 1.8;
+}
+
+.answer-card input[type="checkbox"] {
+  transform: scale(1.5); /* Adjust scale value as needed */
+  margin: 10px; /* You might need to adjust margins to align the checkbox */
+  cursor: pointer; /* To indicate it's clickable */
+}
+
+.answer-card-btn{
+  background-color: transparent; /* Example: red background for visibility */
+  border: solid;
+  border-color: transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.answer-card-btn:hover {
+  background-color: #81c5f8;
+  border: solid;
+  border-color: #0B68C1;
+}
+
+.delete-icon {
+  width: 40px; /* Adjust the size as needed for the image */
+  height: auto;
 }
 
 /* Style for your delete button (optional) */

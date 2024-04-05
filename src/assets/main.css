@@ -22,23 +22,50 @@ button {
   cursor: pointer;
 }
 
-h1,h2, h3 {
+h1 {
   font-size: 2rem;
+}
+
+h1,h2, h3 {
   font-weight: 700;
   color: #08589CFF;
-  //font-family:'Luminari', fantasy;
-  //font-family: 'Arial Black', Gadget, sans-serif;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
 }
 
 TextArea {
   font-family: 'Arial', Gadget, sans-serif;
   color: black;
   font-size: 1rem;
+  background-color: #f0f7ff;
+  border: thin solid #0f3f6b;
+}
+
+Input {
+  background-color: #f0f7ff;
+  border: thin solid #0f3f6b;
+
 }
 
 p {
-  color: #ffff;
-  font-family: 'Arial Black', Gadget, sans-serif;
+  color: #08589CFF;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+}
+
+select {
+  font-size: 1rem;
+  color: #333;
+  background-color: #f0f7ff;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 2px 4px 6px 0px rgba(0, 0, 0, 0.2);
+}
+
+option {
+  font-weight: normal;
+  color: #333333;
+  background-color: #ffffff;
+  padding: 5px 0;
 }

@@ -1,5 +1,9 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import { ref } from 'vue';
+
+const colors = ['#ff914d', '#1792ea', '#78d64f', '#8c52ff']
+const randomColor = ref(colors[Math.floor(Math.random() * colors.length)]);
 
 defineProps({
   quiz: {
@@ -18,7 +22,7 @@ defineProps({
 
 
 <template>
-  <RouterLink :to="`/quiz/${quiz.id}`" class="quiz-card">
+  <RouterLink :to="`/quiz/${quiz.id}`" class="quiz-card quiz-card-holder" :style="{ backgroundColor: randomColor}">
     <h3>{{ quiz.title }}</h3>
     <p class="category">{{ quiz.category }}</p>
     <p class="questions-count">{{ quiz.questions.length }} Questions</p>
@@ -28,7 +32,7 @@ defineProps({
 
 <style scoped>
 .quiz-card {
-  border: 1px solid #ddd;
+  border: 10px solid #ff914d;
   border-radius: 8px;
   padding: 20px;
   margin: 10px 0;

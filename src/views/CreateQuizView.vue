@@ -19,19 +19,9 @@ const quiz = reactive({
   description: '',
   category: Category.GENERAL,
   difficultyLevel: DifficultyLevel.EASY,
-  questions: [{    
-    identifier: Date.now(),
-    text: '',
-    points: 100,
-    type: QuestionType.TEXT,
-    answers: [
-      {
-        text: '',
-        isCorrect: false,
-      }
-    ],
-  }],
+  questions: [],
 });
+
 
 const formSubmitted = ref(false);
 
@@ -75,14 +65,14 @@ const saveQuiz = async () => {
   <MainLayout>
     <div class="upperBar">
       <h1>Create Quiz</h1>
-      <Button @click="saveQuiz">Save</Button>
+      <Button @click="saveQuiz">Create</Button>
     </div>
-    <Input label="Quiz title: *" placeholder="Enter your quiz title here" v-model="quiz.title"
+    <Input label="Quiz title" placeholder="Enter your quiz title here" v-model="quiz.title"
       :class="{ 'is-invalid': formSubmitted && !quiz.title }" />
     <p v-if="formSubmitted && !quiz.title" class="validation-error">Quiz title is required.</p>
 
     <div class="dropdownMenus">
-      <h2>Select a Category</h2>
+      <h2>Select a category</h2>
       <select v-model="quiz.category">
         <option v-for="category in getCategories()" :key="category.value" :value="category.value">
           {{ category.label }}
@@ -102,9 +92,15 @@ const saveQuiz = async () => {
       :charLimit="200" required />
 
     <h2>Questions:</h2>
-    <Button @click="addQuestion">Add Question</Button>
+    <!--<Button @click="addQuestion">Add Question</Button>-->
     <CreateQuestion v-for="(question, index) in quiz.questions" :key="question.identifier" :question="question"
       @update-question="updateQuestion($event, index)" @delete-question="deleteQuestion(question.identifier)" />
+    <div class="lowerBar">
+      <Button @click="addQuestion">Add Question</Button>
+      <Button @click="saveQuiz" v-if="quiz.questions.length > 0">Create</Button>
+    </div>
+
+
   </MainLayout>
 </template>
 
@@ -113,6 +109,11 @@ const saveQuiz = async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.lowerBar {
+  display: flex;
+  justify-content: space-between;
 }
 
 .is-invalid {

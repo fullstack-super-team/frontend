@@ -184,12 +184,9 @@ const updateValue = (value) => {
   justify-content: center; /* Centers the buttons horizontally */
   gap: 10px; /* Adjusts the space between the buttons */
 }
-
-
-/* Mobile styles */
 @media (max-width: 768px) {
   .answer-btn {
-    grid-template-columns: 1fr; /* Single column layout */
+    grid-template-columns: 1fr;
   }
 }
 
