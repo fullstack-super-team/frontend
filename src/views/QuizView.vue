@@ -19,7 +19,7 @@ const currentUrl = useRoute();
 
 const quizId = currentUrl.params.id;
 
-MainStore.dispatch('quiz/fetchQuizById', quizId);
+//MainStore.dispatch('quiz/fetchQuizById', quizId);
 
 console.log(MainStore.state.quiz.quiz.author.id, MainStore.state.user.id);
 
@@ -77,10 +77,17 @@ const formattedDate = computed(() => {
 }
 
 .quizView-content {
-  flex-wrap: wrap;
+  display: flex;
   gap: 20px;
-  margin-bottom: 20px;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.quizView-meta, .quizView-statistics {
+  flex-basis: calc(50% - 10px);
+  max-width: calc(50% - 10px);
+  box-sizing: border-box;
 }
 
 .quizView-title {
@@ -139,7 +146,20 @@ h3, .scores-text {
   color: white;
 }
 
+.quizView-meta {
+    margin: 20px 0;
+}
+
 @media (max-width: 768px) {
+  .quizView-content {
+    flex-direction: column;
+  }
+
+  .quizView-meta, .quizView-statistics {
+    flex-basis: auto;
+    max-width: 100%;
+  }
+
   .quizView-header {
     flex-direction: column;
     align-items: center;
