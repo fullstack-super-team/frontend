@@ -19,7 +19,7 @@ const currentUrl = useRoute();
 
 const quizId = currentUrl.params.id;
 
-//MainStore.dispatch('quiz/fetchQuizById', quizId);
+MainStore.dispatch('quiz/fetchQuizById', quizId);
 
 console.log(MainStore.state.quiz.quiz.author.id, MainStore.state.user.id);
 
