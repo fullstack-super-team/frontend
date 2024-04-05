@@ -22,6 +22,7 @@ const questionType = computed(() => mainStore.state.game.currentQuestion.type);
 const currentQuestionNumber = computed(() => mainStore.state.game.quiz.currentQuestionNumber)
 const score = computed(() => mainStore.state.game.currentPoints);
 
+
 mainStore.dispatch('game/loadQuizById', quizId);
 
 function backToQuizPage() {
@@ -36,13 +37,14 @@ async function selectAnswer(answer) {
   isAnswerSelected.value = true;
 }
 
-function nextQuestion() {
+async function nextQuestion() {
   isAnswerSelected.value = false;
   correctAnswer.value = "";
-  mainStore.dispatch('game/nextQuestion');
-  if (currentQuestionNumber.value === mainStore.state.game.quiz.questions.length) {
-    mainStore.dispatch('game/finishQuiz');
-    router.push(`/quiz/${quizId}/high-score`);
+  if (currentQuestionNumber.value === mainStore.state.game.quiz.questions.length - 1) {
+    await mainStore.dispatch('game/finishQuiz');
+    await router.push(`/quiz/${quizId}/high-score`);
+  } else {
+    await mainStore.dispatch('game/nextQuestion');
   }
 }
 
