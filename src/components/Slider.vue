@@ -1,19 +1,31 @@
 <script setup>
-
+defineModel();
 defineProps({
-  answer: {
-    type: Object,
+  min: {
+    type: Number,
+    required: true
+  },
+  max: {
+    type: Number,
+    required: true
+  },
+  stepSize: {
+    type: Number,
+    required: true
+  },
+  modelValue: {
+    type: Number,
     required: true
   }
 })
-
+const emit = defineEmits(['update:modelValue']);
 </script>
 
-<template>
+<template>  
   <div class="slider">
-    <label :for="'slider-' + answer.min">{{ answer.min }}</label>
-    <input type="range" :id="'slider-' + answer.min" :min="answer.min" :max="answer.max" :step="answer.step"/>
-    <label :for="'slider-' + answer.max">{{ answer.max }}</label>
+    <label :for="'slider-' + min">{{ min }}</label>
+    <input id="slider" :min="min" :max="max" :step="stepSize" type="range" :value="modelValue" @input="emit('update:modelValue', $event.target.value)"/>
+    <label :for="'slider-' + max">{{ max }}</label>
   </div>
 </template>
 
