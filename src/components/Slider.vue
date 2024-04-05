@@ -1,19 +1,34 @@
 <script setup>
 
-defineProps({
+import {ref, watch} from "vue";
+
+let props = defineProps({
   answer: {
     type: Object,
     required: true
   }
 })
+const emit = defineEmits(['updateValue']);
+let currentValue = ref(props.answer.min);
+
+
+
+
+watch(currentValue, (newValue) => {
+  emit('updateValue', newValue);
+});
+
 
 </script>
 
 <template>
-  <div class="slider">
-    <label :for="'slider-' + answer.min">{{ answer.min }}</label>
-    <input type="range" :id="'slider-' + answer.min" :min="answer.min" :max="answer.max" :step="answer.step"/>
-    <label :for="'slider-' + answer.max">{{ answer.max }}</label>
+  <div class="slide-container">
+    <p>Current Value: {{ currentValue }}</p>
+    <div class="slider">
+      <label :for="'slider-' + answer.min">{{ answer.min }}</label>
+      <input type="range" :id="'slider-' + answer.min" :min="answer.min" :max="answer.max" :step="answer.step" v-model="currentValue"/>
+      <label :for="'slider-' + answer.max">{{ answer.max }}</label>
+    </div>
   </div>
 </template>
 
