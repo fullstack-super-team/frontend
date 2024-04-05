@@ -47,9 +47,13 @@ async function nextQuestion() {
 }
 
 const answerColors = computed(() => {
-  return mainStore.state.game.currentQuestion.answers.map((answer) => {
-    if (!isAnswerSelected.value) {
-      return '';
+  const cardColorOptions = ['#FF914D', '#1792EA', '#78D64F', '#8C52FF'];
+  const trueOrFalseColors = ['#1792EA','#FF914D'];
+  return mainStore.state.game.currentQuestion.answers.map((answer, index) => {
+    if (!isAnswerSelected.value && questionType.value === 'TRUE_OR_FALSE') {
+      return trueOrFalseColors[index] || '';
+    } else if (!isAnswerSelected.value) {
+      return cardColorOptions[index] || '';
     }
     return answer.text === correctAnswer.value ? '#78D64F' : '#FF3131';
   });
@@ -97,6 +101,7 @@ const isCorrectAnswer = computed(() => {
                   :key="index"
                   :answer-text="answer.text"
                   :disabled="isAnswerSelected"
+                  :is-true-or-false-question="questionType==='TRUE_OR_FALSE'"
                   @click="selectAnswer(answer.text)"/>
   </div>
   <div v-if="questionType===QuestionType.SLIDE">
