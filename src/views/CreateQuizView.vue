@@ -67,7 +67,7 @@ const saveQuiz = async () => {
       <h1>Create Quiz</h1>
       <Button @click="saveQuiz">Create</Button>
     </div>
-    <Input label="Quiz title*" placeholder="Enter your quiz title here" v-model="quiz.title"
+    <Input label="Quiz title" placeholder="Enter your quiz title here" v-model="quiz.title"
       :class="{ 'is-invalid': formSubmitted && !quiz.title }" />
     <p v-if="formSubmitted && !quiz.title" class="validation-error">Quiz title is required.</p>
 
