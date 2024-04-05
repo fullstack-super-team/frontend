@@ -9,7 +9,8 @@ import GameModeView from "@/views/GameModeView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import SearchView from "@/views/SearchView.vue";
 import QuizView from "@/views/QuizView.vue";
-import HighscoreView from "@/views/HighScoreView.vue";
+import HighscoreView from "@/views/HighscoreView.vue";
+import EditQuizView from "@/views/EditQuizView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,6 +37,14 @@ const router = createRouter({
       path: "/create-quiz",
       name: "CreateQuiz",
       component: CreateQuizView,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/quiz/:id/edit",
+      name: "EditQuiz",
+      component: EditQuizView,
       meta: {
         requiresAuth: true
       }
