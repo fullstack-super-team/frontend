@@ -14,11 +14,7 @@ const quizModule = {
         updatedAt: "01.02.2021",
         description: "Testing testing.",
         category: "Test",
-        scores: [
-          {date: '01.02.2021', score: 10, total: 10},
-          {date: '01.02.2021', score: 5, total: 10},
-          {date: '01.02.2021', score: 8, total: 10},
-        ]
+        personalScores: [],
       },
       searchedQuizzes: []
     }
@@ -35,6 +31,9 @@ const quizModule = {
     },
     setSearchedQuizzes(state, payload) {
       state.searchedQuizzes = payload;
+    },
+    setPersonalScores(state, payload) {
+        state.quiz.personalScores = payload;
     }
   },
   actions: {
@@ -74,6 +73,24 @@ const quizModule = {
         return response.data;     
       } catch (error) {
         console.error('Failed to get user info:', error);        
+      }
+    },
+    async fetchPersonalScores({ commit }, payload) {
+      try {
+        const quizId = payload;
+        if (!quizId) {
+          throw new Error("No quiz ID provided");
+        }
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:8080/quizzes/${quizId}/scores/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log(response.data)
+        commit("setPersonalScores", response.data);
+        } catch (error) {
+        console.error('Failed to get user info:', error);
       }
     },
     async createQuiz({ commit }, payload) {

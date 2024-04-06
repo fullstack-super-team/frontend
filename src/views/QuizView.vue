@@ -2,61 +2,71 @@
 import { computed} from "vue";
 import { onMounted, ref } from "vue";
 import Button from "@/components/Button.vue";
-import MainStore from "@/stores/mainStore.js";
+import mainStore from "@/stores/mainStore.js";
 import MainLayout from "@/layouts/MainLayout.vue";
 import router from "@/router/index.js";
 import { useRoute } from "vue-router";
 import { formatDate} from "@/utils/dateFormatter.js";
 
+
 const quiz = ref(null);
 
 onMounted(async () => {
-  MainStore.dispatch('quiz/fetchQuizzes', quizId);
-  quiz.value = MainStore.state.quiz.quiz;
+  mainStore.dispatch('quiz/fetchQuizzes', quizId);
+  quiz.value = mainStore.state.quiz.quiz;
 });
 
 const currentUrl = useRoute();
 
 const quizId = currentUrl.params.id;
 
-MainStore.dispatch('quiz/fetchQuizById', quizId);
+mainStore.dispatch('quiz/fetchQuizById', quizId);
+mainStore.dispatch('quiz/fetchPersonalScores', quizId);
 
 const isAuthor = computed(() => {
-  return MainStore.state.quiz.quiz.author.id === MainStore.state.user.id;
+  return mainStore.state.quiz.quiz.author.id === mainStore.state.user.id;
+});
+
+const recentAttempts = computed(() => {
+  return mainStore.state.quiz.quiz.personalScores;
+});
+
+const totalPoints = computed(() => {
+  return mainStore.state.game.totalPoints;
+})
+const formattedDate = computed(() => {
+  return formatDate(mainStore.state.quiz.quiz.updatedAt);
 });
 
 const startQuiz = () => {
-  router.push(`/quiz/${MainStore.state.quiz.quiz.id}/play`);
+  router.push(`/quiz/${mainStore.state.quiz.quiz.id}/play`);
   console.log('Starting quiz');
 }
 
-const formattedDate = computed(() => {
-  return formatDate(MainStore.state.quiz.quiz.updatedAt);
-});
 </script>
 
 <template>
   <MainLayout>
     <div class="quizView-container" v-if="quiz">
       <header class="quizView-header">
-        <h1 class="quizView-title">{{MainStore.state.quiz.quiz.title}}</h1>
+        <h1 class="quizView-title">{{mainStore.state.quiz.quiz.title}}</h1>
         <RouterLink :to="`/quiz/${quizId}/edit`">
           Edit
         </RouterLink>
       </header>
       <div class="quizView-content">
         <div class="quizView-meta">
-          <p><strong>By: </strong>{{MainStore.state.quiz.quiz.author.firstName}} {{MainStore.state.quiz.quiz.author.lastName}}</p>
+          <p><strong>By: </strong>{{mainStore.state.quiz.quiz.author.firstName}} {{mainStore.state.quiz.quiz.author.lastName}}</p>
           <p><strong>Last edited: </strong>{{ formattedDate }} </p>
-          <p><strong>Description: </strong>{{MainStore.state.quiz.quiz.description}}</p>
-          <p><strong>Category: </strong>{{MainStore.state.quiz.quiz.category}}</p>
-          <p class="questions-count">{{ MainStore.state.quiz.quiz.questions.length }} <strong>Questions</strong></p>
+          <p><strong>Description: </strong>{{mainStore.state.quiz.quiz.description}}</p>
+          <p><strong>Category: </strong>{{mainStore.state.quiz.quiz.category}}</p>
+          <p class="questions-count">{{ mainStore.state.quiz.quiz.questions.length }} <strong>Questions</strong></p>
         </div>
         <div class="quizView-statistics">
           <h3><strong>Recent attempts</strong></h3>
           <ul>
-            <li v-for="(scores, index) in MainStore.state.quiz.quiz.scores" :key="index">
-              <p class="scores-text">{{ "Score: " + scores.score }}/{{ scores.total }} - {{ scores.date }}</p>
+            <li v-for="(scores, index) in recentAttempts" :key="index">
+              <p class="scores-text">{{ "Score: " + scores.points }}/{{totalPoints}} - {{ formatDate(scores.date) }}</p>
             </li>
           </ul>
         </div>

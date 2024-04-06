@@ -3,6 +3,7 @@ import mainStore from "@/stores/mainStore.js";
 import Button from "@/components/Button.vue";
 import router from "@/router/index.js";
 import {useRoute} from "vue-router";
+import {formatDate} from "../utils/dateFormatter.js";
 
 const url = useRoute();
 const highScores = mainStore.state.game.highScoreList;
@@ -32,7 +33,7 @@ function backToQuizPage() {
     <div class="high-score">
       <h2>HIGH SCORE</h2>
       <ul>
-        <li v-for="score in highScores.slice(0,10)" :key="score.id">{{ score.user.username }} - {{score.points}}/{{ mainStore.state.game.totalPoints}}</li>
+        <li v-for="score in highScores" :key="score.id">{{ score.user.username }} - {{score.points}}/{{ mainStore.state.game.totalPoints}} {{formatDate(score.date)}}</li>
       </ul>
     </div>
   </div>
