@@ -8,11 +8,27 @@ import { QuestionType, getQuestionTypes } from "@/utils/questionType";
 import { ref } from "vue";
 import Input from "@/components/Input.vue";
 
+/**
+ * A component that represents a question card.
+ * It allows the user to input a question, select a question type, and add answers.
+ * The card can be deleted if the deletable prop is set to true.
+ */
+
+
+/**
+ * Emits events for deleting a question or updating a question.
+ */
 const emit = defineEmits([
   'delete-question', 
   'update-question'
 ]);
 
+/**
+ * Defines the props accepted by this component.
+ *
+ * @property {string} identifier - A unique identifier for the question card.
+ * @property {Object} question - The question object containing the question text, type, points, and answers.
+ */
 const props = defineProps({
   identifier: String,
   question: {
@@ -31,14 +47,25 @@ const props = defineProps({
   }
 });
 
+/**
+ * Local state for the question card.
+ */
 const localQuestion = ref({
   ...props.question,
 });
 
+/**
+ * Emits an update event with the current question value.
+ */
 const emitUpdate = () => {  
   emit('update-question', localQuestion.value);
 };
 
+/**
+ * Changes the question type based on the selected value.
+ *
+ * @param {Event} event - The change event.
+ */
 const changeQuestionType = (event) => {    
   switch (event.target.value) {
     case QuestionType.SLIDE:
@@ -70,7 +97,9 @@ const changeQuestionType = (event) => {
   emitUpdate();
 };
 
-// Functions to manage text answers
+/**
+ * Adds a text answer to the question.
+ */
 const addTextAnswer = () => {
   if (localQuestion.value.answers.length < 4) {
     localQuestion.value.answers.push({ 
@@ -82,18 +111,32 @@ const addTextAnswer = () => {
   emitUpdate();
 };
 
+/**
+ * Updates an answer in the question.
+ *
+ * @param {Object} updatedAnswer - The updated answer object.
+ * @param {string} identifier - The identifier of the answer to update.
+ */
 const updateAnswer = (updatedAnswer, identifier) => {
   const index = localQuestion.value.answers.findIndex((answer) => answer.identifier === identifier);
   localQuestion.value.answers.splice(index, 1, updatedAnswer); 
   emitUpdate();
 };
 
+/**
+ * Deletes an answer from the question.
+ *
+ * @param {string} identifier - The identifier of the answer to delete.
+ */
 const deleteAnswer = (identifier) => {  
   const index = localQuestion.value.answers.findIndex((answer) => answer.identifier === identifier);
   localQuestion.value.answers.splice(index, 1);
   emitUpdate();
 };
 
+/**
+ * Deletes the question card.
+ */
 const deleteQuestion = () => {
   emit('delete-question');
 };
@@ -215,34 +258,30 @@ const deleteQuestion = () => {
   display: flex;
 }
 
-/* Hides the default radio button appearance */
 .point-buttons-box input[type="radio"] {
   display: none;
 }
 
-/* Styles for the labels which will look like buttons */
 .point-buttons-box label {
   padding: 10px 15px;
-  border: 2px solid #08589C; /* Adds a border with the same color as the background */
+  border: 2px solid #08589C;
   background-color: #08589C;
   color: white;
   cursor: pointer;
   font-size: 1rem;
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
-  transition: background-color 0.3s ease; /* Smooth background color transition */
+  transition: background-color 0.3s ease;
 }
 
-/* Change background color when hovering over the label */
 .point-buttons-box label:hover {
   background-color: #0B68C1;
 }
 
-/* Changes the label appearance when the associated radio button is checked */
 .point-buttons-box input[type="radio"]:checked + label {
-  background-color: #4CAF50; /* Different background to indicate selection */
-  color: white; /* You can change the text color if you like */
-  border-color: #4CAF50; /* Optional: Change the border color if checked */
+  background-color: #4CAF50;
+  color: white;
+  border-color: #4CAF50;
 }
 
 button:disabled {
