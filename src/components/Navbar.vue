@@ -3,24 +3,43 @@ import { RouterLink, useRouter } from "vue-router";
 import store from "@/stores/mainStore";
 import {ref} from "vue";
 
+/**
+ * A navigation bar component that displays the logo, search bar, and navigation links.
+ */
+
 const router = useRouter();
 const search = ref("");
 
 const navOpen = ref(false);
 const isMobileMenu = ref(window.innerWidth < 768);
 
+/**
+ * Updates the menu based on the window width.
+ */
 const updateMenu = () => {
   isMobileMenu.value = window.innerWidth < 768;
   if (!isMobileMenu.value) {
     navOpen.value = false;
   }
 };
+
+/**
+ * Adds an event listener to update the menu when the window is resized.
+ */
 window.addEventListener("resize", updateMenu);
+
+/**
+ * Toggles the navigation menu on mobile devices.
+ */
 const toggleNav = () => {
   navOpen.value = !navOpen.value;
   console.log(navOpen.value);
 };
 
+/**
+ * Searches for a quiz based on the search input.
+ * @param {Event} event - The event object.
+ */
 async function searchForQuiz(event) {
   event.preventDefault();
   router.push({ path: "/search", query: { title: search.value } });
@@ -78,9 +97,8 @@ nav {
 }
 
 .logo {
-  height: 60px; /* Adjust based on your navbar size */
+  height: 60px;
   width: auto;
-  /* Add more styling for the logo if needed */
 }
 
 .links {
@@ -111,22 +129,23 @@ nav {
 .nav-item {
   display: flex;
   align-items: center;
-  position: relative; /* Needed to position the pseudo-element */
-  padding-bottom: 5px; /* Space for the bar */
+  position: relative;
+  padding-bottom: 5px;
 }
-/* Hover effect */
+
 .nav-item:hover::after {
   content: '';
   display: block;
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 100%; /* Full width of the nav-item */
-  height: 2px; /* Thickness of the bar */
-  background-color: #BCDEFB; /* Color of the bar */
-  border-radius: 10px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth transition for the color */
+  width: 100%;
+  height: 2px;
+  background-color: #BCDEFB;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
 }
+
 .search {
   width: 100%;
   display: flex;
