@@ -1,9 +1,20 @@
 <script setup>
 import { defineEmits } from 'vue';
+/**
+ * A simple button component
+ */
 
-// Define the events this component can emit
+/**
+ * Emits the click event when the button is clicked
+ */
 const emit = defineEmits(['click']);
 
+/**
+ * Defines the props accepted by this component
+ *
+ * @property {string} type - The type of the button
+ * @default button
+ */
 defineProps({
   type: {
     type: String,
@@ -11,7 +22,9 @@ defineProps({
   }
 })
 
-// Handler function for the click event
+/**
+ * Handles the click event
+ */
 function clickHandler() {
   emit('click'); // Emits the click event to the parent
 }
