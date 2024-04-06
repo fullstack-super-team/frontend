@@ -98,6 +98,7 @@ const startQuiz = () => {
             Edit
           </Button>
         </RouterLink>
+        <Button class="delete-button">Delete</Button>
       </header>
       <div class="quizView-content">
         <div class="quizView-meta">
@@ -171,6 +172,7 @@ const startQuiz = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
 .quizView-statistics li {
@@ -213,6 +215,14 @@ h3, .scores-text {
 
 .quizView-meta {
   margin: 20px 0;
+}
+
+.delete-button {
+  background-color: red;
+}
+
+.delete-button:hover {
+  background-color: #ff3838;
 }
 
 @media (max-width: 768px) {
