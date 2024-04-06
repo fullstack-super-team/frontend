@@ -1,6 +1,8 @@
 <script setup>
 
-/** A button component that displays an answer text and an icon indicating if the answer is correct or incorrect. */
+/**
+ * A button component that displays an answer text and an icon indicating if the answer is correct or incorrect.
+ */
 
 /**
  * Defines the props accepted by this component.

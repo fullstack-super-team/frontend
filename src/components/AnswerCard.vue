@@ -1,10 +1,28 @@
 <script setup>
-import { ref, defineEmits, defineProps, watch } from 'vue';
+import { ref, defineEmits, defineProps } from 'vue';
 import Button from './Button.vue';
 import deleteIcon from '@/assets/delete.png'
 
+/**
+ * A component that represents an answer card.
+ * It allows the user to input an answer and mark it as correct or incorrect.
+ * The card can be deleted if the deletable prop is set to true.
+ * The card is readonly if the readonly prop is set to true.
+ */
+
+/**
+ * Emits events for deleting an answer or updating an answer.
+ */
 const emit = defineEmits(['delete-answer', 'update-answer']);
 
+/**
+ * Defines the props accepted by this component.
+ *
+ * @property {string} identifier - A unique identifier for the answer card.
+ * @property {Object} answer - The answer object containing the answer text and whether it is correct.
+ * @property {boolean} deletable - Indicates if the answer card can be deleted.
+ * @property {boolean} readonly - Indicates if the answer card is readonly.
+ */
 const props = defineProps({
   identifier: String,
   answer: {
@@ -15,12 +33,21 @@ const props = defineProps({
   readonly: Boolean
 });
 
+/**
+ * Local state for the answer card.
+ */
 const localAnswer = ref({ ...props.answer });
 
+/**
+ * Emits an update event with the current answer value.
+ */
 const emitUpdate = () => {
   emit('update-answer', localAnswer.value);
 };
 
+/**
+ * Deletes the answer card if it is deletable.
+ */
 const deleteThisCard = () => {
   if (props.deletable) {
     emit('delete-answer');
@@ -61,13 +88,13 @@ const deleteThisCard = () => {
 }
 
 .answer-card input[type="checkbox"] {
-  transform: scale(1.5); /* Adjust scale value as needed */
-  margin: 10px; /* You might need to adjust margins to align the checkbox */
-  cursor: pointer; /* To indicate it's clickable */
+  transform: scale(1.5);
+  margin: 10px;
+  cursor: pointer;
 }
 
 .answer-card-btn{
-  background-color: transparent; /* Example: red background for visibility */
+  background-color: transparent;
   border: solid;
   border-color: transparent;
   border-radius: 5px;
@@ -82,11 +109,10 @@ const deleteThisCard = () => {
 }
 
 .delete-icon {
-  width: 40px; /* Adjust the size as needed for the image */
+  width: 40px;
   height: auto;
 }
 
-/* Style for your delete button (optional) */
 button {
   background-color: #ff4d4d;
   color: white;
