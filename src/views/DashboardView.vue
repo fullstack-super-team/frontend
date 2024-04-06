@@ -43,13 +43,6 @@ mainStore.dispatch('quiz/fetchQuizzes');
   gap: 20px;
 }
 
-.quiz-card {
-  flex: 0 1 calc(33.333% - 20px);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  padding: 20px;
-  text-align: center;
-}
-
 h2 {
   margin-top: 20px;
 }
@@ -69,13 +62,6 @@ hr {
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
-  }
-
-  .quiz-card {
-    flex: 0 0 auto;
-    width: 100%;
-    padding: 10px;
-    box-shadow: none;
   }
 }
 </style>
