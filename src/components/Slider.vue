@@ -43,7 +43,6 @@ const props = defineProps({
   },
   isAnswerSelected: {
     type: Boolean,
-    required: true
   },
   isCorrect: {
     type: Boolean,

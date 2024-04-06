@@ -48,6 +48,7 @@ function updateCorrectValue(newValue) {
         :max="props.answer.max"
         :stepSize="props.answer.stepSize"
         :modelValue="props.answer.correctValue"
+        :is-correct="null"
         @update:modelValue="updateCorrectValue"
     />
 
