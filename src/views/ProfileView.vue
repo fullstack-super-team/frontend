@@ -1,24 +1,64 @@
 <script setup>
-import MainLayout from "@/layouts/MainLayout.vue";
+/**
+ * The setup component script for managing user settings within the application.
+ * It leverages Vue's Composition API to handle user state and interactions
+ * such as editing user details and logging out.
+ */
+
+ import MainLayout from "@/layouts/MainLayout.vue";
 import Input from "@/components/Input.vue";
 import Button from "@/components/Button.vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import {ref} from "vue";
 
+/**
+ * The Vuex store instance, used to access and dispatch state.
+ * @type {Store}
+ */
 const store = useStore();
+
+/**
+ * The Vue Router instance, used for navigating between routes.
+ * @type {Router}
+ */
 const router = useRouter();
 
+/**
+ * Direct reference to the user object in the Vuex store state.
+ * @type {Object}
+ */
 const user = store.state.user;
 
+/**
+ * A reactive reference to a clone of the user object,
+ * allowing for local modifications without affecting the store's state.
+ * @type {Ref<Object>}
+ */
 const userEditable = ref({ ...store.state.user});
 
+
+/**
+ * A reactive boolean flag to toggle edit mode on and off.
+ * @type {Ref<Boolean>}
+ */
 const isEditMode = ref(false);
+
+/**
+ * Toggles the edit mode state and logs the current state to the console.
+ * @function toggleEditMode
+ * @returns {void}
+ */
 const toggleEditMode = () => {
   isEditMode.value = !isEditMode.value;
   console.log("Edit mode:", isEditMode.value);
 };
 
+/**
+ * Logs the user out by dispatching the logout action and redirects to the login page.
+ * @function logout
+ * @returns {void}
+ */
 const logout = () => {
   store.dispatch("user/logout");
   router.push("/login");
