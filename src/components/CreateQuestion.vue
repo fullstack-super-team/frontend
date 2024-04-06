@@ -81,7 +81,7 @@ const changeQuestionType = (event) => {
     case QuestionType.TEXT:
       delete localQuestion.value.answer;
       localQuestion.value.answers = [{
-        identifier: `${props.identifier}-a0}`,
+        identifier: `${props.identifier}-a${Date.now()}`,
         text: '',
         isCorrect: false,
       }];
