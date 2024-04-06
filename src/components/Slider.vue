@@ -4,7 +4,7 @@ import {watchEffect} from "vue";
 
 /**
  * Defines a model component with configurable properties for range specifications.
- * This component allows specifying a minimum value, maximum value, step size, and a model value
+ * This component allows the user to select a value within a specified range using a slider.
  * that represents the current value within the range. The component is designed to emit an event
  * when there's an update to the model value.
  */
@@ -19,6 +19,8 @@ defineModel();
  * @property {number} max - The maximum value allowed. This prop is required.
  * @property {number} stepSize - The increment between each step within the range. This prop is required.
  * @property {number} modelValue - The current value of the model. This prop is required.
+ * @property {boolean} isAnswerSelected - Indicates if an answer has been selected.
+ * @property {boolean} isCorrect - Indicates if the selected answer is correct.
  */
 const props = defineProps({
   id: {
@@ -56,9 +58,11 @@ const props = defineProps({
  */
 const emit = defineEmits(['update:modelValue']);
 
+/**
+ * Watches for changes in the `isCorrect` prop and updates the slider thumb color accordingly.
+ */
 watchEffect(() => {watchEffect(() => {
   let color;
-  console.log(props.isCorrect)
   if (props.isCorrect === true) {
     color = '#78D64F';
   } else if (props.isCorrect === false) {
@@ -68,7 +72,6 @@ watchEffect(() => {watchEffect(() => {
   }
   document.documentElement.style.setProperty('--slider-thumb-color', color);
 })})
-
 </script>
 
 <template>  
