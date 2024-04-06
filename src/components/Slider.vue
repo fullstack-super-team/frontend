@@ -20,6 +20,10 @@ defineModel();
  * @property {number} modelValue - The current value of the model. This prop is required.
  */
 defineProps({
+  id: {
+    type: String,
+    required: true
+  },
   min: {
     type: Number,
     required: true
@@ -48,9 +52,9 @@ const emit = defineEmits(['update:modelValue']);
 
 <template>  
   <div class="slider">
-    <label :for="'slider-' + min">{{ min }}</label>
-    <input id="slider" :min="min" :max="max" :step="stepSize" type="range" :value="modelValue" @input="emit('update:modelValue', $event.target.value)"/>
-    <label :for="'slider-' + max">{{ max }}</label>
+    <label>{{ min }}</label>
+    <input :id="id" :min="min" :max="max" :step="stepSize" type="range" :value="modelValue" @input="emit('update:modelValue', $event.target.value)"/>
+    <label>{{ max }}</label>
   </div>
 </template>
 
