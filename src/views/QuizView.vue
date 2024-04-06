@@ -45,7 +45,7 @@ const currentUrl = useRoute();
 const quizId = currentUrl.params.id;
 
 mainStore.dispatch('quiz/fetchQuizById', quizId);
-mainStore.dispatch('quiz/fetchPersonalScores', quizId);
+//mainStore.dispatch('quiz/fetchPersonalScores', quizId);
 
 /**
  * Checks if the current user is the author of the quiz.
@@ -68,7 +68,7 @@ const recentAttempts = computed(() => {
  * @type {ComputedRef<Number>}
  */
 const totalPoints = computed(() => {
-  return mainStore.state.game.totalPoints;
+  return mainStore.state.quiz.quiz.totalPoints;
 })
 
 /**
@@ -105,15 +105,16 @@ const startQuiz = () => {
           <p><strong>Last edited: </strong>{{ formattedDate }} </p>
           <p><strong>Description: </strong>{{mainStore.state.quiz.quiz.description}}</p>
           <p><strong>Category: </strong>{{mainStore.state.quiz.quiz.category}}</p>
-          <p class="questions-count">{{ mainStore.state.quiz.quiz.questions.length }} <strong>Questions</strong></p>
+          <p class="questions-count"><strong>Questions:</strong> {{ mainStore.state.quiz.quiz.questions.length }}</p>
         </div>
         <div class="quizView-statistics">
           <h3><strong>Recent attempts</strong></h3>
-          <ul>
+          <ul v-if="recentAttempts?.length > 0">
             <li v-for="(scores, index) in recentAttempts" :key="index">
               <p class="scores-text">{{ "Score: " + scores.points }}/{{totalPoints}} - {{ formatDate(scores.date) }}</p>
             </li>
           </ul>
+          <span v-else class="no-recent-attempts">No recent attempts yet...</span>
         </div>
       </div>
       <Button class="start-quiz-button" @click="startQuiz" :disabled="!hasQuestions">Start</Button>
@@ -196,6 +197,10 @@ const startQuiz = () => {
 
 .start-quiz-button:disabled {
   opacity: 50%;
+}
+
+.no-recent-attempts {
+  color: white;
 }
 
 h3 {
