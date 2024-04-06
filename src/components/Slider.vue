@@ -1,5 +1,6 @@
 <script setup>
 import Input from "@/components/Input.vue";
+import {watchEffect} from "vue";
 
 /**
  * Defines a model component with configurable properties for range specifications.
@@ -19,7 +20,7 @@ defineModel();
  * @property {number} stepSize - The increment between each step within the range. This prop is required.
  * @property {number} modelValue - The current value of the model. This prop is required.
  */
-defineProps({
+const props = defineProps({
   min: {
     type: Number,
     required: true
@@ -35,6 +36,13 @@ defineProps({
   modelValue: {
     type: Number,
     required: true
+  },
+  isAnswerSelected: {
+    type: Boolean,
+    required: true
+  },
+  isCorrect: {
+    type: Boolean,
   }
 })
 
@@ -44,12 +52,36 @@ defineProps({
  * @event update:modelValue - Emitted when the `modelValue` prop should be updated.
  */
 const emit = defineEmits(['update:modelValue']);
+
+watchEffect(() => {watchEffect(() => {
+  let color;
+  console.log(props.isCorrect)
+  if (props.isCorrect === true) {
+    color = '#78D64F';
+  } else if (props.isCorrect === false) {
+    color = '#FF3131'
+  } else {
+    color = '#8C52FF';
+  }
+  document.documentElement.style.setProperty('--slider-thumb-color', color);
+})})
+
 </script>
 
 <template>  
   <div class="slider">
     <label :for="'slider-' + min">{{ min }}</label>
-    <input id="slider" :min="min" :max="max" :step="stepSize" type="range" :value="modelValue" @input="emit('update:modelValue', $event.target.value)"/>
+    <input id="slider"
+           :disabled="isAnswerSelected"
+           :style="{backgroundColor: isCorrect === true && isAnswerSelected ? '#78D64F' :
+                    isCorrect === false && isAnswerSelected ? '#FF3131' :
+                    '#8C52FF'}"
+           :min="min"
+           :max="max"
+           :step="stepSize"
+           type="range"
+           :value="modelValue"
+           @input="emit('update:modelValue', $event.target.value)"/>
     <label :for="'slider-' + max">{{ max }}</label>
   </div>
 </template>
@@ -80,12 +112,16 @@ const emit = defineEmits(['update:modelValue']);
   opacity: 1;
 }
 
+:root {
+  --slider-thumb-color: #8C52FF;
+}
+
 .slider input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 25px;
   height: 25px;
-  background-color: #57c42b;
+  background-color: var(--slider-thumb-color);
   border: solid;
   border-color: #0f3f6b;
   border-width: 2px;
@@ -97,7 +133,7 @@ const emit = defineEmits(['update:modelValue']);
 .slider input[type=range]::-moz-range-thumb {
   width: 25px;
   height: 25px;
-  background: #007bff;
+  background: var(--slider-thumb-color);
   cursor: pointer;
   border-radius: 20%;
   box-shadow: 0px 0px 2px #000;

@@ -62,13 +62,20 @@ const answerColors = computed(() => {
 const answersOpacity = computed(() => {
   return mainStore.state.game.currentQuestion.answers.map((answer) => {
     if (!isAnswerSelected.value) {
-      return 1; // No answer selected yet, full opacity
+      return 1;
     }
     if (answer.text === correctAnswer.value || answer.text === selectedAnswerText.value) {
       return 1;
     }
     return 0.5;
   });
+});
+
+const isCorrectSliderAnswer = computed(() => {
+  if (!isAnswerSelected.value) {
+    return null;
+  }
+  return correctAnswer.value.toString() === selectedSliderValue.value.toString()
 });
 
 const isCorrectAnswer = computed(() => {
@@ -108,29 +115,14 @@ const isCorrectAnswer = computed(() => {
     <div class="answer-slider">
       <span>{{ selectedSliderValue }}</span>
       <Slider
-        v-if="!isAnswerSelected"
         :min="mainStore.state.game.currentQuestion.answer.min"
         :max="mainStore.state.game.currentQuestion.answer.max"
         :step-size="mainStore.state.game.currentQuestion.answer.stepSize"
+        :is-correct="isCorrectSliderAnswer"
+        :is-answer-selected="isAnswerSelected"
         v-model="selectedSliderValue"
       />
       <Button class="submit-btn" @click="selectAnswer(selectedSliderValue)" v-if="!isAnswerSelected">Submit</Button>      
-    </div>
-    <div class="answer-buttons-container">
-      <AnswerButton
-          v-if="isAnswerSelected && correctAnswer.toString() !== selectedSliderValue.toString()"
-          :style="{ backgroundColor: '#FF3131'}"
-          :answer-text="selectedSliderValue.toString()"
-          :is-correct="false"
-          :is-answer-selected="isAnswerSelected"
-      />
-      <AnswerButton
-          v-if="isAnswerSelected"
-          :style="{ backgroundColor: '#78D64F'}"
-          :answer-text="correctAnswer.toString()"
-          :is-correct="true"
-          :is-answer-selected="isAnswerSelected"
-      />
     </div>
   </div>
 </template>
