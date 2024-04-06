@@ -30,7 +30,6 @@ const props = defineProps({
 })
 
 const defaultValues = {
-  identifier: `qDate.now()`,
   title: "",
   description: "",
   category: Category.GENERAL,
@@ -77,7 +76,7 @@ const addQuestion = () => {
 };
 
 function updateQuestion(updatedQuestion, identifier) {    
-  const index = quiz.questions.findIndex((question) => question.identifier === identifier);  
+  const index = quiz.questions.findIndex((question) => question.identifier === identifier);    
   quiz.questions[index] = updatedQuestion;
 }
 
