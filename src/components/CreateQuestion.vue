@@ -81,7 +81,7 @@ const changeQuestionType = (event) => {
     case QuestionType.TEXT:
       delete localQuestion.value.answer;
       localQuestion.value.answers = [{
-        identifier: `${question.identifier}-${Date.now()}`,
+        identifier: `${props.identifier}-a0}`,
         text: '',
         isCorrect: false,
       }];
@@ -180,8 +180,7 @@ const deleteQuestion = () => {
         @delete-answer="deleteAnswer(`${answer.identifier}`)"
       />
     </div>
-    <Button v-if="localQuestion.type === QuestionType.TEXT" @click="addTextAnswer" :disabled="localQuestion.answers.length >= 4">Add answer</Button>
-
+    <Button v-if="localQuestion.type === QuestionType.TEXT" @click="addTextAnswer" :disabled="localQuestion.answers?.length >= 4">Add answer</Button>
       <div v-if="localQuestion.type === QuestionType.TRUE_OR_FALSE" class="answers-container">
         <AnswerCard
         v-if="localQuestion.type === QuestionType.TRUE_OR_FALSE"
