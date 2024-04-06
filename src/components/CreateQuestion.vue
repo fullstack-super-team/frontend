@@ -153,7 +153,7 @@ const deleteQuestion = () => {
       <option v-for="(questionType) in getQuestionTypes()" :value="questionType.value">{{ questionType.label }}</option>
     </select>
 
-    <p>Points: </p>
+    <p>Points</p>
     <div class="point-buttons-box">
       <input type="radio" :id="`${identifier}:points100`" v-model="localQuestion.points" @change="emitUpdate" :value="100">
       <label :for="`${identifier}:points100`">100</label>
@@ -163,7 +163,7 @@ const deleteQuestion = () => {
       <label :for="`${identifier}:points300`">300</label>
     </div>
 
-    <TextArea :id="`${identifier}:text`" v-model="localQuestion.text" label="Question:" placeholder="Write your question here.." :charLimit="200" :startHeight="100" @update:model-value="emitUpdate" required />
+    <TextArea :id="`${identifier}:text`" v-model="localQuestion.text" label="Question" placeholder="Write your question here.." :charLimit="200" :startHeight="100" @update:model-value="emitUpdate" required />
 
     <SliderAnswer :id="`${identifier}:slider`" v-if="localQuestion.type === QuestionType.SLIDE" :answer="localQuestion.answer" />
 
@@ -290,5 +290,9 @@ button:disabled {
 
 .answer-card {
   flex-basis: calc(50% - 20px);
+}
+
+.point-buttons-box {
+  margin-bottom: 10px;
 }
 </style>

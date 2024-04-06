@@ -135,19 +135,19 @@ function emitSubmit() {
       <h1>{{ formTitle }}</h1>      
       <Button type="submit">{{ submitFormText }}</Button>
     </div>
-    <Input id="quizTitle" label="Quiz title: *" placeholder="Enter your quiz title here" v-model="quiz.title"
+    <Input id="quizTitle" label="Quiz title" placeholder="Enter your quiz title here" v-model="quiz.title"
       :class="{ 'is-invalid': formSubmitted && !quiz.title }" />
     <p v-if="formSubmitted && !quiz.title" class="validation-error">Quiz title is required.</p>    
 
     <div class="dropdownMenus">
-      <h2>Select a Category</h2>
+      <p>Select a Category</p>
       <select id="quizCategory" v-model="quiz.category">
         <option v-for="category in getCategories()" :key="category.value" :value="category.value">
           {{ category.label }}
         </option>
       </select>
 
-      <h2>Select a difficulty</h2>
+      <p>Select a difficulty</p>
       <select id="quizDifficultyLevel"v-model="quiz.difficultyLevel">
         <option v-for="difficultyLevel in getDifficultyLevels()" :key="difficultyLevel.value"
           :value="difficultyLevel.value">
@@ -192,6 +192,15 @@ function emitSubmit() {
 
 .dropdownMenus {
   margin-bottom: 20px;
+}
+
+select {
+  margin-bottom: auto;
+}
+
+p {
+  margin-top: 20px;
+  margin-bottom: -10px;
 }
 
 </style>
