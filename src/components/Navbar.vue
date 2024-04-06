@@ -40,7 +40,7 @@ async function searchForQuiz(event) {
           <img src="@/assets/QBLoginLogo.png" alt="Quiz Bear Logo" class="logo" />
         </RouterLink>
         <form @submit="searchForQuiz" style="flex-grow: 1;">
-          <input type="text" v-model="search" placeholder="Search quizzes" class="search"/>
+          <input id="search" type="text" v-model="search" placeholder="Search quizzes" class="search"/>
         </form>
         <RouterLink v-if="store.state.user.isLoggedIn" to="/create-quiz" class="nav-item">
           <img src="@/assets/addQuizz.png" alt="Add Icon" class="nav-icon"/>
@@ -67,7 +67,6 @@ nav {
   padding: 20px;
   box-sizing: border-box;
   justify-content: space-between;
-  //background-color: #0f3f6b;
   background-color: #BCDEFB;
 }
 
