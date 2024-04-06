@@ -6,6 +6,7 @@ import deleteIcon from '@/assets/delete.png'
 const emit = defineEmits(['delete-answer', 'update-answer']);
 
 const props = defineProps({
+  identifier: String,
   answer: {
     text: String,
     isCorrect: Boolean
@@ -30,13 +31,14 @@ const deleteThisCard = () => {
 <template>
   <div class="answer-card">
     <input
+        :id="`${identifier}:answer`"
         type="text"
         v-model="localAnswer.text"
         @change="emitUpdate"
         :disabled="props.readonly"
         placeholder="Enter answer here..."
     />    
-    <input type="checkbox" v-model="localAnswer.isCorrect" @change="emitUpdate" />
+    <input :id="`${identifier}:isCorrect`" type="checkbox" v-model="localAnswer.isCorrect" @change="emitUpdate" />
 
     <button v-if="props.deletable" @click="deleteThisCard" type="button" class="answer-card-btn">
       <img :src="deleteIcon" alt="Delete Answer" class="delete-icon" />

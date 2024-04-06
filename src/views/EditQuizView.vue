@@ -13,12 +13,11 @@ async function saveQuiz(quiz) {
   if (!quiz.title) {
     return;
   }
-  console.log(quiz)
-  /* await mainStore.dispatch('quiz/updateQuiz', {
+  await mainStore.dispatch('quiz/updateQuiz', {
     id: quizId,
     quiz
   });  
-  router.push(`/quiz/${mainStore.state.quiz.quiz.id}`); */
+  router.push(`/quiz/${mainStore.state.quiz.quiz.id}`);
 };
 </script>
 
