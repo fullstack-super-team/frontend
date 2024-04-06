@@ -13,7 +13,7 @@ const quizId = url.params.id;
 mainStore.dispatch('game/loadQuizById', quizId);
 
 let isAnswerSelected = ref(false);
-let correctAnswer = ref("");
+let correctAnswers = ref("");
 let selectedAnswerText = ref("");
 let selectedSliderValue = ref(null);
 
@@ -30,14 +30,14 @@ function backToQuizPage() {
 async function selectAnswer(answer) {
   console.log(answer);
   await mainStore.dispatch('game/submitAnswer', answer);
-  correctAnswer.value = mainStore.state.game.answers[currentQuestionNumber.value].correctAnswer;
+  correctAnswers.value = mainStore.state.game.answers[currentQuestionNumber.value].correctAnswers;
   selectedAnswerText.value = answer;
   isAnswerSelected.value = true;
 }
 
 async function nextQuestion() {
   isAnswerSelected.value = false;
-  correctAnswer.value = "";
+  correctAnswers.value = "";
   if (currentQuestionNumber.value === mainStore.state.game.quiz.questions.length - 1) {
     await mainStore.dispatch('game/finishQuiz');
     await router.push(`/quiz/${quizId}/high-score`);
@@ -55,7 +55,7 @@ const answerColors = computed(() => {
     } else if (!isAnswerSelected.value) {
       return cardColorOptions[index] || '';
     }
-    return answer.text === correctAnswer.value ? '#78D64F' : '#FF3131';
+    return correctAnswers.value.includes(answer.text) ? '#78D64F' : '#FF3131';
   });
 });
 
@@ -64,7 +64,7 @@ const answersOpacity = computed(() => {
     if (!isAnswerSelected.value) {
       return 1;
     }
-    if (answer.text === correctAnswer.value || answer.text === selectedAnswerText.value) {
+    if (answer.text === correctAnswers.value || answer.text === selectedAnswerText.value) {
       return 1;
     }
     return 0.5;
@@ -75,7 +75,7 @@ const isCorrectSliderAnswer = computed(() => {
   if (!isAnswerSelected.value) {
     return null;
   }
-  return correctAnswer.value.toString() === selectedSliderValue.value.toString()
+  return correctAnswers.value.toString() === selectedSliderValue.value.toString()
 });
 
 const isCorrectAnswer = computed(() => {
@@ -83,7 +83,10 @@ const isCorrectAnswer = computed(() => {
     if (!isAnswerSelected.value) {
       return null;
     }
-    return answer.text === correctAnswer.value;
+    if (questionType.value === QuestionType.TEXT) {
+      return correctAnswers.value.includes(answer.text);
+    }
+    return answer.text === correctAnswers.value;
   });
 });
 
@@ -101,8 +104,8 @@ const sliderValueIsSelected = computed(() => {
   <p class="current-question-number"> {{ questionCountInfo }}</p>
   <p class="current-question-number">Score: {{ score }}</p>
   <img src="https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg?s=1024x1024&w=is&k=20&c=qNeCdQEGR07rW2FnwvIuuMaVmy0HkHPxdpYeJxLi3UE%3D" alt="Question Image" class="question-image"/>
-  <p v-if="isAnswerSelected && correctAnswer.toString() === selectedAnswerText.toString()" >Correct Answer!</p>
-  <p v-if="isAnswerSelected && correctAnswer.toString() !== selectedAnswerText.toString()">Incorrect Answer</p>
+  <p v-if="isAnswerSelected && correctAnswers.toString() === selectedAnswerText.toString()" >Correct Answer!</p>
+  <p v-if="isAnswerSelected && correctAnswers.toString() !== selectedAnswerText.toString()">Incorrect Answer</p>
 
   <div class="answer-btn" v-if="questionType==='TEXT' || questionType==='TRUE_OR_FALSE'">
     <AnswerButton v-for="(answer, index) in mainStore.state.game.currentQuestion.answers"
