@@ -1,7 +1,26 @@
 <script setup>
 import { computed } from 'vue';
+
+/**
+ * A component which displays a text area with a character limit and a character countdown.
+ */
+
+/**
+ * Defines the model for the component.
+ */
 defineModel();
 
+/**
+ * Defines the props accepted by this component.
+ *
+ * @property {string} id - The unique identifier for the text area.
+ * @property {string} label - The label for the text area.
+ * @property {string} placeholder - The placeholder text for the text area.
+ * @property {string} modelValue - The model value for the text area.
+ * @property {number} charLimit - The character limit for the text area.
+ * @property {number} startHeight - The starting height of the text area.
+ * @property {boolean} required - Whether the text area is required.
+ */
 const props = defineProps({
   id: String,
   label: String,
@@ -15,12 +34,23 @@ const props = defineProps({
   required: Boolean
 });
 
+/**
+ * Emits the update:modelValue event when the text area value changes.
+ */
 const emit = defineEmits(['update:modelValue']);
 
+/**
+ * Computes the number of remaining characters based on the character limit and current value.
+ */
 const remainingChars = computed(() => {
   return props.charLimit - (props.modelValue?.length || 0);
 });
 
+/**
+ * Updates the model value based on the input event.
+ *
+ * @param {Event} event - The input event.
+ */
 const updateValue = (event) => {
   const { value } = event.target;
   if (!props.charLimit || value.length <= props.charLimit) {
@@ -54,9 +84,6 @@ const updateValue = (event) => {
   </div>
 </template>
 
-
-
-
 <style scoped>
 .textArea-wrapper {
   display: flex;
@@ -70,7 +97,7 @@ const updateValue = (event) => {
 .textarea {
   width: 100%;
   padding: 10px;
-  padding-bottom: 30px; /* Increase padding to make room for the countdown */
+  padding-bottom: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
   resize: vertical;
@@ -83,8 +110,8 @@ const updateValue = (event) => {
   right: 10px;
   color: #666;
   font-size: 0.9em;
-  pointer-events: none; /* Allows the text in the textarea to be selected as if the countdown isn't there */
-  display: block; /* Ensure it's always displayed */
+  pointer-events: none;
+  display: block;
 }
 
 .is-empty {
