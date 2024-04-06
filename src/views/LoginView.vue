@@ -1,48 +1,45 @@
 <script setup>
-import { reactive } from 'vue'
-import axios from "axios";
+/**
+ * Script setup for the login view component.
+ * This script composes the login form's reactive state, handles the login process,
+ * and navigates the user upon successful authentication.
+ */
+import { ref, reactive } from 'vue';
 import Input from "@/components/Input.vue";
 import store from '@/stores/mainStore';
 import Button from "@/components/Button.vue";
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
+/**
+ * The reactive state for the login form containing the user's credentials.
+ * @type {Object}
+ */
 const formValues = reactive({
   email: "",
   password: "",
 });
 
-const errorMessages = reactive({
-  email: null,
-  password: null,
-});
+/**
+ * A ref to hold any error messages that may arise during form submission.
+ * @type {Ref<null|string>}
+ */
+const submitError = ref(null);
 
-const validateForm = () => {
-  errorMessages.email = !formValues.email ? "Email is required" :
-      !validateEmail(formValues.email) ? "Please enter a valid email address: example@domain.com" : null;
-
-  errorMessages.password = !formValues.password ? "Password is required" :
-      formValues.password.length < 8 ? "Password must be at least 8 characters" : null;
-
-  return !errorMessages.email && !errorMessages.password;
-}
-
-function validateEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
+/**
+ * Handle the form submission and perform user login.
+ * Dispatches a login action to the store, checks for errors, and navigates
+ * to the root route on successful login.
+ */
 async function login() {
-  if (!validateForm()) {
+  submitError.value = null;
+  const error = await store.dispatch("user/login", formValues);
+  if (error) {
+    console.error(error);
+    submitError.value = error;
     return;
   }
-  try {
-    const response = await axios.post("http://localhost:8080/auth/login", formValues);
-    const { token } = response.data        
-    await store.dispatch("user/login", token);
-    router.push("/")
-  } catch (error) {
-    console.error(error);
-  }
+  router.push("/")
 }
 </script>
 
@@ -51,9 +48,10 @@ async function login() {
     <img src="@/assets/QBLoginLogo.png" alt="Quizzebassen logo" class="logo">
     <h1>Login</h1>
     <form @submit.prevent="login">
-      <Input label="Email" placeholder="Email" v-model="formValues.email" :error-message="errorMessages.email"/>
-      <Input label="Password" placeholder="Password" v-model="formValues.password" type="password" :error-message="errorMessages.password"/>
+      <Input label="Email" placeholder="Email" v-model="formValues.email"/>
+      <Input label="Password" placeholder="Password" v-model="formValues.password" type="password"/>
       <Button type="submit">Login</Button>
+      <span v-if="submitError" style="color:red;">{{ submitError }}</span>
     </form>
     <p>Not already a user? <router-link to="/register"> Register here</router-link></p>
   </main>
@@ -88,10 +86,16 @@ button {
   margin-top: 3rem;
 }
 
+span {
+  color: red;
+  margin-top: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+}
+
 @media (max-width: 768px) {
   main {
     padding: 1rem;
   }
 }
-
 </style>
