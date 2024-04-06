@@ -13,7 +13,7 @@ const quizId = url.params.id;
 mainStore.dispatch('game/loadQuizById', quizId);
 
 let isAnswerSelected = ref(false);
-let correctAnswer = ref("");
+let correctAnswers = ref("");
 let selectedAnswerText = ref("");
 let selectedSliderValue = ref(null);
 
@@ -30,14 +30,14 @@ function backToQuizPage() {
 async function selectAnswer(answer) {
   console.log(answer);
   await mainStore.dispatch('game/submitAnswer', answer);
-  correctAnswer.value = mainStore.state.game.answers[currentQuestionNumber.value].correctAnswer;
+  correctAnswers.value = mainStore.state.game.answers[currentQuestionNumber.value].correctAnswers;
   selectedAnswerText.value = answer;
   isAnswerSelected.value = true;
 }
 
 async function nextQuestion() {
   isAnswerSelected.value = false;
-  correctAnswer.value = "";
+  correctAnswers.value = "";
   if (currentQuestionNumber.value === mainStore.state.game.quiz.questions.length - 1) {
     await mainStore.dispatch('game/finishQuiz');
     await router.push(`/quiz/${quizId}/high-score`);
@@ -55,7 +55,7 @@ const answerColors = computed(() => {
     } else if (!isAnswerSelected.value) {
       return cardColorOptions[index] || '';
     }
-    return answer.text === correctAnswer.value ? '#78D64F' : '#FF3131';
+    return correctAnswers.value.includes(answer.text) ? '#78D64F' : '#FF3131';
   });
 });
 
@@ -64,7 +64,8 @@ const answersOpacity = computed(() => {
     if (!isAnswerSelected.value) {
       return 1;
     }
-    if (answer.text === correctAnswer.value || answer.text === selectedAnswerText.value) {
+
+    if (answer.text === correctAnswers.value || answer.text === selectedAnswerText.value) {
       return 1;
     }
     return 0.5;
@@ -75,7 +76,7 @@ const isCorrectSliderAnswer = computed(() => {
   if (!isAnswerSelected.value) {
     return null;
   }
-  return correctAnswer.value.toString() === selectedSliderValue.value.toString()
+  return correctAnswers.value.toString() === selectedSliderValue.value.toString()
 });
 
 const isCorrectAnswer = computed(() => {
@@ -83,7 +84,10 @@ const isCorrectAnswer = computed(() => {
     if (!isAnswerSelected.value) {
       return null;
     }
-    return answer.text === correctAnswer.value;
+    if (questionType.value === QuestionType.TEXT) {
+      return correctAnswers.value.includes(answer.text);
+    }
+    return answer.text === correctAnswers.value;
   });
 });
 
@@ -95,15 +99,15 @@ const sliderValueIsSelected = computed(() => {
 <template>
   <div class="finish-btn">
     <Button class="quit-btn" @click="backToQuizPage">Quit</Button>
+    <h2 class="question-text">{{ currentQuestionText }}</h2>
     <Button class="next-btn" @click="nextQuestion" :disabled="!isAnswerSelected" v-bind:style="{opacity: isAnswerSelected ? 1 : 0.5, cursor: isAnswerSelected ? 'pointer' : 'default'}">Next</Button>
   </div>
-  <h2 class="question-text">{{ currentQuestionText }}</h2>
-  <p class="current-question-number"> {{ questionCountInfo }}</p>
-  <p class="current-question-number">Score: {{ score }}</p>
-  <img src="https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg?s=1024x1024&w=is&k=20&c=qNeCdQEGR07rW2FnwvIuuMaVmy0HkHPxdpYeJxLi3UE%3D" alt="Question Image" class="question-image"/>
-  <p v-if="isAnswerSelected && correctAnswer.toString() === selectedAnswerText.toString()" >Correct Answer!</p>
+    <p class="current-question-number"> {{ questionCountInfo }}</p>
+    <p class="current-question-number">Score: {{ score }}</p>
+  <div class="answer-feedback">
+  <p v-if="isAnswerSelected && correctAnswer.toString() === selectedAnswerText.toString()">Correct Answer!</p>
   <p v-if="isAnswerSelected && correctAnswer.toString() !== selectedAnswerText.toString()">Incorrect Answer</p>
-
+  </div>
   <div class="answer-btn" v-if="questionType==='TEXT' || questionType==='TRUE_OR_FALSE'">
     <AnswerButton v-for="(answer, index) in mainStore.state.game.currentQuestion.answers"
                   v-bind:style="{ backgroundColor: answerColors[index], opacity: answersOpacity[index] }"
@@ -117,7 +121,7 @@ const sliderValueIsSelected = computed(() => {
   </div>
   <div v-if="questionType===QuestionType.SLIDE">
     <div class="answer-slider">
-      <span>{{ selectedSliderValue }}</span>
+      <p class="current-slider-answer">Current answer: {{ selectedSliderValue }}</p>
       <Slider
           id="slider"
         :min="mainStore.state.game.currentQuestion.answer.min"
@@ -131,60 +135,71 @@ const sliderValueIsSelected = computed(() => {
     </div>
   </div>
 </template>
+
 <style scoped>
-
-.question-image {
-  max-width: 500px;
-  margin: 20px auto;
-  display: block;
-}
-
 .finish-btn {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
 }
 
 .next-btn,
 .quit-btn {
-  margin: 20px auto;
+  margin: 20px;
   display: block;
 
 }
 
 .question-text {
+  margin-top: 20px;
   font-size: 24px;
   color: #333;
   text-align: center;
+  flex-grow: 1;
 }
+
 .submit-btn {
   margin: 20px auto;
   display: block;
 }
 
 .answer-btn {
-  padding-top: 20px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two columns with 50% width each */
-  justify-content: space-around; /* Spreads the cards evenly with space around them */
-  gap: 5px; /* Provides space between cards */
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-around;
+  padding: 20px;
+  gap: 16px;
+}
+
+.answer-slider {
+  text-align: center;
 }
 
 .current-question-number {
   font-size: 18px;
-  color: #666;
+  color: #0f3f6b;
   text-align: right;
+  padding-right: 4rem;
 }
 
-.answer-buttons-container {
-  display: flex;
-  justify-content: center; /* Centers the buttons horizontally */
-  gap: 10px; /* Adjusts the space between the buttons */
-}
+.answer-feedback {
+  text-align: center;
+  font-size: 40px;
+  min-height: 50px;
+  margin-top: 50px;
+  }
+
 @media (max-width: 768px) {
   .answer-btn {
     grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 10px;
+  }
+
+  .finish-btn {
+  }
+
+  .current-question-number {
+    padding-right: 20px;
   }
 }
-
 </style>

@@ -61,6 +61,27 @@ const userModule = {
         return error?.response?.data?.message || error.message || "Something went wrong";
       }
     },
+    async updateUser({ commit }, payload) {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.put("http://localhost:8080/users/me", payload, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        commit("setUserInfo", { ...response.data, token: token, isLoggedIn: true });
+        return {
+          text: "User updated successfully!"
+        }
+      } catch (error) {
+        console.error('Failed to update user:', error);
+        commit("setError", error);
+        return {          
+          text: error?.response?.data?.message || error.message || "Something went wrong",
+          error: true
+        };
+      }
+    },
     async logout({ commit }) {
       localStorage.removeItem("token");
       console.log("Logged out")

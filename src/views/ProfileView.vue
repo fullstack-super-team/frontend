@@ -25,17 +25,17 @@ const store = useStore();
 const router = useRouter();
 
 /**
- * Direct reference to the user object in the Vuex store state.
- * @type {Object}
- */
-const user = store.state.user;
-
-/**
  * A reactive reference to a clone of the user object,
  * allowing for local modifications without affecting the store's state.
  * @type {Ref<Object>}
  */
 const userEditable = ref({ ...store.state.user});
+
+/**
+ * A reactive reference to the response of the user update submission.
+ * @type {Ref<Object|null>}
+ */
+const submitResponse = ref(null);
 
 
 /**
@@ -50,8 +50,17 @@ const isEditMode = ref(false);
  * @returns {void}
  */
 const toggleEditMode = () => {
-  isEditMode.value = !isEditMode.value;
-  console.log("Edit mode:", isEditMode.value);
+  isEditMode.value = true;
+};
+
+/**
+ * Saves the user details by dispatching the update user action.
+ * @function saveUser
+ * @returns {void}
+ */
+async function saveUser() {
+  submitResponse.value = await store.dispatch("user/updateUser", userEditable.value);  
+  isEditMode.value = false;
 };
 
 /**
@@ -67,12 +76,15 @@ const logout = () => {
 
 <template>
   <MainLayout>
-    <div class="profile">
+    <form class="profile" @submit.prevent="saveUser">
       <div class="profile-header">
         <h1>My profile</h1>
         <div class="editLogoutButtons">
-          <Button class="edit" @click="toggleEditMode">
-            {{ isEditMode ? 'Save' : 'Edit' }}
+          <Button v-if="isEditMode" class="edit" type="submit">
+            Save
+          </Button>
+          <Button v-else  class="edit" @click="toggleEditMode">
+            Edit
           </Button>
           <Button class="logout" @click="logout">Logout</Button>
         </div>
@@ -88,7 +100,8 @@ const logout = () => {
         <Input label="Email" :placeholder="userEditable.email" v-model="userEditable.email"
                :disabled="!isEditMode" :class="{ editable: isEditMode }"/>
       </div>
-    </div>
+      <span v-if="submitResponse" :style="submitResponse.error ? 'color: red;' : 'color: green;'">{{ submitResponse.text }}</span>
+    </form>
   </MainLayout>
 </template>
 
