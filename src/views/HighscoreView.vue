@@ -32,7 +32,7 @@ function backToQuizPage() {
     <div class="high-score">
       <h2>HIGH SCORE</h2>
       <ul>
-        <li v-for="score in highScores.slice(0,10)" :key="score.id">{{ score.user.username }}: {{ score.points }} points</li>
+        <li v-for="score in highScores.slice(0,10)" :key="score.id">{{ score.user.username }} - {{score.points}}/{{ mainStore.state.game.totalPoints}}</li>
       </ul>
     </div>
   </div>
