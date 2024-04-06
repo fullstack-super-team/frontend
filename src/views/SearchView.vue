@@ -3,7 +3,7 @@ import MainLayout from '@/layouts/MainLayout.vue';
 import { useRoute } from 'vue-router';
 import mainStore from "@/stores/mainStore";
 import QuizCard from '@/components/QuizCard.vue';
-import { watch } from 'vue';
+import {computed, reactive, watch} from 'vue';
 import { Category, getCategories } from "@/utils/category.js";
 import { DifficultyLevel, getDifficultyLevels } from "@/utils/difficultyLevel.js";
 
@@ -23,10 +23,10 @@ const { title } = route.query;
  * Quiz Reactive State
  * @description Defines the reactive state for the quiz object with default category and difficulty level.
  */
-const quiz = {
+const quiz = reactive({
   category: "",
   difficultyLevel: "",
-};
+});
 
 /**
  * Watcher on Route Query Title
@@ -41,6 +41,22 @@ watch(() => route.query.title, (title) => {
  * @description Dispatches an initial search for a quiz based on the title derived from the route query.
  */
 mainStore.dispatch('quiz/searchForQuiz', title);
+
+const searchedQuizzes = computed(() => {
+  let quizzes = mainStore.state.quiz.searchedQuizzes;
+  if (quiz.category) {
+    quizzes = quizzes.filter(searchedQuiz =>
+        Category[searchedQuiz.category] === quiz.category
+    );
+  }
+  if (quiz.difficultyLevel) {
+    quizzes = quizzes.filter(searchedQuiz =>
+        DifficultyLevel[searchedQuiz.difficultyLevel] === quiz.difficultyLevel
+    );
+  }
+  return quizzes;
+});
+
 
 </script>
 
@@ -57,12 +73,11 @@ mainStore.dispatch('quiz/searchForQuiz', title);
           </option>
         </select>
       </div>
-
       <div class="dropdown-difficulty">
-
-        <select v-model="quiz.difficultyLevel" class="dropdown">
+        <select v-model="quiz.difficultyLevel" class="dropdown" @change="">
           <option value="" selected>Select difficulty</option>
-          <option v-for="difficultyLevel in getDifficultyLevels()" :key="difficultyLevel.value"
+          <option v-for="difficultyLevel in getDifficultyLevels()"
+                  :key="difficultyLevel.value"
                   :value="difficultyLevel.value">
             {{ difficultyLevel.label }}
           </option>
@@ -70,9 +85,9 @@ mainStore.dispatch('quiz/searchForQuiz', title);
       </div>
     </div>
     <div class="quizCardContainer">
-      <QuizCard v-for="quiz in mainStore.state.quiz.searchedQuizzes" :key="quiz.id" :quiz="quiz" />
+      <QuizCard v-for="quiz in searchedQuizzes" :key="quiz.id" :quiz="quiz" />
     </div>
-    <div v-if="mainStore.state.quiz.searchedQuizzes.length === 0">
+    <div v-if="searchedQuizzes.length === 0">
       <span class="Message">No Quizzes found...</span>
     </div>
   </MainLayout>
@@ -99,6 +114,7 @@ mainStore.dispatch('quiz/searchForQuiz', title);
   color: red;
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
+  font-size: 25px;
 }
 
 .dropdown .default-option {
