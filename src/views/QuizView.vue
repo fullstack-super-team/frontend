@@ -85,7 +85,7 @@ const startQuiz = () => {
     <div class="quizView-container" v-if="quiz">
       <header class="quizView-header">
         <h1 class="quizView-title">{{mainStore.state.quiz.quiz.title}}</h1>
-        <RouterLink v-if="isAuthor" :to="'/quiz/${quizId}/edit'" custom v-slot="{ navigate }">
+        <RouterLink v-if="isAuthor" :to="`/quiz/${quizId}/edit`" custom v-slot="{ navigate }">
           <Button type="button" @click="navigate">
             Edit
           </Button>
