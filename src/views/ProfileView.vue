@@ -4,11 +4,20 @@ import Input from "@/components/Input.vue";
 import Button from "@/components/Button.vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import {ref} from "vue";
 
 const store = useStore();
 const router = useRouter();
 
 const user = store.state.user;
+
+const userEditable = ref({ ...store.state.user});
+
+const isEditMode = ref(false);
+const toggleEditMode = () => {
+  isEditMode.value = !isEditMode.value;
+  console.log("Edit mode:", isEditMode.value);
+};
 
 const logout = () => {
   store.dispatch("user/logout");
@@ -21,13 +30,23 @@ const logout = () => {
     <div class="profile">
       <div class="profile-header">
         <h1>My profile</h1>
-        <Button class="logout" @click="logout">Logout</Button>
+        <div class="editLogoutButtons">
+          <Button class="edit" @click="toggleEditMode">
+            {{ isEditMode ? 'Save' : 'Edit' }}
+          </Button>
+          <Button class="logout" @click="logout">Logout</Button>
+        </div>
+
       </div>
       <div class="profile-input">
-        <Input label="First name" :placeholder="user.firstName" :model-value="user.firstName" :disabled="true"/>
-        <Input label="Last name" :placeholder="user.lastName" :model-value="user.lastName" :disabled="true"/>
-        <Input label="Username" :placeholder="user.username" :model-value="user.username" :disabled="true"/>
-        <Input label="Email" :placeholder="user.email" :model-value="user.email" :disabled="true"/>
+        <Input label="First name" :placeholder="userEditable.firstName" v-model="userEditable.firstName"
+               :disabled="!isEditMode" :class="{ editable: isEditMode }"/>
+        <Input label="Last name" :placeholder="userEditable.lastName" v-model="userEditable.lastName"
+               :disabled="!isEditMode" :class="{ editable: isEditMode }"/>
+        <Input label="Username" :placeholder="userEditable.username" v-model="userEditable.username"
+               :disabled="!isEditMode" :class="{ editable: isEditMode }"/>
+        <Input label="Email" :placeholder="userEditable.email" v-model="userEditable.email"
+               :disabled="!isEditMode" :class="{ editable: isEditMode }"/>
       </div>
     </div>
   </MainLayout>
@@ -53,6 +72,13 @@ const logout = () => {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+
+
+.edit {
+  padding: 10px;
+  margin: 10px;
 }
 
 .logout {
