@@ -95,9 +95,9 @@ const sliderValueIsSelected = computed(() => {
 <template>
   <div class="finish-btn">
     <Button class="quit-btn" @click="backToQuizPage">Quit</Button>
+    <h2 class="question-text">{{ currentQuestionText }}</h2>
     <Button class="next-btn" @click="nextQuestion" :disabled="!isAnswerSelected" v-bind:style="{opacity: isAnswerSelected ? 1 : 0.5, cursor: isAnswerSelected ? 'pointer' : 'default'}">Next</Button>
   </div>
-  <h2 class="question-text">{{ currentQuestionText }}</h2>
   <p class="current-question-number"> {{ questionCountInfo }}</p>
   <p class="current-question-number">Score: {{ score }}</p>
   <img src="https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg?s=1024x1024&w=is&k=20&c=qNeCdQEGR07rW2FnwvIuuMaVmy0HkHPxdpYeJxLi3UE%3D" alt="Question Image" class="question-image"/>
@@ -142,20 +142,21 @@ const sliderValueIsSelected = computed(() => {
 .finish-btn {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
 }
 
 .next-btn,
 .quit-btn {
-  margin: 20px auto;
+  margin: 20px;
   display: block;
 
 }
 
 .question-text {
+  margin-top: 20px;
   font-size: 24px;
   color: #333;
   text-align: center;
+  flex-grow: 1;
 }
 .submit-btn {
   margin: 20px auto;
