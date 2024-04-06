@@ -1,5 +1,24 @@
 <script setup>
+/**
+ * A simple input component that allows users to input text.
+ */
+
+/**
+ * Defines the model
+ */
 const model = defineModel();
+
+/**
+ * Defines the props accepted by this component.
+ *
+ * @property {string} id - The unique identifier for the input element.
+ * @property {string} label - The label for the input element.
+ * @property {string} placeholder - The placeholder text for the input element.
+ * @property {string} modelValue - The model value for the input element.
+ * @property {string} type - The type of the input element.
+ * @property {string} errorMessage - The error message to display.
+ * @property {boolean} disabled - Whether the input element is disabled.
+ */
 defineProps({
   id: String,
   label: String,
@@ -10,6 +29,9 @@ defineProps({
   disabled: Boolean
 });
 
+/**
+ * Emits the update:modelValue event when the input value changes.
+ */
 const emit = defineEmits(["update:modelValue"]);
 </script>
 
