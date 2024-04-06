@@ -1,4 +1,9 @@
 <script setup>
+/**
+ * Script setup for the Quiz Detail View.
+ * Handles state initialization, data fetching on mount, and defines computed properties for the quiz details.
+ * Also provides methods for navigation like starting a quiz.
+ */
 import { computed} from "vue";
 import { onMounted, ref } from "vue";
 import Button from "@/components/Button.vue";
@@ -8,7 +13,10 @@ import router from "@/router/index.js";
 import { useRoute } from "vue-router";
 import { formatDate} from "@/utils/dateFormatter.js";
 
-
+/**
+ * The quiz object that will be filled with the quiz data once it's fetched.
+ * @type {Ref<Object|null>}
+ */
 const quiz = ref(null);
 
 onMounted(async () => {
@@ -16,33 +24,60 @@ onMounted(async () => {
   quiz.value = mainStore.state.quiz.quiz;
 });
 
+/**
+ * Retrieves the current route details.
+ * @type {RouteLocationNormalizedLoaded}
+ */
 const currentUrl = useRoute();
 
+/**
+ * Unique identifier of the quiz extracted from the current route.
+ * @type {string}
+ */
 const quizId = currentUrl.params.id;
 
 mainStore.dispatch('quiz/fetchQuizById', quizId);
 mainStore.dispatch('quiz/fetchPersonalScores', quizId);
 
+/**
+ * Checks if the current user is the author of the quiz.
+ * @type {ComputedRef<Boolean>}
+ */
 const isAuthor = computed(() => {
   return mainStore.state.quiz.quiz.author.id === mainStore.state.user.id;
 });
 
+/**
+ * Get the most recent attempts at the quiz by the user.
+ * @type {ComputedRef<Array>}
+ */
 const recentAttempts = computed(() => {
   return mainStore.state.quiz.quiz.personalScores;
 });
 
+/**
+ * Returns the total points available in the quiz game.
+ * @type {ComputedRef<Number>}
+ */
 const totalPoints = computed(() => {
   return mainStore.state.game.totalPoints;
 })
+
+/**
+ * Formats the last updated timestamp of the quiz.
+ * @type {ComputedRef<String>}
+ */
 const formattedDate = computed(() => {
   return formatDate(mainStore.state.quiz.quiz.updatedAt);
 });
 
+/**
+ * Method to start the quiz, navigating the user to the quiz playing route.
+ */
 const startQuiz = () => {
   router.push(`/quiz/${mainStore.state.quiz.quiz.id}/play`);
   console.log('Starting quiz');
 }
-
 </script>
 
 <template>
@@ -50,8 +85,10 @@ const startQuiz = () => {
     <div class="quizView-container" v-if="quiz">
       <header class="quizView-header">
         <h1 class="quizView-title">{{mainStore.state.quiz.quiz.title}}</h1>
-        <RouterLink :to="`/quiz/${quizId}/edit`">
-          Edit
+        <RouterLink v-if="isAuthor" :to="'/quiz/${quizId}/edit'" custom v-slot="{ navigate }">
+          <Button type="button" @click="navigate">
+            Edit
+          </Button>
         </RouterLink>
       </header>
       <div class="quizView-content">
@@ -158,7 +195,7 @@ h3, .scores-text {
 }
 
 .quizView-meta {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 @media (max-width: 768px) {
