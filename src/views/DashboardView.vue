@@ -41,6 +41,7 @@ mainStore.dispatch('quiz/fetchQuizzes');
   flex-wrap: wrap;
   justify-content: space-around;
   gap: 20px;
+  justify-content: flex-start;
 }
 
 h2 {
