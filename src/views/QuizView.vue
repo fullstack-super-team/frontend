@@ -86,8 +86,23 @@ const startQuiz = () => {
   console.log('Starting quiz');
 }
 
+/**
+ * Method to delete the quiz.
+ */
 const deleteQuiz = () => {
-  mainStore.dispatch('quiz/deleteQuiz', quizId);
+  if (window.confirm('Are you sure you want to delete this quiz?')) {
+    mainStore.dispatch('quiz/deleteQuiz', quizId)
+        .then(() => {
+          console.log('Quiz was successfully deleted');
+          router.push('/');
+        })
+        .catch((error) => {
+          console.error('Error deleting quiz', error);
+        });
+  } else {
+    console.log('Quiz deletion was cancelled');
+  }
+
 }
 </script>
 
