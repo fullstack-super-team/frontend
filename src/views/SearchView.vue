@@ -7,17 +7,39 @@ import { watch } from 'vue';
 import { Category, getCategories } from "@/utils/category.js";
 import { DifficultyLevel, getDifficultyLevels } from "@/utils/difficultyLevel.js";
 
+/**
+ * Route Reactive Reference
+ * @description Creates a reactive reference to the current route using the useRoute hook.
+ */
 const route = useRoute();
+
+/**
+ * Title Extracted from Route Query
+ * @description Extracts the title from the route query parameters for use in component logic.
+ */
 const { title } = route.query;
 
+/**
+ * Quiz Reactive State
+ * @description Defines the reactive state for the quiz object with default category and difficulty level.
+ */
 const quiz = {
-  category: Category.GENERAL,
-  difficultyLevel: DifficultyLevel.EASY,
+  category: "",
+  difficultyLevel: "",
 };
 
+/**
+ * Watcher on Route Query Title
+ * @description Sets up a watcher on the route query's title to dispatch a search action in the mainStore whenever it changes.
+ */
 watch(() => route.query.title, (title) => {
   mainStore.dispatch('quiz/searchForQuiz', title);
 });
+
+/**
+ * Initial Dispatch for Quiz Search
+ * @description Dispatches an initial search for a quiz based on the title derived from the route query.
+ */
 mainStore.dispatch('quiz/searchForQuiz', title);
 
 </script>
@@ -28,8 +50,8 @@ mainStore.dispatch('quiz/searchForQuiz', title);
     <div class="dropdownMenus">
       <h3>Filter:</h3>
       <div class="dropdown-category">
-        <h3 class="label"> Category</h3>
         <select v-model="quiz.category" class="dropdown">
+          <option value="" selected>Select a category</option>
           <option v-for="category in getCategories()" :key="category.value" :value="category.value">
             {{ category.label }}
           </option>
@@ -37,8 +59,9 @@ mainStore.dispatch('quiz/searchForQuiz', title);
       </div>
 
       <div class="dropdown-difficulty">
-        <h3 class="label">Difficulty</h3>
+
         <select v-model="quiz.difficultyLevel" class="dropdown">
+          <option value="" selected>Select difficulty</option>
           <option v-for="difficultyLevel in getDifficultyLevels()" :key="difficultyLevel.value"
                   :value="difficultyLevel.value">
             {{ difficultyLevel.label }}
@@ -76,6 +99,10 @@ mainStore.dispatch('quiz/searchForQuiz', title);
   color: red;
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
+}
+
+.dropdown .default-option {
+  color: grey;
 }
 
 @media (max-width: 768px) {
