@@ -1,7 +1,24 @@
 <script setup>
 import Input from "@/components/Input.vue";
 
+/**
+ * Defines a model component with configurable properties for range specifications.
+ * This component allows specifying a minimum value, maximum value, step size, and a model value
+ * that represents the current value within the range. The component is designed to emit an event
+ * when there's an update to the model value.
+ */
+
+// Define the model's properties with specific type and requirement constraints.
 defineModel();
+
+/**
+ * Defines the props accepted by this component.
+ *
+ * @property {number} min - The minimum value allowed. This prop is required.
+ * @property {number} max - The maximum value allowed. This prop is required.
+ * @property {number} stepSize - The increment between each step within the range. This prop is required.
+ * @property {number} modelValue - The current value of the model. This prop is required.
+ */
 defineProps({
   min: {
     type: Number,
@@ -20,6 +37,12 @@ defineProps({
     required: true
   }
 })
+
+/**
+ * Defines the events that this component can emit.
+ *
+ * @event update:modelValue - Emitted when the `modelValue` prop should be updated.
+ */
 const emit = defineEmits(['update:modelValue']);
 </script>
 
