@@ -1,5 +1,15 @@
 <script setup>
 
+/** A button component that displays an answer text and an icon indicating if the answer is correct or incorrect. */
+
+/**
+ * Defines the props accepted by this component.
+ *
+ * @property {string} answerText - The text of the answer.
+ * @property {boolean} isCorrect - Indicates if the answer is correct.
+ * @property {boolean} isAnswerSelected - Indicates if the answer has been selected.
+ * @property {boolean} isTrueOrFalseQuestion - Indicates if the question is a true or false question.
+ */
 defineProps({
   answerText: {
     type: String,
@@ -11,7 +21,6 @@ defineProps({
 })
 
 </script>
-
 <template>
   <button class="answer-card">
     {{ answerText }}
@@ -45,8 +54,8 @@ defineProps({
 }
 
 .icon {
-  height: 100px; /* Adjusts the width of the icon */
-  width: auto; /* Keeps the aspect ratio of the icon */
-  justify-self: end; /* Aligns the icon to the end of the grid column */
+  height: 100px;
+  width: auto;
+  justify-self: end;
 }
 </style>
