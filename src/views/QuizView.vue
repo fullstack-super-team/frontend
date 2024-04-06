@@ -11,7 +11,7 @@ import mainStore from "@/stores/mainStore.js";
 import MainLayout from "@/layouts/MainLayout.vue";
 import router from "@/router/index.js";
 import { useRoute } from "vue-router";
-import { formatDate} from "@/utils/dateFormatter.js";
+import { formatDate, formatDateWithTime} from "@/utils/dateFormatter.js";
 
 /**
  * The quiz object that will be filled with the quiz data once it's fetched.
@@ -111,7 +111,7 @@ const startQuiz = () => {
           <h3><strong>Recent attempts</strong></h3>
           <ul v-if="recentAttempts?.length > 0">
             <li v-for="(scores, index) in recentAttempts" :key="index">
-              <p class="scores-text">{{ "Score: " + scores.points }}/{{totalPoints}} - {{ formatDate(scores.date) }}</p>
+              <p class="scores-text">{{ "Score: " + scores.points }}/{{totalPoints}} - {{ formatDateWithTime(scores.date) }}</p>
             </li>
           </ul>
           <span v-else class="no-recent-attempts">No recent attempts yet...</span>
