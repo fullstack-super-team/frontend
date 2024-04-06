@@ -45,7 +45,6 @@ const currentUrl = useRoute();
 const quizId = currentUrl.params.id;
 
 mainStore.dispatch('quiz/fetchQuizById', quizId);
-//mainStore.dispatch('quiz/fetchPersonalScores', quizId);
 
 /**
  * Checks if the current user is the author of the quiz.
@@ -86,6 +85,10 @@ const startQuiz = () => {
   router.push(`/quiz/${mainStore.state.quiz.quiz.id}/play`);
   console.log('Starting quiz');
 }
+
+const deleteQuiz = () => {
+  mainStore.dispatch('quiz/deleteQuiz', quizId);
+}
 </script>
 
 <template>
@@ -98,7 +101,7 @@ const startQuiz = () => {
             Edit
           </Button>
         </RouterLink>
-        <Button class="delete-button">Delete</Button>
+        <Button class="delete-button" @click="deleteQuiz">Delete</Button>
       </header>
       <div class="quizView-content">
         <div class="quizView-meta">

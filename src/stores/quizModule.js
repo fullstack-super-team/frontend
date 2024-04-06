@@ -1,6 +1,7 @@
 import { Category } from "@/utils/category";
 import { DifficultyLevel } from "@/utils/difficultyLevel";
 import axios from "axios";
+import router from "@/router";
 
 const quizModule = {
   namespaced: true,
@@ -146,6 +147,24 @@ const quizModule = {
         commit("setQuiz", response.data);
       } catch (error) {
         console.error('Failed to update quiz:', error);   
+      }
+    },
+    async deleteQuiz({ commit }, payload) {
+      try {
+        const quizId = payload;
+        if (!quizId) {
+          throw new Error("No quiz ID provided");
+        }
+        const token = localStorage.getItem("token");
+        const response = await axios.delete(`http://localhost:8080/quizzes/${quizId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log(response.data)
+        router.push("/");
+      } catch (error) {
+        console.error('Failed to delete quiz:', error);   
       }
     },
     async searchForQuiz({ commit }, payload) {
