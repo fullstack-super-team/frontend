@@ -1,6 +1,6 @@
 <script setup>
 import TextArea from "@/components/TextArea.vue";
-import Slider from "@/components/SliderAnswer.vue";
+import SliderAnswer from "@/components/SliderAnswer.vue";
 import AnswerCard from "@/components/AnswerCard.vue";
 import Button from "@/components/Button.vue";
 import deleteIcon from "@/assets/delete.png"
@@ -120,9 +120,9 @@ const deleteQuestion = () => {
       <label :for="`${identifier}:points300`">300</label>
     </div>
 
-    <TextArea :id="`${identifier}:text`" v-model="localQuestion.text" label="Question:" placeholder="Write your question here.." :charLimit="200" :startHeight="100" required />
+    <TextArea :id="`${identifier}:text`" v-model="localQuestion.text" label="Question:" placeholder="Write your question here.." :charLimit="200" :startHeight="100" @update:model-value="emitUpdate" required />
 
-    <Slider :id="`${identifier}:slider`" v-if="localQuestion.type === QuestionType.SLIDE" :answer="localQuestion.answer" />
+    <SliderAnswer :id="`${identifier}:slider`" v-if="localQuestion.type === QuestionType.SLIDE" :answer="localQuestion.answer" />
 
     <div v-if="localQuestion.type === QuestionType.TEXT" class="answers-container">
       <AnswerCard

@@ -24,25 +24,26 @@ function updateCorrectValue(newValue) {
 <template>
   <div class="slider-container">
     <div class="inputs">
-      <label>
+      <label :for="id + '_min'">
         Min Value:
         <input :id="id + '_min'" type="number" v-model.number="props.answer.min" />
       </label>
-      <label>
+      <label :for="id + '_max'">
         Max Value:
         <input :id="id + '_max'" type="number" v-model.number="props.answer.max" />
       </label>
-      <label>
+      <label :for="id + '_stepSize'">
         Step Size:
         <input :id="id + '_stepSize'" type="number" v-model.number="props.answer.stepSize" min="1" />
       </label>
-      <label>
+      <label :for="id + '_correctValue'">
         Correct Answer:
         <input :id="id + '_correctValue'" type="number" v-model.number="props.answer.correctValue" :min="props.answer.min" :max="props.answer.max" />
       </label>
     </div>
 
     <Slider
+        :id="id+'_preview'"
         :min="props.answer.min"
         :max="props.answer.max"
         :stepSize="props.answer.stepSize"

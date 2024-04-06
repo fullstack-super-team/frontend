@@ -46,7 +46,9 @@ mainStore.dispatch('quiz/searchForQuiz', title);
         </select>
       </div>
     </div>
-    <QuizCard v-for="quiz in mainStore.state.quiz.searchedQuizzes" :key="quiz.id" :quiz="quiz" />
+    <div class="quizCardContainer">
+      <QuizCard v-for="quiz in mainStore.state.quiz.searchedQuizzes" :key="quiz.id" :quiz="quiz" />
+    </div>
     <div v-if="mainStore.state.quiz.searchedQuizzes.length === 0">
       <span class="Message">No Quizzes found...</span>
     </div>
@@ -54,6 +56,13 @@ mainStore.dispatch('quiz/searchForQuiz', title);
 </template>
 
 <style scoped>
+.quizCardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
 .dropdownMenus {
   display: flex;
   gap: 16px;
@@ -89,6 +98,12 @@ mainStore.dispatch('quiz/searchForQuiz', title);
   .dropdownMenus select.dropdown {
     width: 100%;
     margin-bottom: 15px;
+  }
+
+  .quizCardContainer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
   }
 }
 </style>

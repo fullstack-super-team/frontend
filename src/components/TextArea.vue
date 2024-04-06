@@ -1,5 +1,6 @@
 <script setup>
-import { ref, computed, defineProps, defineEmits } from 'vue';
+import { computed } from 'vue';
+defineModel();
 
 const props = defineProps({
   id: String,
@@ -20,8 +21,6 @@ const remainingChars = computed(() => {
   return props.charLimit - (props.modelValue?.length || 0);
 });
 
-const textareaRef = ref(null);
-
 const updateValue = (event) => {
   const { value } = event.target;
   if (!props.charLimit || value.length <= props.charLimit) {
@@ -30,9 +29,6 @@ const updateValue = (event) => {
     // This will trim the value to the charLimit and set it back to the textarea
     const trimmedValue = value.slice(0, props.charLimit);
     emit('update:modelValue', trimmedValue);
-    if (textareaRef.value) {
-      textareaRef.value.value = trimmedValue;
-    }
   }
 };
 </script>
