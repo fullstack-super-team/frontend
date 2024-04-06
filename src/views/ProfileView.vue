@@ -50,17 +50,46 @@ const logout = () => {
       </div>
     </div>
   </MainLayout>
-
 </template>
 
 <style scoped>
 .profile-header {
-  width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
 }
 
+@media (max-width: 600px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .editLogoutButtons {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 10px;
+  }
+
+  .editLogoutButtons .edit {
+    order: 2;
+    margin-left: 0;
+    margin-right: 10px;
+  }
+
+  .editLogoutButtons .logout {
+    order: 1;
+  }
+}
+
+@media (min-width: 601px) {
+  .editLogoutButtons {
+    display: flex;
+    align-items: center;
+  }
+}
 .profile {
   display: flex;
   flex-direction: column;
@@ -74,9 +103,7 @@ const logout = () => {
   gap: 16px;
 }
 
-
-
-.edit {
+.edit, .logout {
   padding: 10px;
   margin: 10px;
 }
