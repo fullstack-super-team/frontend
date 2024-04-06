@@ -15,6 +15,7 @@ const quizModule = {
         description: "Testing testing.",
         category: "Test",
         personalScores: [],
+        totalPoints: 0,
       },
       searchedQuizzes: []
     }
@@ -27,13 +28,14 @@ const quizModule = {
       const quiz = payload;
       quiz.difficultyLevel = DifficultyLevel[quiz.difficultyLevel];
       quiz.category = Category[quiz.category];
+      quiz.totalPoints = quiz.questions.reduce((acc, question) => acc + question.points, 0);
       state.quiz = quiz;
     },
     setSearchedQuizzes(state, payload) {
       state.searchedQuizzes = payload;
     },
     setPersonalScores(state, payload) {
-        state.quiz.personalScores = payload;
+      state.quiz.personalScores = payload;
     }
   },
   actions: {
@@ -51,7 +53,7 @@ const quizModule = {
         console.error('Failed to get quizzes:', error);        
       }
     },
-    async fetchQuizById({ commit, state }, payload) {
+    async fetchQuizById({ commit, state, dispatch }, payload) {
       try {        
         const quizId = payload;
         if (!quizId) {
@@ -70,9 +72,10 @@ const quizModule = {
         });
         console.log(response.data)
         commit("setQuiz", response.data);   
+        await dispatch("fetchPersonalScores", quizId);
         return response.data;     
       } catch (error) {
-        console.error('Failed to get user info:', error);        
+        console.error('Failed to fetch quiz by id:', error);        
       }
     },
     async fetchPersonalScores({ commit }, payload) {
@@ -90,7 +93,7 @@ const quizModule = {
         console.log(response.data)
         commit("setPersonalScores", response.data);
         } catch (error) {
-        console.error('Failed to get user info:', error);
+        console.error('Failed to fetch personal scores:', error);
       }
     },
     async createQuiz({ commit }, payload) {
