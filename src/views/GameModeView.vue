@@ -15,7 +15,7 @@ mainStore.dispatch('game/loadQuizById', quizId);
 let isAnswerSelected = ref(false);
 let correctAnswer = ref("");
 let selectedAnswerText = ref("");
-let selectedSliderValue = ref(0);
+let selectedSliderValue = ref(null);
 
 const currentQuestionText = computed(() => mainStore.state.game.currentQuestion.text);
 const questionCountInfo = computed(() => `${mainStore.state.game.quiz.currentQuestionNumber + 1} / ${mainStore.state.game.quiz.questions.length}`);
@@ -87,6 +87,10 @@ const isCorrectAnswer = computed(() => {
   });
 });
 
+const sliderValueIsSelected = computed(() => {
+  return selectedSliderValue.value !== null;
+});
+
 </script>
 <template>
   <div class="finish-btn">
@@ -123,7 +127,7 @@ const isCorrectAnswer = computed(() => {
         :is-answer-selected="isAnswerSelected"
         v-model="selectedSliderValue"
       />
-      <Button class="submit-btn" @click="selectAnswer(selectedSliderValue)" v-if="!isAnswerSelected">Submit</Button>      
+      <Button class="submit-btn" @click="selectAnswer(selectedSliderValue)" v-if="!isAnswerSelected" :disabled="!sliderValueIsSelected" v-bind:style="{opacity: sliderValueIsSelected ? 1 : 0.5, cursor: sliderValueIsSelected ? 'pointer' : 'default'}">Submit</Button>
     </div>
   </div>
 </template>
