@@ -7,7 +7,7 @@ import { RouterView } from "vue-router";
 </template>
 
 <style scoped>
-.container {
+.quizCardContainer {
   width: 100%;
   height: 100%;
 }
