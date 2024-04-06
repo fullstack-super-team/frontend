@@ -58,10 +58,8 @@ defineProps({
   margin: 10px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
-  max-width: 33%;
+  max-width: calc(33.333% - 20px);
   flex: 0 1 calc(33.333% - 20px);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  padding: 20px;
   text-align: center;
 }
 
