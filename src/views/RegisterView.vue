@@ -1,6 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
-import axios from "axios";
+import MainStore from '@/stores/mainStore'
 import Input from "@/components/Input.vue";
 import store from '@/stores/mainStore';
 import Button from "@/components/Button.vue";
@@ -21,6 +21,7 @@ const errorMessages = reactive({
   username: null,
   email: null,
   password: null,
+  formSubmission: null,
 });
 
 const validateForm = () => {
@@ -46,14 +47,13 @@ async function register() {
   if (!validateForm()) {
     return;
   }
-  try {
-    const response = await axios.post("http://localhost:8080/auth/register", formValues);
-    const { token } = response.data        
-    await store.dispatch("user/login", token);
-    router.push("/")
-  } catch (error) {
-    console.error(error);
+  const error = await store.dispatch("user/register", formValues);
+  if (error) {
+    console.log(error);
+    errorMessages.formSubmission = error;
+    return;
   }
+  router.push("/")
 }
 </script>
 
@@ -68,6 +68,7 @@ async function register() {
       <Input label="Email" placeholder="Email" v-model="formValues.email" :error-message="errorMessages.email"/>
       <Input label="Password" placeholder="Password" type="password" v-model="formValues.password" :error-message="errorMessages.password"/>
       <Button type="submit">Register</Button>
+      <span style="color:red;">{{ errorMessages.formSubmission }}</span>
     </form>
     <p>Already have a an account?<router-link to="/login"> Login here</router-link></p>
   </main>

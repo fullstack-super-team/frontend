@@ -34,13 +34,32 @@ const userModule = {
         });
         commit("setUserInfo", { ...response.data, token: payload, isLoggedIn: true });        
       } catch (error) {
-        console.error('Failed to get user info:', error);        
+        console.error('Failed to get user info:', error);  
+        commit("setError", error);
       }
     },
     async login({ commit }, payload) {
-      const token = payload;
-      localStorage.setItem("token", token);
-      await this.dispatch("user/getUserInfo", token);
+      try {
+        const response = await axios.post("http://localhost:8080/auth/login", payload);
+        const { token } = response.data;        
+        localStorage.setItem("token", token);
+        await this.dispatch("user/getUserInfo", token);
+      } catch (error) {
+        console.error('Failed to login:', error);
+        commit("setError", error?.response?.data?.message || error.message || "Something went wrong");
+        return error?.response?.data?.message || error.message || "Something went wrong";
+      }
+    },
+    async register({ commit }, payload) {
+      try {
+        const response = await axios.post("http://localhost:8080/auth/register", payload);
+        const { token } = response.data;
+        localStorage.setItem("token", token);
+        await this.dispatch("user/getUserInfo", token);        
+      } catch (error) {
+        console.error('Failed to register:', error);
+        return error?.response?.data?.message || error.message || "Something went wrong";
+      }
     },
     async logout({ commit }) {
       localStorage.removeItem("token");

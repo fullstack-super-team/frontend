@@ -1,6 +1,6 @@
 <script setup>
-import { reactive } from 'vue'
-import axios from "axios";
+import { ref, reactive } from 'vue';
+import MainStore from '@/stores/mainStore';
 import Input from "@/components/Input.vue";
 import store from '@/stores/mainStore';
 import Button from "@/components/Button.vue";
@@ -12,37 +12,16 @@ const formValues = reactive({
   password: "",
 });
 
-const errorMessages = reactive({
-  email: null,
-  password: null,
-});
-
-const validateForm = () => {
-  errorMessages.email = !formValues.email ? "Email is required" :
-      !validateEmail(formValues.email) ? "Please enter a valid email address: example@domain.com" : null;
-
-  errorMessages.password = !formValues.password ? "Password is required" :
-      formValues.password.length < 8 ? "Password must be at least 8 characters" : null;
-
-  return !errorMessages.email && !errorMessages.password;
-}
-
-function validateEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
+const submitError = ref(null);
 
 async function login() {
-  if (!validateForm()) {
+  const error = await store.dispatch("user/login", formValues);
+  if (error) {
+    console.error(error);
+    submitError.value = error;
     return;
   }
-  try {
-    const response = await axios.post("http://localhost:8080/auth/login", formValues);
-    const { token } = response.data        
-    await store.dispatch("user/login", token);
-    router.push("/")
-  } catch (error) {
-    console.error(error);
-  }
+  router.push("/")
 }
 </script>
 
@@ -51,9 +30,10 @@ async function login() {
     <img src="@/assets/QBLoginLogo.png" alt="Quizzebassen logo" class="logo">
     <h1>Login</h1>
     <form @submit.prevent="login">
-      <Input label="Email" placeholder="Email" v-model="formValues.email" :error-message="errorMessages.email"/>
-      <Input label="Password" placeholder="Password" v-model="formValues.password" type="password" :error-message="errorMessages.password"/>
+      <Input label="Email" placeholder="Email" v-model="formValues.email"/>
+      <Input label="Password" placeholder="Password" v-model="formValues.password" type="password"/>
       <Button type="submit">Login</Button>
+      <span style="color:red;">{{ submitError }}</span>
     </form>
     <p>Not already a user? <router-link to="/register"> Register here</router-link></p>
   </main>
