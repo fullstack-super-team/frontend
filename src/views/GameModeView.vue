@@ -91,7 +91,7 @@ const isCorrectAnswer = computed(() => {
 <template>
   <div class="finish-btn">
     <Button class="quit-btn" @click="backToQuizPage">Quit</Button>
-    <Button class="next-btn" @click="nextQuestion" v-if="isAnswerSelected">Next</Button>
+    <Button class="next-btn" @click="nextQuestion" :disabled="!isAnswerSelected" v-bind:style="{opacity: isAnswerSelected ? 1 : 0.5, cursor: isAnswerSelected ? 'pointer' : 'default'}">Next</Button>
   </div>
   <h2 class="question-text">{{ currentQuestionText }}</h2>
   <p class="current-question-number"> {{ questionCountInfo }}</p>
@@ -164,11 +164,6 @@ const isCorrectAnswer = computed(() => {
   grid-template-columns: repeat(2, 1fr); /* Two columns with 50% width each */
   justify-content: space-around; /* Spreads the cards evenly with space around them */
   gap: 5px; /* Provides space between cards */
-}
-
-.answer-slider {
-  display: flex;
-  justify-content: center;
 }
 
 .current-question-number {
