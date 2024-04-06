@@ -3,6 +3,7 @@
 <script setup>
 const model = defineModel();
 defineProps({
+  id: String,
   label: String,
   placeholder: String,
   modelValue: String,
@@ -16,8 +17,8 @@ const emit = defineEmits(["update:modelValue"]);
 
 <template>
   <div class="input-wrapper">
-    <label>{{ label }}</label>
-    <input :id="label" class="input" :placeholder="placeholder" :type="type" :value="modelValue" @input="emit('update:modelValue', $event.target.value)" :disabled="disabled" />
+    <label :for="id">{{ label }}</label>
+    <input :id="id" class="input" :placeholder="placeholder" :type="type" :value="modelValue" @input="emit('update:modelValue', $event.target.value)" :disabled="disabled" />
     <span v-if="errorMessage" class="error-message">{{ errorMessage }}</span>
   </div>
 </template>
