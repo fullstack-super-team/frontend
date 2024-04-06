@@ -50,6 +50,7 @@ const formattedDate = computed(() => {
           <p><strong>Last edited: </strong>{{ formattedDate }} </p>
           <p><strong>Description: </strong>{{MainStore.state.quiz.quiz.description}}</p>
           <p><strong>Category: </strong>{{MainStore.state.quiz.quiz.category}}</p>
+          <p class="questions-count">{{ MainStore.state.quiz.quiz.questions.length }} <strong>Questions</strong></p>
         </div>
         <div class="quizView-statistics">
           <h3><strong>Recent attempts</strong></h3>

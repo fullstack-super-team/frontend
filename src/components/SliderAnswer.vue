@@ -1,5 +1,6 @@
 <script setup>
-import Input from "@/components/Input.vue";
+import { defineProps } from 'vue';
+import Slider from "@/components/Slider.vue";
 
 const props = defineProps({
   id: String,
@@ -15,6 +16,9 @@ const props = defineProps({
   },
 });
 
+function updateCorrectValue(newValue) {
+  props.answer.correctValue = Number(newValue);
+}
 </script>
 
 <template>
@@ -37,10 +41,16 @@ const props = defineProps({
         <input :id="id + '_correctValue'" type="number" v-model.number="props.answer.correctValue" :min="props.answer.min" :max="props.answer.max" />
       </label>
     </div>
-    <div class="slider">
-      <input :id="id" type="range" v-model.number="props.answer.correctValue" :min="props.answer.min" :max="props.answer.max" :step="props.answer.stepSize" />
-      <p>Correct answer: {{ props.answer.correctValue }}</p>
-    </div>
+
+    <Slider
+        :min="props.answer.min"
+        :max="props.answer.max"
+        :stepSize="props.answer.stepSize"
+        :modelValue="props.answer.correctValue"
+        @update:modelValue="updateCorrectValue"
+    />
+
+    <p>Correct answer: {{ props.answer.correctValue }}</p>
   </div>
 </template>
 
@@ -51,7 +61,6 @@ const props = defineProps({
   gap: 20px;
   justify-content: center;
   align-items: center;
-
 }
 
 .inputs label {

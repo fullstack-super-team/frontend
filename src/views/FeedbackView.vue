@@ -13,6 +13,10 @@ const submissionStatus = ref(''); // Define the submissionStatus reactive variab
 const user = computed(() => store.state.user);
 
 async function submitFeedback() {
+  if (!feedbackDescription.value.trim()) {
+    submissionStatus.value = 'Please enter your feedback before submitting.';
+    return;
+  }
   const endpoint = 'http://localhost:8080/feedback';
 
   submissionStatus.value = ''; // Clear previous status
@@ -47,7 +51,7 @@ async function submitFeedback() {
       <form @submit.prevent="submitFeedback" class="feedback-form">
         <TextArea v-model:modelValue="feedbackDescription" placeholder="Enter your feedback here..." :charLimit="500" :start-height ="150"/>
         <Button type="submit">Submit</Button>
-        <p v-if="submissionStatus" class="submission-status">{{ submissionStatus }}</p>
+        <p v-if="submissionStatus" class="{ 'error-text': submissionStatus.startsWith('Please') }">{{ submissionStatus }}</p>
       </form>
     </div>
   </MainLayout>
