@@ -107,8 +107,9 @@ const gameModule = {
     },
     async finishQuiz({ commit, state }) {
       try {
+        console.log(state)
         const points = state.currentPoints;
-        if (!points) {
+        if (points === null || points === undefined) {
           throw new Error("No score provided");
         }
         const token = localStorage.getItem("token");
