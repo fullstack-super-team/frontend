@@ -48,8 +48,9 @@ const props = defineProps({
 })
 
 const defaultValues = {
-  title: "",
+  title: "",  
   description: "",
+  randomize: false,
   category: Category.GENERAL,
   difficultyLevel: DifficultyLevel.EASY,
   questions: [],
@@ -137,8 +138,8 @@ function emitSubmit() {
     </div>
     <Input id="quizTitle" label="Quiz title" placeholder="Enter your quiz title here" v-model="quiz.title"
       :class="{ 'is-invalid': formSubmitted && !quiz.title }" />
-    <p v-if="formSubmitted && !quiz.title" class="validation-error">Quiz title is required.</p>    
-
+    <p v-if="formSubmitted && !quiz.title" class="validation-error">Quiz title is required.</p>  
+    
     <div class="dropdownMenus">
       <p>Select a Category</p>
       <select id="quizCategory" v-model="quiz.category">
@@ -146,19 +147,22 @@ function emitSubmit() {
           {{ category.label }}
         </option>
       </select>
-
+      
       <p>Select a difficulty</p>
       <select id="quizDifficultyLevel"v-model="quiz.difficultyLevel">
         <option v-for="difficultyLevel in getDifficultyLevels()" :key="difficultyLevel.value"
-          :value="difficultyLevel.value">
-          {{ difficultyLevel.label }}
-        </option>
-      </select>
-    </div>
+        :value="difficultyLevel.value">
+        {{ difficultyLevel.label }}
+      </option>
+    </select>
+  </div>
+  
+  <TextArea id="quizDescription" v-model="quiz.description" label="Description" placeholder="Enter quiz description here..."
+  :charLimit="200" />
 
-    <TextArea id="quizDescription" v-model="quiz.description" label="Description" placeholder="Enter quiz description here..."
-      :charLimit="200" />
-
+  <input id="randomize" type="checkbox" v-model="quiz.randomize" />
+  <label for="randomize">Randomize question and answer order</label>
+  
     <h2>Questions</h2>
     <CreateQuestion v-for="(question) in quiz.questions" :key="question.identifier" :identifier="question.identifier" :question="question"
       @update-question="updateQuestion($event, question.identifier)" @delete-question="deleteQuestion(question.identifier)" />
