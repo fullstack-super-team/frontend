@@ -52,7 +52,7 @@ const formattedDate = computed(() => {
           <p><strong>Category: </strong>{{MainStore.state.quiz.quiz.category}}</p>
         </div>
         <div class="quizView-statistics">
-          <h3><Strong>Recent attempts</Strong></h3>
+          <h3><strong>Recent attempts</strong></h3>
           <ul>
             <li v-for="(scores, index) in MainStore.state.quiz.quiz.scores" :key="index">
               <p class="scores-text">{{ "Score: " + scores.score }}/{{ scores.total }} - {{ scores.date }}</p>
