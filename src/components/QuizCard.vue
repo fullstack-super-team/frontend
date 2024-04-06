@@ -5,7 +5,6 @@
  * about the quiz such as id, title, category, questions, and the number of questions.
  */
 
-// Imports from vue-router and vue for routing and reactive references.
 import { RouterLink } from 'vue-router';
 import { ref } from 'vue';
 
