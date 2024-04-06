@@ -8,7 +8,25 @@ import Input from './Input.vue';
 import TextArea from './TextArea.vue';
 import CreateQuestion from './CreateQuestion.vue';
 
+/**
+ * A Vue component script for creating a quiz form.
+ * The component allows users to create a quiz by providing a title, description, category, difficulty level,
+ * and a list of questions with answers.
+ */
+
+/**
+ * Emits an event when the form is submitted.
+ */
 const emit = defineEmits(['submit'])
+
+/**
+ * Defines the props expected by the component.
+ *
+ * @property {string} formTitle - The title of the form. This prop is required.
+ * @property {string} submitFormText - The text displayed on the submit button. Defaults to 'Save'.
+ * @property {Object} initialValues - The initial values for the form fields. Defaults to an empty object.
+ * @property {Function} onSubmit - The function to call when the form is submitted. This prop is required.
+ */
 
 const props = defineProps({
   formTitle: {
@@ -41,6 +59,10 @@ const mergedValues = { ...defaultValues, ...props.initialValues };
 const quiz = reactive(mergedValues);
 
 let questionIdentifier = 0;
+
+/**
+ * Assigns unique identifiers to questions and answers.
+ */
 for (const question of quiz.questions) {  
   let answerIdentifier = 0;
   question.identifier = `q${questionIdentifier}`;
@@ -58,6 +80,9 @@ for (const question of quiz.questions) {
 
 const formSubmitted = ref(false);
 
+/**
+ * Adds a new question to the quiz.
+ */
 const addQuestion = () => {
   const identifier = `q${Date.now()}`;  
   quiz.questions.push({
@@ -75,16 +100,30 @@ const addQuestion = () => {
   });
 };
 
+/**
+ * Updates a question in the quiz.
+ *
+ * @param {Object} updatedQuestion - The updated question object.
+ * @param {string} identifier - The unique identifier of the question.
+ */
 function updateQuestion(updatedQuestion, identifier) {    
   const index = quiz.questions.findIndex((question) => question.identifier === identifier);    
   quiz.questions[index] = updatedQuestion;
 }
 
+/**
+ * Deletes a question from the quiz.
+ *
+ * @param {string} identifier - The unique identifier of the question.
+ */
 const deleteQuestion = (identifier) => {  
   const index = quiz.questions.findIndex((question) => question.identifier === identifier);
   quiz.questions.splice(index, 1);
 };
 
+/**
+ * Emits the submit event.
+ */
 function emitSubmit() {
   emit('submit', quiz)
 }
@@ -144,18 +183,15 @@ function emitSubmit() {
 
 .is-invalid {
   border-color: red;
-  /* Add your error styling here */
 }
 
 .validation-error {
   color: red;
-  /* Style for the validation message */
   font-size: 0.9em;
 }
 
 .dropdownMenus {
   margin-bottom: 20px;
-  /* Additional style for spacing */
 }
 
 </style>
