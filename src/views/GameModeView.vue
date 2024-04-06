@@ -115,6 +115,7 @@ const isCorrectAnswer = computed(() => {
     <div class="answer-slider">
       <span>{{ selectedSliderValue }}</span>
       <Slider
+          id="slider"
         :min="mainStore.state.game.currentQuestion.answer.min"
         :max="mainStore.state.game.currentQuestion.answer.max"
         :step-size="mainStore.state.game.currentQuestion.answer.stepSize"

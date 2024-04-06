@@ -20,7 +20,7 @@ defineModel();
  * @property {number} stepSize - The increment between each step within the range. This prop is required.
  * @property {number} modelValue - The current value of the model. This prop is required.
  */
-defineProps({
+const props = defineProps({
   id: {
     type: String,
     required: true
@@ -75,7 +75,8 @@ watchEffect(() => {watchEffect(() => {
 <template>  
   <div class="slider">
     <label>{{ min }}</label>
-    <input id="slider"
+    <input
+        :id="id"
            :disabled="isAnswerSelected"
            :style="{backgroundColor: isCorrect === true && isAnswerSelected ? '#78D64F' :
                     isCorrect === false && isAnswerSelected ? '#FF3131' :
