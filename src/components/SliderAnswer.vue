@@ -2,6 +2,21 @@
 import { defineProps } from 'vue';
 import Slider from "@/components/Slider.vue";
 
+/**
+ * A component that represents a slider with customizable properties.
+ * It allows the user to set minimum value, maximum value, step size, and correct answer value.
+ */
+
+/**
+ * Defines the props accepted by this component.
+ *
+ * @property {string} id - A unique identifier for the slider.
+ * @property {Object} answer - The answer object containing the min, max, stepSize, and correctValue.
+ * @property {number} answer.min - The minimum value allowed. This prop is required.
+ * @property {number} answer.max - The maximum value allowed. This prop is required.
+ * @property {number} answer.stepSize - The increment between each step within the range. This prop is required.
+ * @property {number} answer.correctValue - The correct value within the range. This prop is required.
+ */
 const props = defineProps({
   id: String,
   answer: {
@@ -16,6 +31,11 @@ const props = defineProps({
   },
 });
 
+/**
+ * Updates the correct value of the answer object.
+ *
+ * @param {number} newValue - The new correct value.
+ */
 function updateCorrectValue(newValue) {
   props.answer.correctValue = Number(newValue);
 }
@@ -41,7 +61,6 @@ function updateCorrectValue(newValue) {
         <input :id="id + '_correctValue'" type="number" v-model.number="props.answer.correctValue" :min="props.answer.min" :max="props.answer.max" />
       </label>
     </div>
-
     <Slider
         :id="id+'_preview'"
         :min="props.answer.min"
@@ -51,7 +70,6 @@ function updateCorrectValue(newValue) {
         :is-correct="null"
         @update:modelValue="updateCorrectValue"
     />
-
     <p>Correct answer: {{ props.answer.correctValue }}</p>
   </div>
 </template>

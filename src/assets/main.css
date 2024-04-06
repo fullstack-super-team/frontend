@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
 }
 
 body {
@@ -28,7 +29,6 @@ h1 {
 h1,h2, h3 {
   font-weight: 700;
   color: #08589CFF;
-  font-family: 'Montserrat', sans-serif;
 }
 
 TextArea {
