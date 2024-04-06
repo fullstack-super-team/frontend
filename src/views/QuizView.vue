@@ -25,6 +25,14 @@ onMounted(async () => {
 });
 
 /**
+ * Checks if the quiz has questions.
+ * @type {ComputedRef<Boolean>}
+ */
+const hasQuestions = computed(() => {
+  return mainStore.state.quiz.quiz.questions.length > 0;
+})
+
+/**
  * Retrieves the current route details.
  * @type {RouteLocationNormalizedLoaded}
  */
@@ -108,7 +116,7 @@ const startQuiz = () => {
           </ul>
         </div>
       </div>
-      <Button class="start-quiz-button" @click="startQuiz">Start</Button>
+      <Button class="start-quiz-button" @click="startQuiz" :disabled="!hasQuestions">Start</Button>
     </div>
   </MainLayout>
 </template>
@@ -184,6 +192,10 @@ const startQuiz = () => {
 
 .start-quiz-button:hover {
   background-color: #78D64F;
+}
+
+.start-quiz-button:disabled {
+  opacity: 50%;
 }
 
 h3 {
