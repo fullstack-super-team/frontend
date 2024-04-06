@@ -24,6 +24,7 @@ defineProps({
 
 <style scoped>
 .answer-card {
+  color: white;
   text-align: center;
   display: grid;
   grid-template-columns: auto 1fr; /* First column auto-sized to content, second column takes the rest */
