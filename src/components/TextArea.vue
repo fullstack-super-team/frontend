@@ -2,6 +2,7 @@
 import { ref, computed, defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
+  id: String,
   label: String,
   placeholder: String,
   modelValue: String,
@@ -38,11 +39,11 @@ const updateValue = (event) => {
 
 <template>
   <div class="textArea-wrapper">
-    <label :for="label">{{ label }}</label>
+    <label :for="id">{{ label }}</label>
     <div class="textarea-container">
       <textarea
           ref="textareaRef"
-          :id="label"
+          :id="id"
           class="textarea"
           :placeholder="placeholder"
           @input="updateValue"

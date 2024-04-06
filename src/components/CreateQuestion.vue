@@ -14,12 +14,14 @@ const emit = defineEmits([
 ]);
 
 const props = defineProps({
+  identifier: String,
   question: {
     type: Object,
     required: true,
     default: () => ({
       text: '',
       type: QuestionType.TEXT,
+      points: 100,
       answers: [{
         identifier: Date.now(),
         text: '',
@@ -31,19 +33,18 @@ const props = defineProps({
 
 const localQuestion = ref({
   ...props.question,
-  points: props.question.points || 100
 });
 
-const emitUpdate = () => {
+const emitUpdate = () => {  
   emit('update-question', localQuestion.value);
 };
 
-const changeQuestionType = (event) => {  
-  console.log('Question type changed:', event.target.value);
+const changeQuestionType = (event) => {    
   switch (event.target.value) {
     case QuestionType.SLIDE:
       delete localQuestion.value.answers;
       localQuestion.value.answer = {
+        identifier: `${props.identifier}-a}`, 
         min: 0,
         max: 5,
         stepSize: 1,
@@ -53,7 +54,7 @@ const changeQuestionType = (event) => {
     case QuestionType.TEXT:
       delete localQuestion.value.answer;
       localQuestion.value.answers = [{
-        identifier: Date.now(),
+        identifier: `${question.identifier}-${Date.now()}`,
         text: '',
         isCorrect: false,
       }];
@@ -61,8 +62,8 @@ const changeQuestionType = (event) => {
     case QuestionType.TRUE_OR_FALSE:
       delete localQuestion.value.answer;
       localQuestion.value.answers = [
-        { identifier: 0, text: 'True', isCorrect: false },
-        { identifier: 1, text: 'False', isCorrect: false }
+        { identifier: `${props.identifier}-a0}`, text: 'True', isCorrect: false },
+        { identifier: `${props.identifier}-a1}`, text: 'False', isCorrect: false }
       ];
       break;
   }
@@ -73,7 +74,7 @@ const changeQuestionType = (event) => {
 const addTextAnswer = () => {
   if (localQuestion.value.answers.length < 4) {
     localQuestion.value.answers.push({ 
-      identifier: Date.now(),
+      identifier: `${props.identifier}-a${Date.now()}`,
       text: '', 
       isCorrect: false 
     });
@@ -81,16 +82,14 @@ const addTextAnswer = () => {
   emitUpdate();
 };
 
-const updateAnswer = (updatedAnswer, index) => {
-  console.log('Answer updated:', updatedAnswer)
-  localQuestion.value.answers.splice(index, 1, updatedAnswer);
-  console.log('Local question:', localQuestion.value)
+const updateAnswer = (updatedAnswer, identifier) => {
+  const index = localQuestion.value.answers.findIndex((answer) => answer.identifier === identifier);
+  localQuestion.value.answers.splice(index, 1, updatedAnswer); 
   emitUpdate();
 };
 
-const deleteAnswer = (answerIdentifier) => {
-  const index = localQuestion.value.answers.findIndex((answer) => answer.identifier === answerIdentifier);
-  if (index === -1) return;
+const deleteAnswer = (identifier) => {  
+  const index = localQuestion.value.answers.findIndex((answer) => answer.identifier === identifier);
   localQuestion.value.answers.splice(index, 1);
   emitUpdate();
 };
@@ -102,41 +101,40 @@ const deleteQuestion = () => {
 
 <template>
   <div class="create-question">
-
-    <button @click="deleteQuestion" class="delete-question-btn">
+    <button type=""button @click="deleteQuestion" class="delete-question-btn">
       <img :src="deleteIcon" alt="Delete Question" class="delete-icon" />
     </button>
 
-
-    <label for="question-type">Question Type</label>
-    <select id="question-type" v-model="localQuestion.type" @change="changeQuestionType">
+    <label :for="`${identifier}:type`">Question Type</label>
+    <select :id="`${identifier}:type`" v-model="localQuestion.type" @change="changeQuestionType">
       <option v-for="(questionType) in getQuestionTypes()" :value="questionType.value">{{ questionType.label }}</option>
     </select>
 
     <p>Points: </p>
     <div class="point-buttons-box">
-      <input type="radio" id="points100" v-model="localQuestion.points" @change="emitUpdate" :value="100">
-      <label for="points100">100</label>
-      <input type="radio" id="points200" v-model="localQuestion.points" @change="emitUpdate" :value="200">
-      <label for="points200">200</label>
-      <input type="radio" id="points300" v-model="localQuestion.points" @change="emitUpdate" :value="300">
-      <label for="points300">300</label>
+      <input type="radio" :id="`${identifier}:points100`" v-model="localQuestion.points" @change="emitUpdate" :value="100">
+      <label :for="`${identifier}:points100`">100</label>
+      <input type="radio" :id="`${identifier}:points200`" v-model="localQuestion.points" @change="emitUpdate" :value="200">
+      <label :for="`${identifier}:points200`">200</label>
+      <input type="radio" :id="`${identifier}:points300`" v-model="localQuestion.points" @change="emitUpdate" :value="300">
+      <label :for="`${identifier}:points300`">300</label>
     </div>
 
-    <TextArea v-model="localQuestion.text" label="Question:" placeholder="Write your question here.." :charLimit="200" @update="emitUpdate" :startHeight="100" required/>
+    <TextArea :id="`${identifier}:text`" v-model="localQuestion.text" label="Question:" placeholder="Write your question here.." :charLimit="200" :startHeight="100" required />
 
-    <Slider v-if="localQuestion.type === QuestionType.SLIDE" :answer="localQuestion.answer" />
+    <Slider :id="`${identifier}:slider`" v-if="localQuestion.type === QuestionType.SLIDE" :answer="localQuestion.answer" />
 
     <div v-if="localQuestion.type === QuestionType.TEXT" class="answers-container">
       <AnswerCard
         v-if="localQuestion.type === QuestionType.TEXT"
-        v-for="(answer, index) in localQuestion.answers"
-        :key="answer.identifier"
+        v-for="(answer) in localQuestion.answers"
+        :key="`${answer.identifier}`"
+        :identifier="`${answer.identifier}`"
         :answer="answer"
         :deletable="true"
         :readonly="false"
-        @update-answer="updateAnswer($event, index)"
-        @delete-answer="deleteAnswer(answer.identifier)"
+        @update-answer="updateAnswer($event, answer.identifier)"
+        @delete-answer="deleteAnswer(`${answer.identifier}`)"
       />
     </div>
     <Button v-if="localQuestion.type === QuestionType.TEXT" @click="addTextAnswer" :disabled="localQuestion.answers.length >= 4">Add answer</Button>
@@ -144,12 +142,13 @@ const deleteQuestion = () => {
       <div v-if="localQuestion.type === QuestionType.TRUE_OR_FALSE" class="answers-container">
         <AnswerCard
         v-if="localQuestion.type === QuestionType.TRUE_OR_FALSE"
-        v-for="(answer, index) in localQuestion.answers"
-        :key="answer.identifier"
+        v-for="(answer) in localQuestion.answers"
+        :key="`${answer.identifier}`"
+        :identifier="`${answer.identifier}`"
         :answer="answer"
         :deletable="false"
         :readonly="true"
-        @update-answer="updateAnswer($event, index)"
+        @update-answer="updateAnswer($event, answer.identifier)"
        />
       </div>
   </div>

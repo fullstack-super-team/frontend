@@ -2,6 +2,7 @@
 import Input from "@/components/Input.vue";
 
 const props = defineProps({
+  id: String,
   answer: {
     type: Object,
     required: true,
@@ -21,23 +22,23 @@ const props = defineProps({
     <div class="inputs">
       <label>
         Min Value:
-        <input type="number" v-model.number="props.answer.min" />
+        <input :id="id + '_min'" type="number" v-model.number="props.answer.min" />
       </label>
       <label>
         Max Value:
-        <input type="number" v-model.number="props.answer.max" />
+        <input :id="id + '_max'" type="number" v-model.number="props.answer.max" />
       </label>
       <label>
         Step Size:
-        <input type="number" v-model.number="props.answer.stepSize" min="1" />
+        <input :id="id + '_stepSize'" type="number" v-model.number="props.answer.stepSize" min="1" />
       </label>
       <label>
         Correct Answer:
-        <input type="number" v-model.number="props.answer.correctValue" :min="props.answer.min" :max="props.answer.max" />
+        <input :id="id + '_correctValue'" type="number" v-model.number="props.answer.correctValue" :min="props.answer.min" :max="props.answer.max" />
       </label>
     </div>
     <div class="slider">
-      <input type="range" v-model.number="props.answer.correctValue" :min="props.answer.min" :max="props.answer.max" :step="props.answer.stepSize" />
+      <input :id="id" type="range" v-model.number="props.answer.correctValue" :min="props.answer.min" :max="props.answer.max" :step="props.answer.stepSize" />
       <p>Correct answer: {{ props.answer.correctValue }}</p>
     </div>
   </div>
