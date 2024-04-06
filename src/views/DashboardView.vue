@@ -14,6 +14,7 @@ import mainStore from '@/stores/mainStore';
  * Requesting the list of quizzes from the store as the component loads.
  */
 mainStore.dispatch('quiz/fetchQuizzes');
+mainStore.dispatch('quiz/fetchRecentQuizzes');
 </script>
 
 <template>
@@ -22,7 +23,7 @@ mainStore.dispatch('quiz/fetchQuizzes');
     <hr>
     <h2>Recent</h2>
     <div class="quiz-preview-container">
-      <QuizCard v-for="(quiz, index) in mainStore.state.quiz.quizzes" :key="index" :quiz="quiz" />
+      <QuizCard v-for="(quiz, index) in mainStore.state.quiz.recentQuizzes" :key="index" :quiz="quiz" />
       <span v-if="mainStore.state.quiz.quizzes.length === 0">No recent quizzes yet</span>
     </div>
     <hr class="second-dash">

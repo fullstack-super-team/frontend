@@ -7,6 +7,7 @@ const quizModule = {
   state() {
     return {
       quizzes: [],
+      recentQuizzes: [],
       quiz: {
         questions: [],
         title: "Test Quiz",
@@ -31,11 +32,15 @@ const quizModule = {
       quiz.totalPoints = quiz.questions.reduce((acc, question) => acc + question.points, 0);
       state.quiz = quiz;
     },
+
     setSearchedQuizzes(state, payload) {
       state.searchedQuizzes = payload;
     },
     setPersonalScores(state, payload) {
       state.quiz.personalScores = payload;
+    },
+    setRecentQuizzes(state, payload) {
+      state.recentQuizzes = payload;
     }
   },
   actions: {
@@ -51,6 +56,20 @@ const quizModule = {
         commit("setQuizzes", response.data);        
       } catch (error) {
         console.error('Failed to get quizzes:', error);        
+      }
+    },
+    async fetchRecentQuizzes({ commit }, payload) {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.get(`http://localhost:8080/quizzes/recent`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log(response.data)
+        commit("setRecentQuizzes", response.data);
+      } catch (error) {
+        console.error('Failed to get quizzes:', error);
       }
     },
     async fetchQuizById({ commit, state, dispatch }, payload) {
