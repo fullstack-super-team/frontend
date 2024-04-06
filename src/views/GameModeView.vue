@@ -105,8 +105,8 @@ const sliderValueIsSelected = computed(() => {
     <p class="current-question-number"> {{ questionCountInfo }}</p>
     <p class="current-question-number">Score: {{ score }}</p>
   <div class="answer-feedback">
-  <p v-if="isAnswerSelected && correctAnswer.toString() === selectedAnswerText.toString()">Correct Answer!</p>
-  <p v-if="isAnswerSelected && correctAnswer.toString() !== selectedAnswerText.toString()">Incorrect Answer</p>
+  <p v-if="isAnswerSelected && correctAnswers.toString() === selectedAnswerText.toString()">Correct Answer!</p>
+  <p v-if="isAnswerSelected && correctAnswers.toString() !== selectedAnswerText.toString()">Incorrect Answer</p>
   </div>
   <div class="answer-btn" v-if="questionType==='TEXT' || questionType==='TRUE_OR_FALSE'">
     <AnswerButton v-for="(answer, index) in mainStore.state.game.currentQuestion.answers"
