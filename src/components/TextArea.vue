@@ -31,6 +31,10 @@ const props = defineProps({
     type: Number,
     default: 100
   },
+  errorMessage: {
+    type: String,
+    default: ''
+  },
   required: Boolean
 });
 
@@ -81,6 +85,7 @@ const updateValue = (event) => {
         {{ remainingChars }} characters left
       </div>
     </div>
+    <span v-if="errorMessage" class="error-message">{{ errorMessage }}</span>
   </div>
 </template>
 
@@ -116,5 +121,12 @@ const updateValue = (event) => {
 
 .is-empty {
   display: none;
+}
+
+.error-message {
+  color: red;
+  margin-top: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
 }
 </style>

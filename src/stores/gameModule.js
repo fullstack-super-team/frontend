@@ -75,9 +75,6 @@ const gameModule = {
         console.error('Failed to get user info:', error);        
       }
     },
-    async startQuiz({ commit }) {
-      commit("setCurrentQuestion", 1);
-    },
     async nextQuestion({ commit, state }) {
       commit("setCurrentQuestionNumber", state.quiz.currentQuestionNumber + 1);
       commit("setCurrentQuestion", state.quiz.questions[state.quiz.currentQuestionNumber]);

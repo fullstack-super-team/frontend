@@ -44,6 +44,13 @@ const props = defineProps({
         isCorrect: false,
       }],
     })
+  },
+  questionErrors: {
+    type: Object,
+    default: () => ({
+      text: '',
+      answers: [],
+    })
   }
 });
 
@@ -101,13 +108,16 @@ const changeQuestionType = (event) => {
  * Adds a text answer to the question.
  */
 const addTextAnswer = () => {
-  if (localQuestion.value.answers.length < 4) {
-    localQuestion.value.answers.push({ 
-      identifier: `${props.identifier}-a${Date.now()}`,
-      text: '', 
-      isCorrect: false 
-    });
+  if (localQuestion.value.answers.length >= 4) {
+    return;
   }
+  const answerIdentifier = `${props.identifier}-a${Date.now()}`;
+  props.questionErrors.answers.push({ identifier: `${answerIdentifier}`, text: '' });
+  localQuestion.value.answers.push({ 
+    identifier: `${answerIdentifier}`,
+    text: '', 
+    isCorrect: false 
+  });
   emitUpdate();
 };
 
@@ -131,6 +141,8 @@ const updateAnswer = (updatedAnswer, identifier) => {
 const deleteAnswer = (identifier) => {  
   const index = localQuestion.value.answers.findIndex((answer) => answer.identifier === identifier);
   localQuestion.value.answers.splice(index, 1);
+  const errorIndex = props.questionErrors.answers.findIndex((answerError) => answerError.identifier === identifier);
+  props.questionErrors.answers.splice(errorIndex, 1);
   emitUpdate();
 };
 
@@ -163,8 +175,9 @@ const deleteQuestion = () => {
       <label :for="`${identifier}:points300`">300</label>
     </div>
 
-    <TextArea :id="`${identifier}:text`" v-model="localQuestion.text" label="Question" placeholder="Write your question here.." :charLimit="200" :startHeight="100" @update:model-value="emitUpdate" required />
+    <TextArea :id="`${identifier}:text`" v-model="localQuestion.text" label="Question" placeholder="Write your question here.." :charLimit="200" :startHeight="100" @update:model-value="emitUpdate" :error-message="questionErrors.text" />
 
+    <h3>Answers</h3>    
     <SliderAnswer :id="`${identifier}:slider`" v-if="localQuestion.type === QuestionType.SLIDE" :answer="localQuestion.answer" />
 
     <div v-if="localQuestion.type === QuestionType.TEXT" class="answers-container">
@@ -174,6 +187,7 @@ const deleteQuestion = () => {
         :key="`${answer.identifier}`"
         :identifier="`${answer.identifier}`"
         :answer="answer"
+        :answer-errors="questionErrors.answers.find(answerError => answerError.identifier === answer.identifier)"
         :deletable="true"
         :readonly="false"
         @update-answer="updateAnswer($event, answer.identifier)"
