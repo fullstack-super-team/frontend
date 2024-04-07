@@ -4,11 +4,32 @@ import mainStore from '@/stores/mainStore.js';
 import { useRouter } from 'vue-router';
 import QuizForm from '@/components/QuizForm.vue';
 
+/**
+ * Script setup for the Quiz Edit View.
+ * Handles the logic for fetching and saving a quiz.
+ * Leverages the Vue Router for routing and the Vuex store for state management.
+ */
+
 const router = useRouter();
 const quizId = router.currentRoute.value.params.id;
 
+/**
+ * Fetches the quiz with the specified ID from the store.
+ */
 mainStore.dispatch('quiz/fetchQuizById', quizId);
 
+/**
+ * Saves the updated quiz details to the store and navigates to the quiz detail page,
+ * when a user submits the quiz form with updated data.
+ * It ensures that a title is present before dispatching the update action.
+ * Throws an error if the quiz update action fails.
+ *
+ * @async
+ * @function saveQuiz
+ * @param {Object} quiz - The quiz object containing updated information.
+ * @param {string} quiz.title - The title of the quiz. It must be non-empty.
+ * @param {Object} [quiz.details] - Optional additional details about the quiz.
+ */
 async function saveQuiz(quiz) {  
   if (!quiz.title) {
     return;
@@ -36,19 +57,14 @@ async function saveQuiz(quiz) {
 
 .is-invalid {
   border-color: red;
-  /* Add your error styling here */
 }
 
 .validation-error {
   color: red;
-  /* Style for the validation message */
   font-size: 0.9em;
 }
 
 .dropdownMenus {
   margin-bottom: 20px;
-  /* Additional style for spacing */
 }
-
-/* Additional styles for .dropdownMenus and other classes can be added here */
 </style>

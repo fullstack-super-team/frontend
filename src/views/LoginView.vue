@@ -1,8 +1,8 @@
 <script setup>
 /**
  * Script setup for the login view component.
- * This script composes the login form's reactive state, handles the login process,
- * and navigates the user upon successful authentication.
+ * Composes the login form's reactive state, handles the login process,
+ * and navigates the user based on successful authentication.
  */
 import { ref, reactive } from 'vue';
 import Input from "@/components/Input.vue";
@@ -13,6 +13,7 @@ const router = useRouter();
 
 /**
  * The reactive state for the login form containing the user's credentials.
+ *
  * @type {Object}
  */
 const formValues = reactive({
@@ -22,6 +23,7 @@ const formValues = reactive({
 
 /**
  * A ref to hold any error messages that may arise during form submission.
+ *
  * @type {Ref<null|string>}
  */
 const submitError = ref(null);

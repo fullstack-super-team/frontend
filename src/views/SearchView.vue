@@ -8,20 +8,26 @@ import { Category, getCategories } from "@/utils/category.js";
 import { DifficultyLevel, getDifficultyLevels } from "@/utils/difficultyLevel.js";
 
 /**
- * Route Reactive Reference
- * @description Creates a reactive reference to the current route using the useRoute hook.
+ * Script setup for the Search View.
+ * Handles the search logic and UI state changes.
+ */
+
+/**
+ * Route object used to access the route query.
  */
 const route = useRoute();
 
 /**
- * Title Extracted from Route Query
- * @description Extracts the title from the route query parameters for use in component logic.
+ * Title derived from the route query.
+ *
+ * @type {string}
  */
 const { title } = route.query;
 
 /**
- * Quiz Reactive State
- * @description Defines the reactive state for the quiz object with default category and difficulty level.
+ * Reactive state for the quiz search filters.
+ *
+ * @type {UnwrapNestedRefs<{difficultyLevel: string, category: string}>}
  */
 const quiz = reactive({
   category: "",
@@ -29,8 +35,9 @@ const quiz = reactive({
 });
 
 /**
- * Watcher on Route Query Title
- * @description Sets up a watcher on the route query's title to dispatch a search action in the mainStore whenever it changes.
+ * Watches the route query for changes and dispatches a search for quizzes based on the title.
+ *
+ * @param {string} title - The title of the quiz to search for.
  */
 watch(() => route.query.title, (title) => {
   mainStore.dispatch('quiz/searchForQuiz', title);
@@ -38,10 +45,16 @@ watch(() => route.query.title, (title) => {
 
 /**
  * Initial Dispatch for Quiz Search
- * @description Dispatches an initial search for a quiz based on the title derived from the route query.
+ *
+ * @param {string} title - The title of the quiz to search for.
  */
 mainStore.dispatch('quiz/searchForQuiz', title);
 
+/**
+ * Computed property that filters quizzes based on category and difficulty level.
+ *
+ * @returns {Array<Object>} - The filtered list of quizzes.
+ */
 const searchedQuizzes = computed(() => {
   let quizzes = mainStore.state.quiz.searchedQuizzes;
   if (quiz.category) {
@@ -56,8 +69,6 @@ const searchedQuizzes = computed(() => {
   }
   return quizzes;
 });
-
-
 </script>
 
 <template>
