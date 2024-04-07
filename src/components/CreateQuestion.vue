@@ -266,9 +266,8 @@ const deleteQuestion = () => {
 }
 
 .answers-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: auto auto;
   gap: 20px;
 }
 
@@ -319,5 +318,11 @@ button:disabled {
 
 .point-buttons-box {
   margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .answers-container {
+    grid-template-columns: auto;
+  }
 }
 </style>
