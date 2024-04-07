@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { DifficultyLevel, getDifficultyLevels, getDifficultyLevelLabel } from "@/utils/difficultyLevel.js";
 
 describe('DifficultyLevel', () => {

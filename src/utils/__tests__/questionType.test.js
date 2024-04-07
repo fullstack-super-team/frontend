@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import {getQuestionTypeLabel, getQuestionTypes, QuestionType} from "@/utils/questionType.js";
 
 describe('QuestionType', () => {

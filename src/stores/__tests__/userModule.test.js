@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import userModule from "@/stores/userModule.js";
 
 
