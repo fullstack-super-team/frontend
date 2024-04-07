@@ -76,9 +76,11 @@ const emitUpdate = () => {
 const changeQuestionType = (event) => {    
   switch (event.target.value) {
     case QuestionType.SLIDE:
+      delete props.questionErrors.answers;
+      props.questionErrors.answer = { identifier: `${props.identifier}-a`, text: '' };
       delete localQuestion.value.answers;
       localQuestion.value.answer = {
-        identifier: `${props.identifier}-a}`, 
+        identifier: `${props.identifier}-a`, 
         min: 0,
         max: 5,
         stepSize: 1,
@@ -86,15 +88,25 @@ const changeQuestionType = (event) => {
       };
       break;
     case QuestionType.TEXT:
+      delete props.questionErrors.answer;
       delete localQuestion.value.answer;
+      const answerIdentifier = `${props.identifier}-a${Date.now()}`;
+      props.questionErrors.answers = [
+        { identifier: answerIdentifier, text: '' }
+      ];
       localQuestion.value.answers = [{
-        identifier: `${props.identifier}-a${Date.now()}`,
+        identifier: answerIdentifier,
         text: '',
         isCorrect: false,
       }];
       break;
-    case QuestionType.TRUE_OR_FALSE:
+      case QuestionType.TRUE_OR_FALSE:
+      delete props.questionErrors.answer;
       delete localQuestion.value.answer;
+      props.questionErrors.answers = [
+        { identifier: `${props.identifier}-a0}`, text: '' },
+        { identifier: `${props.identifier}-a1}`, text: '' }
+      ];
       localQuestion.value.answers = [
         { identifier: `${props.identifier}-a0}`, text: 'True', isCorrect: false },
         { identifier: `${props.identifier}-a1}`, text: 'False', isCorrect: false }

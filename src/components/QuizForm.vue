@@ -74,7 +74,7 @@ const quiz = reactive(mergedValues);
  * A reactive object that contains the form errors.
  */
 const formErrors = reactive({
-  title: '',
+  title:  '',
   questions: []
 });
 
@@ -103,6 +103,8 @@ function formIsValid() {
       for (const answer of question.answers) {
         const answerIndex = question.answers.findIndex((a) => a.identifier === answer.identifier);        
         const answerError = questionError.answers[answerIndex];
+        console.log({answerIndex}, {answerError});
+        
         if (!answer.text) {
           answerError.text = 'Answer text is required.';    
           isValid = false;
@@ -113,13 +115,19 @@ function formIsValid() {
         // Find index of answer
         questionError.answers[answerIndex] = answerError;
       }
-    } else if (question.type === QuestionType.SLIDE) {
+    } else if (question.type === QuestionType.SLIDE) {      
+      // TODO:  FOrm validation on slider?
+      /* const answerError = questionError.answer;
+      console.log(answerError)
+      console.log(question)
       if (!question.answer.text) {
-        questionError.answers.push('Answer text is required.');    
+        answerError.text = 'Answer text is required.';    
         isValid = false;
       } else {
-        questionError.answers.push('');
+        answerError.text = '';            
       }
+
+      questionError.answer = answerError; */
     }
        
     formErrors.questions[index] = questionError;    
@@ -140,14 +148,9 @@ for (const question of quiz.questions) {
   let answerIdentifier = 0;
   question.identifier = `q${questionIdentifier}`;
   const questionError = { identifier: question.identifier, text: '', answers: [] };
-  if (question.type === QuestionType.TEXT) {    
+  if (question.type === QuestionType.TEXT || question.type === QuestionType.TRUE_OR_FALSE) {    
     for (const answer of question.answers) {
       questionError.answers.push({ identifier: `${question.identifier}-a${answerIdentifier}`, text: '' });
-      answer.identifier = `${question.identifier}-a${answerIdentifier}`;
-      answerIdentifier++;
-    }    
-  } else if (question.type === QuestionType.TRUE_OR_FALSE) {
-    for (const answer of question.answers) {
       answer.identifier = `${question.identifier}-a${answerIdentifier}`;
       answerIdentifier++;
     }    
