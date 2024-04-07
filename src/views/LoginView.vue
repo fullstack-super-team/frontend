@@ -1,45 +1,69 @@
 <script setup>
-import { reactive } from 'vue'
-import axios from "axios";
+/**
+ * Script setup for the login view component.
+ * Composes the login form's reactive state, handles the login process,
+ * and navigates the user based on successful authentication.
+ */
+import { ref, reactive } from 'vue';
 import Input from "@/components/Input.vue";
 import store from '@/stores/mainStore';
+import Button from "@/components/Button.vue";
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
+/**
+ * The reactive state for the login form containing the user's credentials.
+ *
+ * @type {Object}
+ */
 const formValues = reactive({
-  username: "",
+  email: "",
   password: "",
 });
 
+/**
+ * A ref to hold any error messages that may arise during form submission.
+ *
+ * @type {Ref<null|string>}
+ */
+const submitError = ref(null);
+
+/**
+ * Handle the form submission and perform user login.
+ * Dispatches a login action to the store, checks for errors, and navigates
+ * to the root route on successful login.
+ */
 async function login() {
-  try {
-    const response = await axios.post("http://localhost:8080/auth/login", formValues);
-    const { token } = response.data        
-    await store.dispatch("user/login", token);
-    router.push("/")
-  } catch (error) {
+  submitError.value = null;
+  const error = await store.dispatch("user/login", formValues);
+  if (error) {
     console.error(error);
+    submitError.value = error;
+    return;
   }
+  router.push("/")
 }
 </script>
 
 <template>
   <main>
+    <img src="@/assets/QBLoginLogo.png" alt="Quizzebassen logo" class="logo">
     <h1>Login</h1>
-    <p>Login to use the calculator</p>
     <form @submit.prevent="login">
-      <Input label="Username" placeholder="Username" v-model="formValues.username" />
-      <Input label="Password" placeholder="Password" v-model="formValues.password" type="password" />
-      <button type="submit">Login</button>
+      <Input label="Email" placeholder="Email" v-model="formValues.email"/>
+      <Input label="Password" placeholder="Password" v-model="formValues.password" type="password"/>
+      <Button type="submit">Login</Button>
+      <span v-if="submitError" style="color:red;">{{ submitError }}</span>
     </form>
+    <p>Not already a user? <router-link to="/register"> Register here</router-link></p>
   </main>
 </template>
 
 <style scoped>
-
 main {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 form {
@@ -48,27 +72,32 @@ form {
   gap: 1rem;
   width: 100%;
   max-width: 450px;
-}
-
-input {
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  border: 1px solid #ccc;
-  width: 100%;
+  padding: 2rem;
 }
 
 button {
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  border: none;
-  background-color: #333;
-  color: white;
-  cursor: pointer;
+  margin-top: 1rem;
   font-size: medium;
 }
 
-button:hover {
-  background-color: #555;
+.logo {
+  width: 22%;
+  height: auto;
+  min-width: 150px;
+  margin-bottom: 1rem;
+  margin-top: 3rem;
 }
 
-</style>@/stores/userModule
+span {
+  color: red;
+  margin-top: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 1rem;
+  }
+}
+</style>

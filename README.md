@@ -1,29 +1,77 @@
-# Fullstack super team's front end
+# IDATT2105 Fullstack project - Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+## Table of contents
+1. [Introduction](#1-introduction)
+2. [Technologies used](#2-technologies-used)
+3. [Recommended IDE Setup](#3-recommended-ide-setup)
+4. [Project Structure](#4-project-structure)
+5. [Installation](#5-installation)
+   - [Install dependencies](#install-dependencies)
+   - [Compile and Hot-Reload for Development](#compile-and-hot-reload-for-development)
+   - [Compile and Minify for Production](#compile-and-minify-for-production)
+6. [Contributors](#6-contributors)
 
-## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## Customize configuration
+## 1. Introduction
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Welcome to Quizzebassen! 
+This is the frontend for the voluntary fullstack project in the course IDATT2105.
+We have developed a web application for playing and creating quizzes. Whether you are here to challenge your intellect,
+create challenging quizzes or just have fun with trivia, you have come to the right place!
 
-## 1. Install dependencies
+## 2. Technologies used
 
+* Vue 3 with JavaScript
+* Vitetest
+
+## 3. Recommended IDE Setup
+
+While you can use any IDE you prefer, our team used [WebStorm](https://www.jetbrains.com/webstorm/) by JetBrains.
+WebStorm comes with support for JavaScript and Vue.js, making it a suitable choice for developing Quizzebassen.
+
+If you're using WebStorm:
+
+- Ensure you have the [Vue.js plugin](https://plugins.jetbrains.com/plugin/9442-vue-js) installed for full support.
+- Take advantage of WebStorm's completion and error detection for JavaScript.
+
+## 4. Project structure
+
+Here follows a brief overview of the project structure:
+
+- `src/assets`: Contains all the static files such as images and the main stylesheet required for the UI.
+- `src/components`: Holds the reusable Vue components.
+- `src/layouts`: Defines the layout components that structure the appearance of the application.
+- `src/router`: Manages the routes, responsible for navigating users between different views.
+- `src/stores`: Includes the Vuex store files for managing the application's global state.
+- `src/utils`: Consists of utility functions and helpers that provide common functionalities across the application.
+- `src/views`: Contains Vue page components for different parts of the app.
+- `App.vue`: The root Vue component that integrates the entire application.
+- `main.js`: The entry point that creates the Vue instance and mounts the app.
+
+## 5. Installation
+
+Before you can run the application, you need to install the required dependencies. 
+You can do this by running the following commands in the terminal:
+
+### Install dependencies
+Run the following command to install the required dependencies:
 ```sh
 yarn
 ```
 
-### 2. Compile and Hot-Reload for Development
-
+### Compile and Hot-Reload for Development
+Run the following command to start the development server:
 ```sh
 yarn dev
 ```
 
 ### Compile and Minify for Production
-
+Run the following command to build the application for production:
 ```sh
 yarn build
 ```
+
+## 6. Contributors
+
+This project was developed by: Birthe Emilie Christiansen, Håkon Rene Billingstad, Lotte Kristine Walla Aune and Vemund Ellingsson Røe.

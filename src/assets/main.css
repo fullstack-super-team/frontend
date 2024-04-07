@@ -1,15 +1,70 @@
-* {
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: #BCDEFB;
 }
 
 #app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
 }
 
 button {
   cursor: pointer;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h1,h2, h3 {
+  font-weight: 700;
+  color: #08589CFF;
+}
+
+TextArea {
+  font-family: 'Arial', Gadget, sans-serif;
+  color: black;
+  font-size: 1rem;
+  background-color: #f0f7ff;
+  border: thin solid #0f3f6b;
+}
+
+Input {
+  background-color: #f0f7ff;
+  border: thin solid #0f3f6b;
+
+}
+
+p {
+  color: #08589CFF;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+}
+
+select {
+  font-size: 1rem;
+  color: #333;
+  background-color: #f0f7ff;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 2px 4px 6px 0px rgba(0, 0, 0, 0.2);
+}
+
+option {
+  font-weight: normal;
+  color: #333333;
+  background-color: #ffffff;
+  padding: 5px 0;
 }
