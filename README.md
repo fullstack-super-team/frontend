@@ -2,13 +2,14 @@
 
 ## Table of contents
 1. [Introduction](#1-introduction)
-2. [Recommended IDE Setup](#2-recommended-ide-setup)
-3. [Project Structure](#3-project-structure)
-4. [Installation](#4-installation)
+2. [Technologies used](#2-technologies-used)
+3. [Recommended IDE Setup](#3-recommended-ide-setup)
+4. [Project Structure](#4-project-structure)
+5. [Installation](#5-installation)
    - [Install dependencies](#install-dependencies)
    - [Compile and Hot-Reload for Development](#compile-and-hot-reload-for-development)
    - [Compile and Minify for Production](#compile-and-minify-for-production)
-5. [Contributors](#6-contributors)
+6. [Contributors](#6-contributors)
 
 
 
@@ -19,12 +20,12 @@ This is the frontend for the voluntary fullstack project in the course IDATT2105
 We have developed a web application for playing and creating quizzes. Whether you are here to challenge your intellect,
 create challenging quizzes or just have fun with trivia, you have come to the right place!
 
-### Thechnologies used
+## 2. Technologies used
 
 * Vue 3 with JavaScript
 * Vitetest
 
-## 2. Recommended IDE Setup
+## 3. Recommended IDE Setup
 
 While you can use any IDE you prefer, our team used [WebStorm](https://www.jetbrains.com/webstorm/) by JetBrains.
 WebStorm comes with support for JavaScript and Vue.js, making it a suitable choice for developing Quizzebassen.
@@ -34,7 +35,7 @@ If you're using WebStorm:
 - Ensure you have the [Vue.js plugin](https://plugins.jetbrains.com/plugin/9442-vue-js) installed for full support.
 - Take advantage of WebStorm's completion and error detection for JavaScript.
 
-## 3. Project structure
+## 4. Project structure
 
 Here follows a brief overview of the project structure:
 
@@ -48,7 +49,7 @@ Here follows a brief overview of the project structure:
 - `App.vue`: The root Vue component that integrates the entire application.
 - `main.js`: The entry point that creates the Vue instance and mounts the app.
 
-## 4. Installation
+## 5. Installation
 
 Before you can run the application, you need to install the required dependencies. 
 You can do this by running the following commands in the terminal:
@@ -71,6 +72,6 @@ Run the following command to build the application for production:
 yarn build
 ```
 
-## 5. Contributors
+## 6. Contributors
 
 This project was developed by: Birthe Emilie Christiansen, Håkon Rene Billingstad, Lotte Kristine Walla Aune and Vemund Ellingsson Røe.
