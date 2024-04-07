@@ -30,6 +30,12 @@ const props = defineProps({
     text: String,
     isCorrect: Boolean
   }, 
+  answerErrors: {
+    type: Object,
+    default: () => ({
+      text: ''
+    })
+  },
   deletable: Boolean,
   readonly: Boolean
 });
@@ -65,6 +71,7 @@ const deleteThisCard = () => {
         @update:model-value="emitUpdate"
         :disabled="props.readonly"
         placeholder="Enter answer here..."
+        :error-message="answerErrors.text"
     />    
     <input :id="`${identifier}:isCorrect`" type="checkbox" v-model="localAnswer.isCorrect" @change="emitUpdate" />
 

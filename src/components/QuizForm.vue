@@ -71,6 +71,64 @@ const mergedValues = { ...defaultValues, ...props.initialValues };
 const quiz = reactive(mergedValues);
 
 /**
+ * A reactive object that contains the form errors.
+ */
+const formErrors = reactive({
+  title: '',
+  questions: []
+});
+
+
+function formIsValid() {
+  let isValid = true;
+  if (!quiz.title) {
+    formErrors.title = 'Quiz title is required.';
+    isValid = false;   
+  } else {
+    formErrors.title = '';
+  }
+
+  for (const question of quiz.questions) {    
+    const index = quiz.questions.findIndex((q) => q.identifier === question.identifier);  
+    const questionError = formErrors.questions[index];
+    if (!question.text) {
+      questionError.text = 'Question text is required.';    
+      isValid = false;        
+    } else {
+      questionError.text = '';
+    }
+
+    // Check answers for question
+    if (question.type === QuestionType.TEXT || question.type === QuestionType.TRUE_OR_FALSE) {
+      for (const answer of question.answers) {
+        const answerIndex = question.answers.findIndex((a) => a.identifier === answer.identifier);        
+        const answerError = questionError.answers[answerIndex];
+        if (!answer.text) {
+          answerError.text = 'Answer text is required.';    
+          isValid = false;
+        } else {
+          answerError.text = '';
+        }
+        
+        // Find index of answer
+        questionError.answers[answerIndex] = answerError;
+      }
+    } else if (question.type === QuestionType.SLIDE) {
+      if (!question.answer.text) {
+        questionError.answers.push('Answer text is required.');    
+        isValid = false;
+      } else {
+        questionError.answers.push('');
+      }
+    }
+       
+    formErrors.questions[index] = questionError;    
+  }    
+  console.log(formErrors)
+  return isValid;
+}
+
+/**
  * The unique identifier for questions.
  */
 let questionIdentifier = 0;
@@ -81,7 +139,14 @@ let questionIdentifier = 0;
 for (const question of quiz.questions) {  
   let answerIdentifier = 0;
   question.identifier = `q${questionIdentifier}`;
-  if (question.type === QuestionType.TEXT || question.type === QuestionType.TRUE_OR_FALSE) {
+  const questionError = { identifier: question.identifier, text: '', answers: [] };
+  if (question.type === QuestionType.TEXT) {    
+    for (const answer of question.answers) {
+      questionError.answers.push({ identifier: `${question.identifier}-a${answerIdentifier}`, text: '' });
+      answer.identifier = `${question.identifier}-a${answerIdentifier}`;
+      answerIdentifier++;
+    }    
+  } else if (question.type === QuestionType.TRUE_OR_FALSE) {
     for (const answer of question.answers) {
       answer.identifier = `${question.identifier}-a${answerIdentifier}`;
       answerIdentifier++;
@@ -91,20 +156,22 @@ for (const question of quiz.questions) {
     answerIdentifier++;
   }  
   questionIdentifier++;  
+  formErrors.questions.push(questionError);
 }
-
-/**
- * Indicates if the form has been submitted.
- *
- * @type {Ref<boolean>}
- */
-const formSubmitted = ref(false);
 
 /**
  * Adds a new question to the quiz.
  */
 const addQuestion = () => {
   const identifier = `q${Date.now()}`;  
+  const answerIdentifier = `${identifier}-a${Date.now()}`;
+  formErrors.questions.push({ 
+    identifier, 
+    text: '', 
+    answers: [
+      { identifier: answerIdentifier, text: '' }
+    ]
+  });
   quiz.questions.push({
     identifier: identifier,
     text: "",
@@ -112,12 +179,12 @@ const addQuestion = () => {
     type: QuestionType.TEXT,
     answers: [
       {
-        identifier: `${identifier}-a${Date.now()}`,
+        identifier: `${answerIdentifier}`,
         text: '',
         isCorrect: false,
       }
     ],
-  });
+  });  
 };
 
 /**
@@ -139,12 +206,18 @@ function updateQuestion(updatedQuestion, identifier) {
 const deleteQuestion = (identifier) => {  
   const index = quiz.questions.findIndex((question) => question.identifier === identifier);
   quiz.questions.splice(index, 1);
+  const formErrorIndex = formErrors.questions.findIndex((questionError) => questionError.identifier === identifier);
+  formErrors.questions.splice(formErrorIndex, 1);
 };
 
 /**
  * Emits the submit event.
  */
 function emitSubmit() {
+  console.log("Submitting form")
+  if (!formIsValid()) {
+    return;
+  }
   emit('submit', quiz)
 }
 </script>
@@ -155,9 +228,7 @@ function emitSubmit() {
       <h1>{{ formTitle }}</h1>      
       <Button type="submit">{{ submitFormText }}</Button>
     </div>
-    <Input id="quizTitle" label="Quiz title" placeholder="Enter your quiz title here" v-model="quiz.title"
-      :class="{ 'is-invalid': formSubmitted && !quiz.title }" />
-    <p v-if="formSubmitted && !quiz.title" class="validation-error">Quiz title is required.</p>  
+    <Input id="quizTitle" label="Quiz title" placeholder="Enter your quiz title here" v-model="quiz.title" :error-message="formErrors.title" />    
     
     <div class="dropdownMenus">
       <p>Select a Category</p>
@@ -184,7 +255,7 @@ function emitSubmit() {
   
     <h2>Questions</h2>
     <CreateQuestion v-for="(question) in quiz.questions" :key="question.identifier" :identifier="question.identifier" :question="question"
-      @update-question="updateQuestion($event, question.identifier)" @delete-question="deleteQuestion(question.identifier)" />
+      @update-question="updateQuestion($event, question.identifier)" @delete-question="deleteQuestion(question.identifier)" :question-errors="formErrors.questions.find(questionError => questionError.identifier === question.identifier)" />
     <div class="lowerBar">
       <Button @click="addQuestion">Add Question</Button>
       <Button type="submit" v-if="quiz.questions.length > 0">{{ submitFormText }}</Button>
