@@ -2,8 +2,16 @@ import { Category } from "@/utils/category";
 import { DifficultyLevel } from "@/utils/difficultyLevel";
 import axios from "axios";
 
+/**
+ * Quiz module for Vuex store
+ */
+
+/**
+ * Define the quiz module for the Vuex store.
+ */
 const quizModule = {
   namespaced: true,
+  // Holds all the reactive data for the quiz module.
   state() {
     return {
       quizzes: [],
@@ -22,9 +30,11 @@ const quizModule = {
     }
   },
   mutations: {
+    // Set the quizzes array.
     setQuizzes(state, payload) {
       state.quizzes = payload;
     },
+    // Set the quiz along with its details.
     setQuiz(state, payload) {
       const quiz = payload;
       quiz.difficultyLevel = DifficultyLevel[quiz.difficultyLevel];
@@ -32,18 +42,21 @@ const quizModule = {
       quiz.totalPoints = quiz.questions.reduce((acc, question) => acc + question.points, 0);
       state.quiz = quiz;
     },
-
+    // Set the searched quizzes array.
     setSearchedQuizzes(state, payload) {
       state.searchedQuizzes = payload;
     },
+    // Set the personal scores for the quiz.
     setPersonalScores(state, payload) {
       state.quiz.personalScores = payload;
     },
+    // Set the recent quizzes array.
     setRecentQuizzes(state, payload) {
       state.recentQuizzes = payload;
     }
   },
   actions: {
+    // Fetch all quizzes associated with the user.
     async fetchQuizzes({ commit }, payload) {
       const token = localStorage.getItem("token");
       try {
@@ -58,6 +71,7 @@ const quizModule = {
         console.error('Failed to get quizzes:', error);        
       }
     },
+    // Fetch the most recent quizzes.
     async fetchRecentQuizzes({ commit }, payload) {
       const token = localStorage.getItem("token");
       try {
@@ -72,6 +86,7 @@ const quizModule = {
         console.error('Failed to get quizzes:', error);
       }
     },
+    // Fetch a quiz by its ID, along with the personal scores.
     async fetchQuizById({ commit, state, dispatch }, payload) {
       try {        
         const quizId = payload;
@@ -97,6 +112,7 @@ const quizModule = {
         console.error('Failed to fetch quiz by id:', error);        
       }
     },
+    // Fetch the personal scores for the quiz for the current user.
     async fetchPersonalScores({ commit }, payload) {
       try {
         const quizId = payload;
@@ -115,6 +131,7 @@ const quizModule = {
         console.error('Failed to fetch personal scores:', error);
       }
     },
+    // Create a new quiz, and submit it to the backend.
     async createQuiz({ commit }, payload) {
       try {
         const token = localStorage.getItem("token");
@@ -129,6 +146,7 @@ const quizModule = {
         console.error('Failed to get user info:', error);   
       }
     },
+    // Update an existing quiz.
     async updateQuiz({ commit }, payload) {
       try {
         const quizId = payload.id;
@@ -148,6 +166,7 @@ const quizModule = {
         console.error('Failed to update quiz:', error);   
       }
     },
+    // Delete a quiz by its ID, and redirect to the home page.
     async deleteQuiz({ commit }, payload) {
       try {
         const quizId = payload;
@@ -165,6 +184,7 @@ const quizModule = {
         console.error('Failed to delete quiz:', error);   
       }
     },
+    // Search for quizzes by a query.
     async searchForQuiz({ commit }, payload) {
       try {
         const token = localStorage.getItem("token");
@@ -182,4 +202,7 @@ const quizModule = {
   },
 }
 
+/**
+ * Exports the quiz module.
+ */
 export default quizModule;

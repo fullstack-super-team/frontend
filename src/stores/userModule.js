@@ -1,7 +1,15 @@
 import axios from 'axios';
 
+/**
+ * User module for Vuex store
+ */
+
+/**
+ * Define the user module for the Vuex store.
+ */
 const userModule = {
   namespaced: true,
+  // Holds all the reactive data for the user module.
   state() {
     return {
       id: "",
@@ -14,6 +22,7 @@ const userModule = {
     }
   },
   mutations: {
+    // Set the user info.
     setUserInfo(state, payload) {
       state.id = payload.id;
       state.firstName = payload.firstName;
@@ -25,6 +34,7 @@ const userModule = {
     }
   },
   actions: {
+    // Fetch the user info from the server.
     async getUserInfo({ commit }, payload) {
       try {
         const response = await axios.get('http://localhost:8080/users/me', {
@@ -38,6 +48,7 @@ const userModule = {
         commit("setError", error);
       }
     },
+    // Login the user and store the token in local storage.
     async login({ commit }, payload) {
       try {
         const response = await axios.post("http://localhost:8080/auth/login", payload);
@@ -50,6 +61,7 @@ const userModule = {
         return error?.response?.data?.message || error.message || "Something went wrong";
       }
     },
+    // Register a new user, log in and store the token in local storage.
     async register({ commit }, payload) {
       try {
         const response = await axios.post("http://localhost:8080/auth/register", payload);
@@ -61,6 +73,7 @@ const userModule = {
         return error?.response?.data?.message || error.message || "Something went wrong";
       }
     },
+    // Update the user's information.
     async updateUser({ commit }, payload) {
       try {
         const token = localStorage.getItem("token");
@@ -82,6 +95,7 @@ const userModule = {
         };
       }
     },
+    // Logout the user and remove the token from local storage.
     async logout({ commit }) {
       localStorage.removeItem("token");
       console.log("Logged out")
@@ -90,4 +104,7 @@ const userModule = {
   },
 }
 
+/**
+ * Exports the user module.
+ */
 export default userModule;
