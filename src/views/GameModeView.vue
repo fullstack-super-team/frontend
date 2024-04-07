@@ -64,8 +64,7 @@ const answersOpacity = computed(() => {
     if (!isAnswerSelected.value) {
       return 1;
     }
-
-    if (answer.text === correctAnswers.value || answer.text === selectedAnswerText.value) {
+    if (answer.text === selectedAnswerText.value) {
       return 1;
     }
     return 0.5;
