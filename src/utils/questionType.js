@@ -25,4 +25,4 @@ function getQuestionTypeLabel(type) {
   }
 }
 
-export { QuestionType, getQuestionTypes };
+export { QuestionType, getQuestionTypes, getQuestionTypeLabel };

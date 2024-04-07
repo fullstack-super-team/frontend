@@ -24,4 +24,4 @@ function getDifficultyLevelLabel(level) {
   }
 }
 
-export { DifficultyLevel, getDifficultyLevels };
+export { DifficultyLevel, getDifficultyLevels, getDifficultyLevelLabel };
