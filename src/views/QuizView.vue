@@ -111,12 +111,14 @@ const deleteQuiz = () => {
     <div class="quizView-container" v-if="quiz">
       <header class="quizView-header">
         <h1 class="quizView-title">{{mainStore.state.quiz.quiz.title}}</h1>
-        <RouterLink v-if="isAuthor" :to="`/quiz/${quizId}/edit`" custom v-slot="{ navigate }">
-          <Button type="button" @click="navigate">
-            Edit
-          </Button>
-        </RouterLink>
-        <Button class="delete-button" @click="deleteQuiz">Delete</Button>
+        <div class="header-buttons">
+          <RouterLink v-if="isAuthor" :to="`/quiz/${quizId}/edit`" custom v-slot="{ navigate }">
+            <Button type="button" @click="navigate">
+              Edit
+            </Button>
+          </RouterLink>
+          <Button class="delete-button" @click="deleteQuiz">Delete</Button>
+        </div>
       </header>
       <div class="quizView-content">
         <div class="quizView-meta">
@@ -166,11 +168,6 @@ const deleteQuiz = () => {
   box-sizing: border-box;
 }
 
-.quizView-title {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
 .quizView-statistics {
   flex: 1;
   order: 2;
@@ -191,6 +188,17 @@ const deleteQuiz = () => {
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  margin-bottom: 20px;
+}
+
+.header-buttons {
+  justify-content: right;
+}
+
+.quizView-title {
+  display: flex;
+  text-align: center;
+  align-items: center;
 }
 
 .quizView-statistics li {
@@ -237,6 +245,7 @@ h3, .scores-text {
 
 .delete-button {
   background-color: red;
+  margin-left: 15px;
 }
 
 .delete-button:hover {
@@ -260,12 +269,6 @@ h3, .scores-text {
 
   .quizView-title {
     text-align: left;
-  }
-
-  .edit-button {
-    order: -1;
-    align-self: flex-end;
-    margin-bottom: 10px;
   }
 
   .quizView-meta, .quizView-statistics, .quizView-statistics h3 {
