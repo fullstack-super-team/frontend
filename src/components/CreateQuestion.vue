@@ -188,8 +188,8 @@ const deleteQuestion = () => {
     </div>
 
     <TextArea :id="`${identifier}:text`" v-model="localQuestion.text" label="Question" placeholder="Write your question here.." :charLimit="200" :startHeight="100" @update:model-value="emitUpdate" :error-message="questionErrors.text" />
-
-    <h3>Answers</h3>    
+    <h3>Answers</h3>
+    <p v-if="localQuestion.type === QuestionType.TEXT || localQuestion.type === QuestionType.TRUE_OR_FALSE">(Tick correct answer)</p>
     <SliderAnswer :id="`${identifier}:slider`" v-if="localQuestion.type === QuestionType.SLIDE" :answer="localQuestion.answer" />
 
     <div v-if="localQuestion.type === QuestionType.TEXT" class="answers-container">
@@ -206,7 +206,7 @@ const deleteQuestion = () => {
         @delete-answer="deleteAnswer(`${answer.identifier}`)"
       />
     </div>
-    <Button v-if="localQuestion.type === QuestionType.TEXT" @click="addTextAnswer" :disabled="localQuestion.answers?.length >= 4">Add answer</Button>
+    <Button v-if="localQuestion.type === QuestionType.TEXT" @click="addTextAnswer" :disabled="localQuestion.answers?.length >= 4" class="answer-card-button">Add answer</Button>
       <div v-if="localQuestion.type === QuestionType.TRUE_OR_FALSE" class="answers-container">
         <AnswerCard
         v-if="localQuestion.type === QuestionType.TRUE_OR_FALSE"
@@ -318,6 +318,10 @@ button:disabled {
 
 .point-buttons-box {
   margin-bottom: 10px;
+}
+
+h3, .answer-card-button {
+  margin-top: 25px;
 }
 
 @media (max-width: 768px) {
