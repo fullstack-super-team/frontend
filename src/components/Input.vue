@@ -1,4 +1,5 @@
 <script setup>
+
 /**
  * A simple input component that allows users to input text.
  */
