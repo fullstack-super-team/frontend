@@ -1,7 +1,7 @@
 <script setup>
 /**
- * The setup component script for managing user settings within the application.
- * It leverages Vue's Composition API to handle user state and interactions
+ * The profile script for managing user settings within the application.
+ * It uses Vue's Composition API to handle user state and interactions
  * such as editing user details and logging out.
  */
 
@@ -13,13 +13,15 @@ import { useStore } from "vuex";
 import {ref} from "vue";
 
 /**
- * The Vuex store instance, used to access and dispatch state.
+ * Used to access and dispatch state.
+ *
  * @type {Store}
  */
 const store = useStore();
 
 /**
- * The Vue Router instance, used for navigating between routes.
+ * Used for navigating between routes.
+ *
  * @type {Router}
  */
 const router = useRouter();
@@ -27,19 +29,21 @@ const router = useRouter();
 /**
  * A reactive reference to a clone of the user object,
  * allowing for local modifications without affecting the store's state.
+ *
  * @type {Ref<Object>}
  */
 const userEditable = ref({ ...store.state.user});
 
 /**
  * A reactive reference to the response of the user update submission.
+ *
  * @type {Ref<Object|null>}
  */
 const submitResponse = ref(null);
 
-
 /**
  * A reactive boolean flag to toggle edit mode on and off.
+ *
  * @type {Ref<Boolean>}
  */
 const isEditMode = ref(false);
@@ -55,6 +59,7 @@ const toggleEditMode = () => {
 
 /**
  * Saves the user details by dispatching the update user action.
+ *
  * @function saveUser
  * @returns {void}
  */
@@ -65,6 +70,7 @@ async function saveUser() {
 
 /**
  * Logs the user out by dispatching the logout action and redirects to the login page.
+ *
  * @function logout
  * @returns {void}
  */
@@ -100,7 +106,9 @@ const logout = () => {
         <Input label="Email" :placeholder="userEditable.email" v-model="userEditable.email"
                :disabled="!isEditMode" :class="{ editable: isEditMode }"/>
       </div>
-      <span v-if="submitResponse" :style="submitResponse.error ? 'color: red;' : 'color: green;'">{{ submitResponse.text }}</span>
+      <span v-if="submitResponse" :style="submitResponse.error ? 'color: red;' : 'color: green;'">
+        {{ submitResponse.text }}
+      </span>
     </form>
   </MainLayout>
 </template>

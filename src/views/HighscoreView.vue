@@ -5,20 +5,33 @@ import router from "@/router/index.js";
 import {useRoute} from "vue-router";
 import {formatDate} from "../utils/dateFormatter.js";
 
+/**
+ * Script setup for displaying results after finishing a quiz game.
+ * Retrieves high scores and quiz information from the store and provides a navigation function.
+ */
+
+/**
+ * Fetches the current route and quiz data from the store.
+ */
 const url = useRoute();
 const highScores = mainStore.state.game.highScoreList;
 const quizId = url.params.id;
 const quizTitle = mainStore.state.quiz.quiz.title;
 const numberOfQuestions = mainStore.state.game.quiz.questions.length;
 
+/**
+ * Computes the number of correct answers and retrieves the correct answers from the store.
+ */
 const correctAnswers = mainStore.state.game.answers.filter(answer => answer.pointsGiven > 0)
 const numberOfCorrectAnswers = correctAnswers.length;
 
 
+/**
+ * Navigates back to the quiz overview page.
+ */
 function backToQuizPage() {
   router.push(`/quiz/${quizId}`);
 }
-
 </script>
 
 <template>
@@ -37,7 +50,8 @@ function backToQuizPage() {
       <h2 class="high-score-title">HIGH SCORE</h2>
       <ul class="numbered-list">
         <li v-for="score in highScores" :key="score.id">
-          {{ score.user.username }} - {{ score.points }}/{{ mainStore.state.game.totalPoints }} {{ formatDate(score.date) }}
+          {{ score.user.username }} - {{ score.points }}/{{ mainStore.state.game.totalPoints }}
+          {{ formatDate(score.date) }}
         </li>
       </ul>
     </div>
@@ -134,5 +148,4 @@ body {
     width: 80%;
   }
 }
-
 </style>

@@ -5,8 +5,24 @@ import Input from "@/components/Input.vue";
 import store from '@/stores/mainStore';
 import Button from "@/components/Button.vue";
 import { useRouter } from 'vue-router';
+
+/**
+ * Script setup for user registration.
+ * Defines the reactive state for form values and validation errors.
+ */
+
+/**
+ * Used to access and dispatch state.
+ *
+ * @type {Router}
+ */
 const router = useRouter();
 
+/**
+ * Reactive state for the registration form containing the user's details.
+ *
+ * @type {UnwrapNestedRefs<{firstName: string, lastName: string, password: string, email: string, username: string}>}
+ */
 const formValues = reactive({
   firstName: "",
   lastName: "",
@@ -15,6 +31,12 @@ const formValues = reactive({
   password: "",
 });
 
+/**
+ * Reactive state for the registration form containing the error messages.
+ *
+ * @type {UnwrapNestedRefs<{firstName: null, lastName: null, formSubmission: null, password: null, email: null,
+ * username: null}>}
+ */
 const errorMessages = reactive({
   firstName: null,
   lastName: null,
@@ -24,6 +46,11 @@ const errorMessages = reactive({
   formSubmission: null,
 });
 
+/**
+ * Validates the registration form.
+ *
+ * @returns {boolean} - True if the form is valid, false otherwise.
+ */
 const validateForm = () => {
   errorMessages.firstName = !formValues.firstName ? "First name is required" : null;
 
@@ -37,12 +64,25 @@ const validateForm = () => {
   errorMessages.password = !formValues.password ? "Password is required" :
       formValues.password.length < 8 ? "Password must be at least 8 characters" : null;
 
-  return !errorMessages.firstName && !errorMessages.lastName && !errorMessages.username && !errorMessages.email && !errorMessages.password;
+  return !errorMessages.firstName && !errorMessages.lastName && !errorMessages.username && !errorMessages.email &&
+      !errorMessages.password;
 }
+
+/**
+ * Validates an email address.
+ *
+ * @param {string} email - The email address to validate.
+ * @returns {boolean} - True if the email is valid, false otherwise.
+ */
 function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+/**
+ * Registers a new user.
+ *
+ * @returns {Promise<void>}
+ */
 async function register() {
   if (!validateForm()) {
     return;
@@ -62,11 +102,16 @@ async function register() {
     <img src="@/assets/QBLoginLogo.png" alt="Quizzebassen logo" class="logo">
     <h1>Register</h1>
     <form @submit.prevent="register">
-      <Input label="First name" placeholder="First name" v-model="formValues.firstName" :error-message="errorMessages.firstName"/>
-      <Input label="Last name" placeholder="Last name" v-model="formValues.lastName" :error-message="errorMessages.lastName"/>
-      <Input label="Username" placeholder="Username" v-model="formValues.username" :error-message="errorMessages.username"/>
-      <Input label="Email" placeholder="Email" v-model="formValues.email" :error-message="errorMessages.email"/>
-      <Input label="Password" placeholder="Password" type="password" v-model="formValues.password" :error-message="errorMessages.password"/>
+      <Input label="First name" placeholder="First name" v-model="formValues.firstName"
+             :error-message="errorMessages.firstName"/>
+      <Input label="Last name" placeholder="Last name" v-model="formValues.lastName"
+             :error-message="errorMessages.lastName"/>
+      <Input label="Username" placeholder="Username" v-model="formValues.username"
+             :error-message="errorMessages.username"/>
+      <Input label="Email" placeholder="Email" v-model="formValues.email"
+             :error-message="errorMessages.email"/>
+      <Input label="Password" placeholder="Password" type="password" v-model="formValues.password"
+             :error-message="errorMessages.password"/>
       <Button type="submit">Register</Button>
       <span style="color:red;">{{ errorMessages.formSubmission }}</span>
     </form>
