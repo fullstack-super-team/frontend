@@ -9,7 +9,9 @@ import {watchEffect} from "vue";
  * when there's an update to the model value.
  */
 
-// Define the model's properties with specific type and requirement constraints.
+/**
+ * Defines the model for the component.
+ */
 defineModel();
 
 /**

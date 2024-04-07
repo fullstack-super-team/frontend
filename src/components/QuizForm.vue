@@ -27,7 +27,6 @@ const emit = defineEmits(['submit'])
  * @property {Object} initialValues - The initial values for the form fields. Defaults to an empty object.
  * @property {Function} onSubmit - The function to call when the form is submitted. This prop is required.
  */
-
 const props = defineProps({
   formTitle: {
     type: String,
@@ -47,6 +46,11 @@ const props = defineProps({
   },
 })
 
+/**
+ * The default values for the quiz form.
+ *
+ * @type {{difficultyLevel: number, questions: *[], description: string, title: string, category: string, randomize: boolean}}
+ */
 const defaultValues = {
   title: "",  
   description: "",
@@ -56,9 +60,19 @@ const defaultValues = {
   questions: [],
 };
 
+/**
+ * Merges the default values with the initial values provided as props.
+ */
 const mergedValues = { ...defaultValues, ...props.initialValues };
+
+/**
+ * A reactive object that contains the quiz form data.
+ */
 const quiz = reactive(mergedValues);
 
+/**
+ * The unique identifier for questions.
+ */
 let questionIdentifier = 0;
 
 /**
@@ -79,6 +93,11 @@ for (const question of quiz.questions) {
   questionIdentifier++;  
 }
 
+/**
+ * Indicates if the form has been submitted.
+ *
+ * @type {Ref<boolean>}
+ */
 const formSubmitted = ref(false);
 
 /**

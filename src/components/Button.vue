@@ -1,5 +1,6 @@
 <script setup>
 import { defineEmits } from 'vue';
+
 /**
  * A simple button component
  */
