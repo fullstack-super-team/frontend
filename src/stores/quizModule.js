@@ -1,7 +1,6 @@
 import { Category } from "@/utils/category";
 import { DifficultyLevel } from "@/utils/difficultyLevel";
 import axios from "axios";
-import router from "@/router";
 
 const quizModule = {
   namespaced: true,
@@ -162,7 +161,6 @@ const quizModule = {
           }
         });
         console.log(response.data)
-        router.push("/");
       } catch (error) {
         console.error('Failed to delete quiz:', error);   
       }
