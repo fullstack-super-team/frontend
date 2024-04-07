@@ -31,11 +31,17 @@ const userModule = {
       state.email = payload.email;
       state.token = payload.token;
       state.isLoggedIn = payload.isLoggedIn;
+    },
+    setToken(state, payload) {
+      state.token = payload;
+    },
+    setIsLoggedIn(state, payload) {
+      state.isLoggedIn = payload;
     }
   },
   actions: {
     // Fetch the user info from the server.
-    async getUserInfo({ commit }, payload) {
+    async getUserInfo({ commit, dispatch }, payload) {
       try {
         const response = await axios.get('http://localhost:8080/users/me', {
           headers: {
@@ -46,6 +52,7 @@ const userModule = {
       } catch (error) {
         console.error('Failed to get user info:', error);  
         commit("setError", error);
+        dispatch("logout");
       }
     },
     // Login the user and store the token in local storage.

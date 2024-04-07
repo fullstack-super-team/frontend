@@ -11,7 +11,9 @@ app.use(store);
 
 const token = localStorage.getItem('token');
 if (token) {
-  await store.dispatch('user/getUserInfo', token);    
+  store.commit('user/setToken', token);
+  store.commit('user/setIsLoggedIn', true)  
+  store.dispatch('user/getUserInfo', token);
 }
 
 app.use(router);
