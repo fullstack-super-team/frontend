@@ -3,10 +3,10 @@ import { Category, getCategories, getCategoryLabel } from '../category';
 describe('Category', () => {
   it('should have the correct values', () => {
     expect(Category.FOOD).toBe('food');
-    expect(Category.DRINK).toBe('drink');
-    expect(Category.CLOTHING).toBe('clothing');
-    expect(Category.ELECTRONICS).toBe('electronics');
-    expect(Category.BOOKS).toBe('books');
+    expect(Category.SPORT).toBe('sport');
+    expect(Category.SCIENCE).toBe('science');
+    expect(Category.HISTORY).toBe('history');
+    expect(Category.CULTURE).toBe('culture');
     expect(Category.GENERAL).toBe('general');
   });
 });
@@ -16,30 +16,12 @@ describe('getCategories', () => {
     const categories = getCategories();
     console.log(categories);
     expect(categories).toEqual([
-      {
-        label: 'Food',
-        value: 'food'
-      },
-      {
-        label: 'Drink',
-        value: 'drink'
-      },
-      {
-        label: 'Clothing',
-        value: 'clothing'
-      },
-      {
-        label: 'Electronics',
-        value: 'electronics'
-      },
-      {
-        label: 'Books',
-        value: 'books'
-      },
-      {
-        label: 'General',
-        value: 'general'
-      }
+        { value: 'food', label: 'Food' },
+      { value: 'sport', label: 'Sport' },
+      { value: 'science', label: 'Science' },
+      { value: 'history', label: 'History' },
+      { value: 'culture', label: 'Culture' },
+      { value: 'general', label: 'General' },
     ]);
   });
 });
@@ -47,10 +29,10 @@ describe('getCategories', () => {
 describe('getCategoryLabel', () => {
   it('should return the correct label for a given category', () => {
     expect(getCategoryLabel('food')).toBe('Food');
-    expect(getCategoryLabel('drink')).toBe('Drink');
-    expect(getCategoryLabel('clothing')).toBe('Clothing');
-    expect(getCategoryLabel('electronics')).toBe('Electronics');
-    expect(getCategoryLabel('books')).toBe('Books');
+    expect(getCategoryLabel('sport')).toBe('Sport');
+    expect(getCategoryLabel('science')).toBe('Science');
+    expect(getCategoryLabel('history')).toBe('History');
+    expect(getCategoryLabel('culture')).toBe('Culture');
     expect(getCategoryLabel('general')).toBe('General');
   });
 

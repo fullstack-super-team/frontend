@@ -1,7 +1,6 @@
 import { Category } from "@/utils/category";
 import { DifficultyLevel } from "@/utils/difficultyLevel";
 import axios from "axios";
-import router from "@/router";
 
 /**
  * Quiz module for Vuex store
@@ -181,7 +180,6 @@ const quizModule = {
           }
         });
         console.log(response.data)
-        router.push("/");
       } catch (error) {
         console.error('Failed to delete quiz:', error);   
       }
