@@ -48,6 +48,7 @@ const emit = defineEmits(["update:modelValue"]);
 .input-wrapper {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   gap: 5px;
 }
 

@@ -1,9 +1,10 @@
 <script setup>
+
 /**
  * Script setup for the Quiz Detail View.
  * Handles state initialization, data fetching on mount, and defines computed properties for the quiz details.
- * Also provides methods for navigation like starting a quiz.
  */
+
 import { computed} from "vue";
 import { onMounted, ref } from "vue";
 import Button from "@/components/Button.vue";
@@ -15,10 +16,14 @@ import { formatDate, formatDateWithTime} from "@/utils/dateFormatter.js";
 
 /**
  * The quiz object that will be filled with the quiz data once it's fetched.
+ *
  * @type {Ref<Object|null>}
  */
 const quiz = ref(null);
 
+/**
+ * Fetches the quiz data from the store and sets the quiz object.
+ */
 onMounted(async () => {
   mainStore.dispatch('quiz/fetchQuizzes', quizId);
   quiz.value = mainStore.state.quiz.quiz;
@@ -26,6 +31,7 @@ onMounted(async () => {
 
 /**
  * Checks if the quiz has questions.
+ *
  * @type {ComputedRef<Boolean>}
  */
 const hasQuestions = computed(() => {
@@ -34,12 +40,14 @@ const hasQuestions = computed(() => {
 
 /**
  * Retrieves the current route details.
+ *
  * @type {RouteLocationNormalizedLoaded}
  */
 const currentUrl = useRoute();
 
 /**
  * Unique identifier of the quiz extracted from the current route.
+ *
  * @type {string}
  */
 const quizId = currentUrl.params.id;
@@ -48,6 +56,7 @@ mainStore.dispatch('quiz/fetchQuizById', quizId);
 
 /**
  * Checks if the current user is the author of the quiz.
+ *
  * @type {ComputedRef<Boolean>}
  */
 const isAuthor = computed(() => {
@@ -56,6 +65,7 @@ const isAuthor = computed(() => {
 
 /**
  * Get the most recent attempts at the quiz by the user.
+ *
  * @type {ComputedRef<Array>}
  */
 const recentAttempts = computed(() => {
@@ -64,6 +74,7 @@ const recentAttempts = computed(() => {
 
 /**
  * Returns the total points available in the quiz game.
+ *
  * @type {ComputedRef<Number>}
  */
 const totalPoints = computed(() => {
@@ -72,6 +83,7 @@ const totalPoints = computed(() => {
 
 /**
  * Formats the last updated timestamp of the quiz.
+ *
  * @type {ComputedRef<String>}
  */
 const formattedDate = computed(() => {
@@ -79,7 +91,7 @@ const formattedDate = computed(() => {
 });
 
 /**
- * Method to start the quiz, navigating the user to the quiz playing route.
+ * Method to start the quiz, navigating to the quiz playing route.
  */
 const startQuiz = () => {
   router.push(`/quiz/${mainStore.state.quiz.quiz.id}/play`);
@@ -88,6 +100,7 @@ const startQuiz = () => {
 
 /**
  * Method to delete the quiz.
+ * Prompts confirmation before deleting the quiz.
  */
 const deleteQuiz = () => {
   if (window.confirm('Are you sure you want to delete this quiz?')) {
@@ -102,7 +115,6 @@ const deleteQuiz = () => {
   } else {
     console.log('Quiz deletion was cancelled');
   }
-
 }
 </script>
 
@@ -122,7 +134,8 @@ const deleteQuiz = () => {
       </header>
       <div class="quizView-content">
         <div class="quizView-meta">
-          <p><strong>By: </strong>{{mainStore.state.quiz.quiz.author.firstName}} {{mainStore.state.quiz.quiz.author.lastName}}</p>
+          <p><strong>By: </strong>{{mainStore.state.quiz.quiz.author.firstName}}
+            {{mainStore.state.quiz.quiz.author.lastName}}</p>
           <p><strong>Last edited: </strong>{{ formattedDate }} </p>
           <p><strong>Description: </strong>{{mainStore.state.quiz.quiz.description}}</p>
           <p><strong>Category: </strong>{{mainStore.state.quiz.quiz.category}}</p>
@@ -132,7 +145,9 @@ const deleteQuiz = () => {
           <h3><strong>Recent attempts</strong></h3>
           <ul v-if="recentAttempts?.length > 0">
             <li v-for="(scores, index) in recentAttempts" :key="index">
-              <p class="scores-text">{{ "Score: " + scores.points }}/{{totalPoints}} - {{ formatDateWithTime(scores.date) }}</p>
+              <p class="scores-text">
+                {{ "Score: " + scores.points }}/{{totalPoints}} - {{ formatDateWithTime(scores.date) }}
+              </p>
             </li>
           </ul>
           <span v-else class="no-recent-attempts">No recent attempts yet...</span>
@@ -172,7 +187,7 @@ const deleteQuiz = () => {
   flex: 1;
   order: 2;
   background-color: #0f3f6b;
-  border-radius: 5px;
+  border-radius: 20px;
   padding: 20px;
   margin: 20px 0;
   width: 100%;

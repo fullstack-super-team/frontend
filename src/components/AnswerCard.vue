@@ -2,6 +2,7 @@
 import { ref, defineEmits, defineProps } from 'vue';
 import Button from './Button.vue';
 import deleteIcon from '@/assets/delete.png'
+import Input from './Input.vue';
 
 /**
  * A component that represents an answer card.
@@ -57,11 +58,11 @@ const deleteThisCard = () => {
 
 <template>
   <div class="answer-card">
-    <input
+    <Input
         :id="`${identifier}:answer`"
         type="text"
         v-model="localAnswer.text"
-        @change="emitUpdate"
+        @update:model-value="emitUpdate"
         :disabled="props.readonly"
         placeholder="Enter answer here..."
     />    
