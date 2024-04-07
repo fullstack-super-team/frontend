@@ -187,7 +187,7 @@ const deleteQuiz = () => {
   flex: 1;
   order: 2;
   background-color: #0f3f6b;
-  border-radius: 5px;
+  border-radius: 20px;
   padding: 20px;
   margin: 20px 0;
   width: 100%;
