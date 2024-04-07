@@ -84,10 +84,7 @@ const isCorrectAnswer = computed(() => {
     if (!isAnswerSelected.value) {
       return null;
     }
-    if (questionType.value === QuestionType.TEXT) {
-      return correctAnswers.value.includes(answer.text);
-    }
-    return answer.text === correctAnswers.value;
+    return correctAnswers.value.includes(answer.text);    
   });
 });
 
