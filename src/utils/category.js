@@ -33,4 +33,4 @@ function getCategoryLabel(type) {
   }
 }
 
-export { Category, getCategories };
+export { Category, getCategories, getCategoryLabel };
