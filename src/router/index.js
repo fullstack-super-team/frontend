@@ -12,6 +12,11 @@ import QuizView from "@/views/QuizView.vue";
 import HighscoreView from "@/views/HighscoreView.vue";
 import EditQuizView from "@/views/EditQuizView.vue";
 
+/**
+ * Create a new router instance.
+ *
+ * @type {Router}
+ */
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -91,11 +96,19 @@ const router = createRouter({
   ]
 })
 
-// Define the global beforeEach guard
+/**
+ * Global navigation guard.
+ *
+ * Checks if the target route requires authentication (indicated by the `requiresAuth` meta field).
+ * If the route requires authentication, check if the user is logged in (by checking `store.state.user.isLoggedIn`).
+ * If not logged in, redirect to the login page. Otherwise, proceed to the route.
+ *
+ *
+ * Ensures that only authenticated users can access certain routes,
+ * while unauthenticated can access routes that do not require authentication.
+ */
 router.beforeEach((to, from, next) => {
-  // Here, implement the logic to check if the user is logged in
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Assume `isUserLoggedIn` is a function you've defined to check login status
     if (!store.state.user.isLoggedIn) {
       // If the user is not logged in, redirect to the login page
       next('/login');
@@ -109,4 +122,7 @@ router.beforeEach((to, from, next) => {
   }
 });
 
+/**
+ * Exports the router.
+ */
 export default router;
