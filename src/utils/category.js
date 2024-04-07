@@ -1,9 +1,9 @@
 const Category = {
   FOOD: "food",
-  DRINK: "drink",
-  CLOTHING: "clothing",
-  ELECTRONICS: "electronics",
-  BOOKS: "books",
+  SPORT: "sport",
+  SCIENCE: "science",
+  HISTORY: "history",
+  CULTURE: "culture",
   GENERAL: "general"
 };
 
@@ -18,14 +18,14 @@ function getCategoryLabel(type) {
   switch (type) {
     case Category.FOOD:
       return "Food";
-    case Category.DRINK:
-      return "Drink";
-    case Category.CLOTHING:
-      return "Clothing";
-    case Category.ELECTRONICS:
-      return "Electronics";
-    case Category.BOOKS:
-      return "Books";
+    case Category.SPORT:
+      return "Sport";
+    case Category.SCIENCE:
+      return "Science";
+    case Category.HISTORY:
+      return "History";
+    case Category.CULTURE:
+      return "Culture";
     case Category.GENERAL:
       return "General";      
     default:
