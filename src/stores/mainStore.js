@@ -3,6 +3,15 @@ import userModule from "./userModule";
 import gameModule from "./gameModule";
 import quizModule from "./quizModule";
 
+/**
+ * Main Vuex store.
+ */
+
+/**
+ * Create a new Vuex store.
+ *
+ * @type {Store<unknown>}
+ */
 const store = createStore({
   modules: {
     user: userModule,
@@ -11,4 +20,7 @@ const store = createStore({
   }
 });
 
+/**
+ * Exports the store.
+ */
 export default store;

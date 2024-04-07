@@ -1,7 +1,15 @@
 import axios from "axios";
 
+/**
+ * Game module for Vuex store
+ */
+
+/**
+ * Define the game module for the Vuex store.
+ */
 const gameModule = {
   namespaced: true,
+  // State contains all the reactive data for the game module.
   state() {
     return {
       quiz: {
@@ -22,35 +30,45 @@ const gameModule = {
     }
   },
   mutations: {
+    // Set the current quiz along with its details.
     setQuiz(state, payload) {
       state.quiz = payload;
     },
+    // Set the current question.
     setCurrentQuestion(state, payload) {
       state.currentQuestion = payload;
     },
+    // Set the current question number.
     setCurrentQuestionNumber(state, payload) {
       state.quiz.currentQuestionNumber = payload;
     },
+    // Add a submitted answer to the list of answers.
     addAnswer(state, payload) {
       state.answers.push(payload);
     },
+    // Set the answers array, typically to reset it.
     setAnswers(state, payload) {
       state.answers = payload;
     },
+    // Update the high score list.
     setHighScoreList(state, payload) {
       state.highScoreList = payload;
     },
+    // Set the current points.
     setCurrentPoints(state, payload) {
       state.currentPoints = payload;
     },
+    // Add points to the current points.
     addPoints(state, payload) {
       state.currentPoints += payload;
     },
+    // Set the quiz's total points.
     setTotalPoints(state, payload) {
       state.totalPoints = payload;
     }
   },
   actions: {
+    // Load a quiz by its ID from backend and initialize the state.
     async loadQuizById({ commit }, payload) {
       const token = localStorage.getItem("token");
       try {
@@ -75,10 +93,12 @@ const gameModule = {
         console.error('Failed to get user info:', error);        
       }
     },
+    // Load the next question in the quiz.
     async nextQuestion({ commit, state }) {
       commit("setCurrentQuestionNumber", state.quiz.currentQuestionNumber + 1);
       commit("setCurrentQuestion", state.quiz.questions[state.quiz.currentQuestionNumber]);
     },
+    // Submit an answer to the current question.
     async submitAnswer({ commit, state }, payload) {
       try {
         const answer = payload;
@@ -102,6 +122,7 @@ const gameModule = {
         console.error('Failed to submit answer:', error);        
       }
     },
+    // Finish the quiz and submit the score.
     async finishQuiz({ commit, state }) {
       try {
         console.log(state)
@@ -134,4 +155,7 @@ const gameModule = {
   },
 }
 
+/**
+ * Exports the game module.
+ */
 export default gameModule;
