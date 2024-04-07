@@ -76,7 +76,7 @@ const gameModule = {
         if (!quizId) {
           throw new Error("No quiz ID provided");
         }
-        const response = await axios.get(`http://localhost:8080/quizzes/${quizId}`, {
+        const response = await axios.get(`http://localhost:8080/quizzes/${quizId}/play`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
