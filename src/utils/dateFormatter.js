@@ -1,3 +1,9 @@
+/**
+ * Formats a date string to a human-readable format: dd.mm.yyyy.
+ *
+ * @param dateString
+ * @returns {string}
+ */
 export function formatDate(dateString) {
   const date = new Date(dateString);
   const day = date.getDate().toString().padStart(2, "0");
@@ -6,6 +12,12 @@ export function formatDate(dateString) {
   return `${day}.${month}.${year}`;
 }
 
+/**
+ * Formats a date string to a human-readable format: dd.mm.yyyy hh:mm.
+ *
+ * @param dateString
+ * @returns {string}
+ */
 export function formatDateWithTime(dateString) {
   const date = new Date(dateString);
   const day = date.getDate().toString().padStart(2, "0");

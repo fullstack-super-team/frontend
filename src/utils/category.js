@@ -1,3 +1,8 @@
+/**
+ * Enum for categories.
+ *
+ * @type {{SPORT: string, SCIENCE: string, GENERAL: string, CULTURE: string, FOOD: string, HISTORY: string}}
+ */
 const Category = {
   FOOD: "food",
   SPORT: "sport",
@@ -7,6 +12,11 @@ const Category = {
   GENERAL: "general"
 };
 
+/**
+ * Generates an array of categories with value and label.
+ *
+ * @returns {Array} Array of categories with value and label
+ */
 function getCategories() {
   return Object.keys(Category).map(key => ({
     value: Category[key],
@@ -14,6 +24,12 @@ function getCategories() {
   }));
 }
 
+/**
+ * Returns the label of a given category.
+ *
+ * @param type
+ * @returns {string}
+ */
 function getCategoryLabel(type) {
   switch (type) {
     case Category.FOOD:
@@ -33,4 +49,7 @@ function getCategoryLabel(type) {
   }
 }
 
+/**
+ * Exports the Category object, getCategories and getCategoryLabel functions.
+ */
 export { Category, getCategories, getCategoryLabel };

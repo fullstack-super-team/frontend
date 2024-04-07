@@ -1,9 +1,19 @@
+/**
+ * Question types for the quiz.
+ *
+ * @type {{SLIDE: string, TEXT: string, TRUE_OR_FALSE: string}}
+ */
 const QuestionType = {
   TEXT: "TEXT",
   SLIDE: "SLIDE",
   TRUE_OR_FALSE: "TRUE_OR_FALSE",
 };
 
+/**
+ * Generates an array of question types with value and label.
+ *
+ * @returns {{label: string, value: *}[]}
+ */
 function getQuestionTypes() {
   return Object.keys(QuestionType).map((key) => ({
       value: key,
@@ -12,6 +22,12 @@ function getQuestionTypes() {
   );
 }
 
+/**
+ * Returns the label of a given question type.
+ *
+ * @param type
+ * @returns {string}
+ */
 function getQuestionTypeLabel(type) {
   switch (type) {
     case QuestionType.TEXT:
@@ -25,4 +41,7 @@ function getQuestionTypeLabel(type) {
   }
 }
 
+/**
+ * Exports the QuestionType object, getQuestionTypes and getQuestionTypeLabel functions.
+ */
 export { QuestionType, getQuestionTypes, getQuestionTypeLabel };
