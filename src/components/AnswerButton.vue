@@ -38,8 +38,8 @@ defineProps({
   color: white;
   text-align: center;
   display: grid;
-  grid-template-columns: auto 1fr; /* First column auto-sized to content, second column takes the rest */
-  align-items: center; /* Aligns items vertically in the center */
+  grid-template-columns: auto 1fr;
+  align-items: center;
   height: 100px;
   padding-left: 10px;
   border: none;

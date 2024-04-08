@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import SliderAnswer from '@/components/SliderAnswer.vue';
 
-// Mock Slider component
 const MockSlider = {
     template: '<div></div>',
     props: ['id', 'min', 'max', 'stepSize', 'modelValue', 'isCorrect'],
@@ -16,7 +15,6 @@ const MockSlider = {
 };
 
 describe('SliderAnswer.vue', () => {
-    // Test initializing with explicit props
     it('initializes with explicit props', () => {
         const answerProps = {
             min: 0,
@@ -42,7 +40,6 @@ describe('SliderAnswer.vue', () => {
         expect(wrapper.vm.props.answer.correctValue).toBe(answerProps.correctValue);
     });
 
-    // Test updating minimum value
     it('updates the minimum value when input changes', async () => {
         const wrapper = mount(SliderAnswer, {
             props: {
@@ -65,7 +62,6 @@ describe('SliderAnswer.vue', () => {
         expect(wrapper.vm.props.answer.min).toBe(1);
     });
 
-    // Test updating maximum value
     it('updates the maximum value when input changes', async () => {
         const wrapper = mount(SliderAnswer, {
             props: {
@@ -88,7 +84,6 @@ describe('SliderAnswer.vue', () => {
         expect(wrapper.vm.props.answer.max).toBe(10);
     });
 
-    // Test updating step size
     it('updates the step size when input changes', async () => {
         const wrapper = mount(SliderAnswer, {
             props: {
@@ -111,9 +106,6 @@ describe('SliderAnswer.vue', () => {
         expect(wrapper.vm.props.answer.stepSize).toBe(2);
     });
 
-    // Additional tests for SliderAnswer.vue
-
-// Test initialization with default props when no props are passed
     it('initializes with default props when no explicit props are provided', () => {
         const defaultAnswerProps = {
             min: 0,
@@ -136,7 +128,6 @@ describe('SliderAnswer.vue', () => {
         expect(wrapper.vm.props.answer.correctValue).toBe(defaultAnswerProps.correctValue);
     });
 
-// Test updating the correct answer value through user input
     it('updates the correct answer value when the corresponding input changes', async () => {
         const initialCorrectValue = 3;
         const newCorrectValue = 4;
@@ -162,7 +153,6 @@ describe('SliderAnswer.vue', () => {
         expect(wrapper.vm.props.answer.correctValue).toBe(newCorrectValue);
     });
 
-// Test ensuring that the Slider component receives the correct props
     it('passes the correct props to the Slider component', async () => {
         const answerProps = {
             min: 1,
