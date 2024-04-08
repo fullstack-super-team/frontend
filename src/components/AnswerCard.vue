@@ -87,6 +87,7 @@ const deleteThisCard = () => {
   display: flex;
   align-items: center;
   gap: 10px;
+  width: 100%;
 }
 
 .answer-card input[type="text"] {
