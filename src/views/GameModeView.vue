@@ -5,7 +5,7 @@ import Slider from "@/components/Slider.vue";
 import Button from "@/components/Button.vue";
 import router from "@/router/index.js";
 import { useRoute } from "vue-router";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import { QuestionType } from "@/utils/questionType";
 
 /**
@@ -51,7 +51,6 @@ function backToQuizPage() {
  * @param {string|number} answer - The selected answer.
  */
 async function selectAnswer(answer) {
-  console.log(answer);
   await mainStore.dispatch('game/submitAnswer', answer);
   correctAnswers.value = mainStore.state.game.answers[currentQuestionNumber.value].correctAnswers;
   selectedAnswerText.value = answer;
@@ -62,7 +61,10 @@ async function selectAnswer(answer) {
  * Navigates to the next question or finishes the quiz based on progress.
  */
 async function nextQuestion() {
+  console.log(isAnswerSelected.value)
   isAnswerSelected.value = false;
+  console.log(isAnswerSelected.value)
+
   correctAnswers.value = "";
   if (currentQuestionNumber.value === mainStore.state.game.quiz.questions.length - 1) {
     await mainStore.dispatch('game/finishQuiz');
@@ -140,6 +142,14 @@ const isCorrectAnswer = computed(() => {
  */
 const sliderValueIsSelected = computed(() => {
   return selectedSliderValue.value !== null;
+});
+
+
+/**
+ * Watches for changes in the current question number and resets the selected slider value.
+ */
+watch(currentQuestionNumber, () => {
+  selectedSliderValue.value = null;
 });
 </script>
 
