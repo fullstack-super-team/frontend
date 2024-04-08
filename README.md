@@ -20,6 +20,10 @@ This is the frontend for the voluntary fullstack project in the course IDATT2105
 We have developed a web application for creating and playing quizzes. Whether you are here to challenge your intellect,
 create challenging quizzes or just have fun with trivia, you have come to the right place!
 
+Check it out at (Click image):
+
+[<img src="/src/assets/QBlogo.png">](https://quizzebassen.com/login)
+
 ## 2. Technologies used
 
 * Vue 3 with JavaScript
