@@ -41,7 +41,7 @@ async function submitFeedback() {
     submissionStatus.value = 'Please enter your feedback before submitting.';
     return;
   }
-  const endpoint = '${import.meta.env.VITE_REST_API_URL}/feedback';
+  const endpoint = `${import.meta.env.VITE_REST_API_URL}/feedback`;
 
   submissionStatus.value = '';
 
@@ -56,8 +56,7 @@ async function submitFeedback() {
       }
     };
 
-    const response = await axios.post(endpoint, payload, headers);
-    console.log(response.data);
+    await axios.post(endpoint, payload, headers);
     feedbackDescription.value = '';
     submissionStatus.value = 'Thank you for your feedback!';
   } catch (error) {

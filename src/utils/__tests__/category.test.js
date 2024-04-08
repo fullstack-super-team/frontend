@@ -15,7 +15,6 @@ describe('Category', () => {
 describe('getCategories', () => {
   it('should return an array of category values', () => {
     const categories = getCategories();
-    console.log(categories);
     expect(categories).toEqual([
         { value: 'food', label: 'Food' },
       { value: 'sport', label: 'Sport' },

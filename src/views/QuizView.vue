@@ -95,7 +95,6 @@ const formattedDate = computed(() => {
  */
 const startQuiz = () => {
   router.push(`/quiz/${mainStore.state.quiz.quiz.id}/play`);
-  console.log('Starting quiz');
 }
 
 /**

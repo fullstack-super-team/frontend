@@ -1,4 +1,3 @@
-// QuizCard.spec.js
 import { mount } from '@vue/test-utils';
 import QuizCard from '@/components/QuizCard.vue';
 import { describe, it, expect } from 'vitest';
@@ -23,19 +22,14 @@ describe('QuizCard', () => {
             },
         });
 
-        // Extract the background color using inline styles
         const backgroundColor = wrapper.find('.quiz-card-holder').element.style.backgroundColor;
-
-        // Checking if the backgroundColor is one of the expected colors
         const expectedColors = ['#ff914d', '#1792ea', '#78d64f', '#8c52ff'].map(color =>
-            // Convert the colors to RGB since Vue Test Utils might return the computed style value in RGB format
             rgb(color)
         );
         expect(expectedColors).toContain(backgroundColor);
     });
 });
 
-// Helper function to convert hex color values to RGB, since browsers might compute styles in RGB format
 function rgb(hex) {
     let r = 0, g = 0, b = 0;
     if (hex.length == 4) {

@@ -23,7 +23,6 @@ async function createQuiz(quiz) {
   if (!quiz.title) {
     return;
   }
-  console.log(quiz)
   await mainStore.dispatch('quiz/createQuiz', quiz);  
   router.push(`/quiz/${mainStore.state.quiz.quiz.id}`);
 };

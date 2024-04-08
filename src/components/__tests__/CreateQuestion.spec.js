@@ -93,11 +93,14 @@ describe('CreateQuestion', () => {
         it('emits delete-answer event on answer delete', async () => {
             const wrapper = mountCreateQuestionWithProps({
                 identifier: 'q1',
-                question: { text: 'Sample Question', type: QuestionType.TEXT, points: 100, answers: [{ identifier: 'a1', text: 'Answer 1', isCorrect: false }] },
+                question: { text: 'Sample Question', type: QuestionType.TEXT, points: 100, answers: [
+                    { identifier: 'a1', text: 'Answer 1', isCorrect: false },
+                    { identifier: 'a2', text: 'Answer 2', isCorrect: false },
+                ] },
             });
             const answerCard = wrapper.findComponent(AnswerCard);
             await answerCard.vm.$emit('delete-answer');
-            expect(wrapper.emitted('update-question')[0][0].answers).toEqual([]);
+            expect(wrapper.emitted('update-question')[0][0].answers).toEqual([{ identifier: 'a2', text: 'Answer 2', isCorrect: false }]);
         });
 
         it('correctly updates an answer and emits update-question event', async () => {
