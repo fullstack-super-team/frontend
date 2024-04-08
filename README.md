@@ -6,9 +6,9 @@
 3. [Recommended IDE Setup](#3-recommended-ide-setup)
 4. [Project Structure](#4-project-structure)
 5. [Installation](#5-installation)
-   - [Install dependencies](#install-dependencies)
-   - [Compile and Hot-Reload for Development](#compile-and-hot-reload-for-development)
-   - [Compile and Minify for Production](#compile-and-minify-for-production)
+   1. [Install dependencies](#51-install-dependencies)
+   2. [Compile and Hot-Reload for Development](#52-compile-and-hot-reload-for-development)
+   3. [Compile and Minify for Production](#53-compile-and-minify-for-production)
 6. [Contributors](#6-contributors)
 
 
@@ -17,7 +17,7 @@
 
 Welcome to Quizzebassen! 
 This is the frontend for the voluntary fullstack project in the course IDATT2105.
-We have developed a web application for playing and creating quizzes. Whether you are here to challenge your intellect,
+We have developed a web application for creating and playing quizzes. Whether you are here to challenge your intellect,
 create challenging quizzes or just have fun with trivia, you have come to the right place!
 
 ## 2. Technologies used
@@ -32,7 +32,7 @@ WebStorm comes with support for JavaScript and Vue.js, making it a suitable choi
 
 If you're using WebStorm:
 
-- Ensure you have the [Vue.js plugin](https://plugins.jetbrains.com/plugin/9442-vue-js) installed for full support.
+- You are recommend to have the [Vue.js plugin](https://plugins.jetbrains.com/plugin/9442-vue-js) installed for full support.
 - Take advantage of WebStorm's completion and error detection for JavaScript.
 
 ## 4. Project structure
@@ -54,19 +54,19 @@ Here follows a brief overview of the project structure:
 Before you can run the application, you need to install the required dependencies. 
 You can do this by running the following commands in the terminal:
 
-### Install dependencies
+### 5.1. Install dependencies
 Run the following command to install the required dependencies:
 ```sh
 yarn
 ```
 
-### Compile and Hot-Reload for Development
+### 5.2. Compile and Hot-Reload for Development
 Run the following command to start the development server:
 ```sh
 yarn dev
 ```
 
-### Compile and Minify for Production
+### 5.3. Compile and Minify for Production
 Run the following command to build the application for production:
 ```sh
 yarn build

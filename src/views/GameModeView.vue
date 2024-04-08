@@ -5,7 +5,7 @@ import Slider from "@/components/Slider.vue";
 import Button from "@/components/Button.vue";
 import router from "@/router/index.js";
 import { useRoute } from "vue-router";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import { QuestionType } from "@/utils/questionType";
 
 /**
@@ -51,7 +51,6 @@ function backToQuizPage() {
  * @param {string|number} answer - The selected answer.
  */
 async function selectAnswer(answer) {
-  console.log(answer);
   await mainStore.dispatch('game/submitAnswer', answer);
   correctAnswers.value = mainStore.state.game.answers[currentQuestionNumber.value].correctAnswers;
   selectedAnswerText.value = answer;
@@ -63,6 +62,7 @@ async function selectAnswer(answer) {
  */
 async function nextQuestion() {
   isAnswerSelected.value = false;
+
   correctAnswers.value = "";
   if (currentQuestionNumber.value === mainStore.state.game.quiz.questions.length - 1) {
     await mainStore.dispatch('game/finishQuiz');
@@ -141,6 +141,14 @@ const isCorrectAnswer = computed(() => {
 const sliderValueIsSelected = computed(() => {
   return selectedSliderValue.value !== null;
 });
+
+
+/**
+ * Watches for changes in the current question number and resets the selected slider value.
+ */
+watch(currentQuestionNumber, () => {
+  selectedSliderValue.value = null;
+});
 </script>
 
 <template>
@@ -172,6 +180,7 @@ const sliderValueIsSelected = computed(() => {
   <div v-if="questionType===QuestionType.SLIDE">
     <div class="answer-slider">
       <p class="current-slider-answer">Current answer: {{ selectedSliderValue }}</p>
+      <p v-if="isAnswerSelected && !isCorrectSliderAnswer">Correct answer: {{ correctAnswers }} </p>
       <Slider
           id="slider"
         :min="mainStore.state.game.currentQuestion.answer.min"
