@@ -41,7 +41,7 @@ async function submitFeedback() {
     submissionStatus.value = 'Please enter your feedback before submitting.';
     return;
   }
-  const endpoint = '${import.meta.env.VITE_REST_API_URL}/feedback';
+  const endpoint = `${import.meta.env.VITE_REST_API_URL}/feedback`;
 
   submissionStatus.value = '';
 
