@@ -24,8 +24,8 @@ jobs:
           git pull
           
           # Build your project (e.g., a Vue or React application)
-          npm install
-          npm run build
+          yarn install
+          yarn build
           
           # Optionally, move build artifacts to the desired location
           # This step depends on your specific setup. For example, for a Vue app:
