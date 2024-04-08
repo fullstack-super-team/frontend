@@ -172,6 +172,7 @@ const sliderValueIsSelected = computed(() => {
   <div v-if="questionType===QuestionType.SLIDE">
     <div class="answer-slider">
       <p class="current-slider-answer">Current answer: {{ selectedSliderValue }}</p>
+      <p v-if="isAnswerSelected && !isCorrectSliderAnswer">Correct answer: {{ correctAnswers }} </p>
       <Slider
           id="slider"
         :min="mainStore.state.game.currentQuestion.answer.min"
