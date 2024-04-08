@@ -56,8 +56,7 @@ async function submitFeedback() {
       }
     };
 
-    const response = await axios.post(endpoint, payload, headers);
-    console.log(response.data);
+    await axios.post(endpoint, payload, headers);
     feedbackDescription.value = '';
     submissionStatus.value = 'Thank you for your feedback!';
   } catch (error) {
