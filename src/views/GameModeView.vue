@@ -61,9 +61,7 @@ async function selectAnswer(answer) {
  * Navigates to the next question or finishes the quiz based on progress.
  */
 async function nextQuestion() {
-  console.log(isAnswerSelected.value)
   isAnswerSelected.value = false;
-  console.log(isAnswerSelected.value)
 
   correctAnswers.value = "";
   if (currentQuestionNumber.value === mainStore.state.game.quiz.questions.length - 1) {
