@@ -5,11 +5,13 @@
 2. [Technologies used](#2-technologies-used)
 3. [Recommended IDE Setup](#3-recommended-ide-setup)
 4. [Project Structure](#4-project-structure)
-5. [Installation](#5-installation)
+5. [Documentation](#5-documentation)
+   1. [Run test and see coverage](#51-run-test-and-see-coverage)
+6. [Installation](#5-installation)
    1. [Install dependencies](#51-install-dependencies)
    2. [Compile and Hot-Reload for Development](#52-compile-and-hot-reload-for-development)
    3. [Compile and Minify for Production](#53-compile-and-minify-for-production)
-6. [Contributors](#6-contributors)
+7. [Contributors](#6-contributors)
 
 
 
@@ -53,29 +55,39 @@ Here follows a brief overview of the project structure:
 - `App.vue`: The root Vue component that integrates the entire application.
 - `main.js`: The entry point that creates the Vue instance and mounts the app.
 
-## 5. Installation
+## 5. Documentation
+
+### 5.1. Run test and see coverage
+
+To run the tests and see the frontend test coverage, run the following command in the terminal:
+
+```sh
+yarn coverage
+```
+
+## 6. Installation
 
 Before you can run the application, you need to install the required dependencies. 
 You can do this by running the following commands in the terminal:
 
-### 5.1. Install dependencies
+### 6.1. Install dependencies
 Run the following command to install the required dependencies:
 ```sh
 yarn
 ```
 
-### 5.2. Compile and Hot-Reload for Development
+### 6.2. Compile and Hot-Reload for Development
 Run the following command to start the development server:
 ```sh
 yarn dev
 ```
 
-### 5.3. Compile and Minify for Production
+### 6.3. Compile and Minify for Production
 Run the following command to build the application for production:
 ```sh
 yarn build
 ```
 
-## 6. Contributors
+## 7. Contributors
 
 This project was developed by: Birthe Emilie Christiansen, Håkon Rene Billingstad, Lotte Kristine Walla Aune and Vemund Ellingsson Røe.
