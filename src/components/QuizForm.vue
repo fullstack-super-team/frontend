@@ -253,8 +253,8 @@ function emitSubmit() {
   <TextArea id="quizDescription" v-model="quiz.description" label="Description" placeholder="Enter quiz description here..."
   :charLimit="200" />
 
-  <input id="randomize" type="checkbox" v-model="quiz.randomize" />
-  <label for="randomize">Randomize question and answer order</label>
+  <input id="randomize" type="checkbox" v-model="quiz.randomize" class="randomize-checkbox"/>
+  <label for="randomize" class="randomize-label">Randomize question and answer order</label>
   
     <h2>Questions</h2>
     <CreateQuestion v-for="(question) in quiz.questions" :key="question.identifier" :identifier="question.identifier" :question="question"
@@ -278,6 +278,17 @@ function emitSubmit() {
   justify-content: space-between;
 }
 
+.randomize-checkbox, .randomize-label {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.randomize-checkbox {
+  transform: scale(1.5);
+  cursor: pointer;
+}
+
 .is-invalid {
   border-color: red;
 }
@@ -298,6 +309,10 @@ select {
 p {
   margin-top: 20px;
   margin-bottom: -10px;
+}
+
+h2 {
+  margin-bottom: 10px;
 }
 
 </style>
