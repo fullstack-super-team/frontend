@@ -60,7 +60,7 @@ const quizModule = {
     async fetchQuizzes({ commit }, payload) {
       const token = localStorage.getItem("token");
       try {
-        const response = await axios.get(`http://localhost:8080/quizzes/my`, {
+        const response = await axios.get(`${import.meta.env.VITE_REST_API_URL}/quizzes/my`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -75,7 +75,7 @@ const quizModule = {
     async fetchRecentQuizzes({ commit }, payload) {
       const token = localStorage.getItem("token");
       try {
-        const response = await axios.get(`http://localhost:8080/quizzes/recent`, {
+        const response = await axios.get(`${import.meta.env.VITE_REST_API_URL}/quizzes/recent`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -99,7 +99,7 @@ const quizModule = {
           return;
         }
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:8080/quizzes/${quizId}`, {
+        const response = await axios.get(`${import.meta.env.VITE_REST_API_URL}/quizzes/${quizId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -120,7 +120,7 @@ const quizModule = {
           throw new Error("No quiz ID provided");
         }
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:8080/quizzes/${quizId}/scores/me`, {
+        const response = await axios.get(`${import.meta.env.VITE_REST_API_URL}/quizzes/${quizId}/scores/me`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -135,7 +135,7 @@ const quizModule = {
     async createQuiz({ commit }, payload) {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.post(`http://localhost:8080/quizzes`, payload, {
+        const response = await axios.post(`${import.meta.env.VITE_REST_API_URL}/quizzes`, payload, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -155,7 +155,7 @@ const quizModule = {
         }
         const quiz = payload.quiz;
         const token = localStorage.getItem("token");
-        const response = await axios.put(`http://localhost:8080/quizzes/${quizId}`, quiz, {
+        const response = await axios.put(`${import.meta.env.VITE_REST_API_URL}/quizzes/${quizId}`, quiz, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -174,7 +174,7 @@ const quizModule = {
           throw new Error("No quiz ID provided");
         }
         const token = localStorage.getItem("token");
-        const response = await axios.delete(`http://localhost:8080/quizzes/${quizId}`, {
+        const response = await axios.delete(`${import.meta.env.VITE_REST_API_URL}/quizzes/${quizId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -188,7 +188,7 @@ const quizModule = {
     async searchForQuiz({ commit }, payload) {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:8080/quizzes/search?query=${payload}`, {
+        const response = await axios.get(`${import.meta.env.VITE_REST_API_URL}/quizzes/search?query=${payload}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

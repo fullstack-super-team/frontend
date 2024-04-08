@@ -31,13 +31,19 @@ const userModule = {
       state.email = payload.email;
       state.token = payload.token;
       state.isLoggedIn = payload.isLoggedIn;
+    },
+    setToken(state, payload) {
+      state.token = payload;
+    },
+    setIsLoggedIn(state, payload) {
+      state.isLoggedIn = payload;
     }
   },
   actions: {
     // Fetch the user info from the server.
-    async getUserInfo({ commit }, payload) {
+    async getUserInfo({ commit, dispatch }, payload) {
       try {
-        const response = await axios.get('http://localhost:8080/users/me', {
+        const response = await axios.get(`${import.meta.env.VITE_REST_API_URL}/users/me`, {
           headers: {
             Authorization: `Bearer ${payload}`
           }
@@ -45,26 +51,26 @@ const userModule = {
         commit("setUserInfo", { ...response.data, token: payload, isLoggedIn: true });        
       } catch (error) {
         console.error('Failed to get user info:', error);  
-        commit("setError", error);
+        dispatch("logout");
       }
     },
     // Login the user and store the token in local storage.
     async login({ commit }, payload) {
       try {
-        const response = await axios.post("http://localhost:8080/auth/login", payload);
+        console.log(import.meta.env)
+        const response = await axios.post(`${import.meta.env.VITE_REST_API_URL}/auth/login`, payload);
         const { token } = response.data;        
         localStorage.setItem("token", token);
         await this.dispatch("user/getUserInfo", token);
       } catch (error) {
         console.error('Failed to login:', error);
-        commit("setError", error?.response?.data?.message || error.message || "Something went wrong");
         return error?.response?.data?.message || error.message || "Something went wrong";
       }
     },
     // Register a new user, log in and store the token in local storage.
     async register({ commit }, payload) {
       try {
-        const response = await axios.post("http://localhost:8080/auth/register", payload);
+        const response = await axios.post(`${import.meta.env.VITE_REST_API_URL}/auth/register`, payload);
         const { token } = response.data;
         localStorage.setItem("token", token);
         await this.dispatch("user/getUserInfo", token);        
@@ -77,7 +83,7 @@ const userModule = {
     async updateUser({ commit }, payload) {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.put("http://localhost:8080/users/me", payload, {
+        const response = await axios.put(`${import.meta.env.VITE_REST_API_URL}/users/me`, payload, {
           headers: {
             Authorization: `Bearer ${token}`
           }

@@ -76,7 +76,7 @@ const gameModule = {
         if (!quizId) {
           throw new Error("No quiz ID provided");
         }
-        const response = await axios.get(`http://localhost:8080/quizzes/${quizId}/play`, {
+        const response = await axios.get(`${import.meta.env.VITE_REST_API_URL}/quizzes/${quizId}/play`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -108,7 +108,7 @@ const gameModule = {
         }
         const token = localStorage.getItem("token");
         console.log(state.quiz)
-        const response = await axios.post(`http://localhost:8080/quizzes/${state.quiz.id}/questions/${state.currentQuestion.id}/submit-answer`, {
+        const response = await axios.post(`${import.meta.env.VITE_REST_API_URL}/quizzes/${state.quiz.id}/questions/${state.currentQuestion.id}/submit-answer`, {
           answer,
         }, {
           headers: {
@@ -131,7 +131,7 @@ const gameModule = {
           throw new Error("No score provided");
         }
         const token = localStorage.getItem("token");
-        const submitScoreResponse = await axios.post(`http://localhost:8080/quizzes/${state.quiz.id}/scores`, {
+        const submitScoreResponse = await axios.post(`${import.meta.env.VITE_REST_API_URL}/quizzes/${state.quiz.id}/scores`, {
           points
         }, {
           headers: {
@@ -141,7 +141,7 @@ const gameModule = {
         if (submitScoreResponse.status !== 201) {
           throw new Error("Failed to submit score");
         }
-        const scoresResponse = await axios.get(`http://localhost:8080/quizzes/${state.quiz.id}/scores`, {
+        const scoresResponse = await axios.get(`${import.meta.env.VITE_REST_API_URL}/quizzes/${state.quiz.id}/scores`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
