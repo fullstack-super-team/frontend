@@ -24,7 +24,7 @@ mainStore.dispatch('quiz/fetchRecentQuizzes');
     <h2>Recent</h2>
     <div class="quiz-preview-container">
       <QuizCard v-for="(quiz, index) in mainStore.state.quiz.recentQuizzes" :key="index" :quiz="quiz" />
-      <span v-if="mainStore.state.quiz.quizzes.length === 0">No recent quizzes yet</span>
+      <span v-if="mainStore.state.quiz.recentQuizzes.length === 0">No recent quizzes yet</span>
     </div>
     <hr class="second-dash">
     <h2>My Quizzes</h2>

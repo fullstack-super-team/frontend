@@ -129,7 +129,7 @@ const deleteQuiz = () => {
               Edit
             </Button>
           </RouterLink>
-          <Button class="delete-button" @click="deleteQuiz">Delete</Button>
+          <Button v-if="isAuthor" class="delete-button" @click="deleteQuiz">Delete</Button>
         </div>
       </header>
       <div class="quizView-content">
