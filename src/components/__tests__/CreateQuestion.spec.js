@@ -7,7 +7,6 @@ import Button from "@/components/Button.vue";
 import AnswerCard from "@/components/AnswerCard.vue";
 import { QuestionType } from "@/utils/questionType.js";
 
-// Helper function to mount the component with default props
 const mountCreateQuestionWithProps = (propsData) => mount(CreateQuestion, { props: propsData });
 
 describe('CreateQuestion', () => {
@@ -132,7 +131,7 @@ describe('CreateQuestion', () => {
             const wrapper = mountCreateQuestionWithProps({
                 question: { text: '', type: QuestionType.TEXT, points: 100, answers: [] },
             });
-            const longText = 'a'.repeat(250); // Assuming the limit is 200 characters
+            const longText = 'a'.repeat(250);
             await wrapper.find('textarea').setValue(longText);
             expect(wrapper.vm.localQuestion.text.length).toBeLessThanOrEqual(200);
         });
@@ -149,8 +148,8 @@ describe('CreateQuestion', () => {
                     ],
                 },
             });
-            await wrapper.findComponent(Button).trigger('click'); // Attempt to add a fifth answer
-            expect(wrapper.vm.localQuestion.answers.length).toBe(4); // Should still only have 4 answers
+            await wrapper.findComponent(Button).trigger('click');
+            expect(wrapper.vm.localQuestion.answers.length).toBe(4);
         });
     });
 });
