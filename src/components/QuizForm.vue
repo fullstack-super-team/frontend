@@ -115,19 +115,6 @@ function formIsValid() {
         // Find index of answer
         questionError.answers[answerIndex] = answerError;
       }
-    } else if (question.type === QuestionType.SLIDE) {      
-      // TODO:  FOrm validation on slider?
-      /* const answerError = questionError.answer;
-      console.log(answerError)
-      console.log(question)
-      if (!question.answer.text) {
-        answerError.text = 'Answer text is required.';    
-        isValid = false;
-      } else {
-        answerError.text = '';            
-      }
-
-      questionError.answer = answerError; */
     }
        
     formErrors.questions[index] = questionError;    

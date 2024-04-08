@@ -151,6 +151,9 @@ const updateAnswer = (updatedAnswer, identifier) => {
  * @param {string} identifier - The identifier of the answer to delete.
  */
 const deleteAnswer = (identifier) => {  
+  if (localQuestion.value.answers.length <= 1) {
+    return;
+  }
   const index = localQuestion.value.answers.findIndex((answer) => answer.identifier === identifier);
   localQuestion.value.answers.splice(index, 1);
   const errorIndex = props.questionErrors.answers.findIndex((answerError) => answerError.identifier === identifier);
@@ -200,7 +203,7 @@ const deleteQuestion = () => {
         :identifier="`${answer.identifier}`"
         :answer="answer"
         :answer-errors="questionErrors.answers.find(answerError => answerError.identifier === answer.identifier)"
-        :deletable="true"
+        :deletable="localQuestion.answers.length > 1"
         :readonly="false"
         @update-answer="updateAnswer($event, answer.identifier)"
         @delete-answer="deleteAnswer(`${answer.identifier}`)"
